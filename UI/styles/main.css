@@ -1,0 +1,167 @@
+/* global */
+body{
+  margin:0;
+  padding:0;
+  min-height: 500px;
+  background: url('../images/background.jpg') no-repeat;
+  background-size: cover;
+  background-position: center;
+  width: 100%;
+
+}
+
+.container{
+  width: 80%;
+  overflow: auto;
+  margin: auto; 
+}
+
+input[type="password"], [type="email"], [type="text"]{
+  width: 80%;
+  min-height: 20px;
+  margin-bottom: 15px;
+  padding: 5px;
+}
+
+button[type="submit"]{
+  background:#795548;
+  color: #fff;
+  width:80%;
+  height:35px;
+  border-radius: 15px;
+  margin-left: 3px;
+}
+
+/* header */
+header{
+  background: #00796B;
+  color: #fff;
+  padding:10px;
+  min-height: 60px;
+  border-bottom: 5px solid;
+  border-color: #BDBDBD;
+  border-width: 5px;
+}
+
+header h1{
+  margin: 0px;
+}
+
+header #website-logo{
+  text-align: center;
+  margin-top: 10px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+header nav{
+  text-align: center;
+}
+header nav a {
+  text-decoration: none;
+  color: #fff;
+}
+header li{
+  display:block;
+  text-transform: uppercase;
+  font-size: 16px;
+  margin-left: -25px;
+}
+
+
+/* section */
+
+#user-form{
+  margin-right: 15px;
+  min-width: 80%;
+  margin-top: 50px;
+  background: #00796B;
+  color: #fff;
+  padding:15px;
+  min-height: 80px;
+  border: 5px solid;
+  border-color: #BDBDBD;
+  border-width: 5px;
+  margin-left: 5px;
+  margin-bottom: 150px;
+}
+
+ #user-form a{
+  padding-left: 5px;
+  padding-right: 5px;
+  background: #fff;
+  color: #795548;
+
+}
+
+.not-registered{
+  margin-top: 20px;
+  text-align: center;
+}
+
+
+/* footer */
+
+footer{
+  background: #00796B;
+  color: #fff;
+  text-align: center;
+  padding: 15px;
+}
+
+@media screen and (min-width:450px){
+
+  header li{
+    display:inline;
+    margin-left: 0px;
+    margin:5px;
+  }
+
+  header nav{
+   margin-left: -20px;
+ }
+ 
+ #user-form{
+  padding:5px;
+  max-width: 60%
+}
+
+} 
+
+@media screen and (min-width:550px){
+ 
+ #user-form{
+  padding:15px;
+  float: right;
+  max-width: 80%
+}
+header #website-logo{
+  float: left;
+  text-align: left;
+}
+
+header nav{
+  float: right;
+}
+
+footer{
+  clear: both;
+}
+
+} 
+
+@media screen and (min-width:610px){
+ 
+ #user-form{
+  min-width: 50%;
+}
+
+@media screen and (min-width:910px){
+ 
+ #user-form{
+  min-width: 30%;
+  margin-right: 50px;
+}
+
+
+} 
