@@ -31,9 +31,116 @@ button[type="submit"]{
   border-radius: 15px;
   margin-left: 3px;
 }
+.label{
+  padding: 5px;
+  color: #757575;
+}
 
+.details{
+  padding: 10px;
+  color: #212121;
+}
+hr{
+ border-color: #BDBDBD;
+}
+
+.selected{
+  color: #fff;
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+.dropdown:hover .profile-info{
+  display: block;
+  background: #fff;
+  border:2px solid #BDBDBD;
+  
+}
+
+#dialog-background-window{
+  display: none;
+  z-index: 1;
+  height: 100%;
+  width: 100%;
+  background-color: rgb(0,0,0); 
+  background-color: rgba(0,0,0,0.4);
+  left: 0;
+  top: 0;
+  position: absolute;
+}
+
+#dialog-box{
+  margin: auto;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fefefe;
+  padding: 20px;
+  width: 40%;
+  height: auto;
+  overflow: auto; 
+  overflow-x: hidden;
+}
+
+#content-message{
+  text-align: center;
+  margin-top: 10px;
+  font-size: 1.5em;
+  color: red;
+}
+
+#content-header{
+  text-align: center;
+  font-size: 1.5em;
+  margin-top: 10px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#dialog-box .confirm, .cancel{
+
+ border-radius: 4px;
+ text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+ margin:20px 20px 0 20px;
+ height: 35px;
+ width:100px;
+}
+#dialog-box .confirm{
+ color: #fff;
+ background:#795548;
+ 
+}
+#dialog-box .cancel{
+ background:#BDBDBD;
+}
 /* header */
 header{
+
   background: #00796B;
   color: #fff;
   padding:10px;
@@ -69,6 +176,8 @@ header li{
 }
 
 
+
+
 /* section */
 
 #user-form{
@@ -86,7 +195,7 @@ header li{
   margin-bottom: 150px;
 }
 
- #user-form a{
+#user-form a{
   padding-left: 5px;
   padding-right: 5px;
   background: #fff;
@@ -105,42 +214,74 @@ header li{
   grid-template-rows: auto;
 }
 .profile-info{
-  grid-column-start: 1;
-  grid-column-end: 2;
+  display: none;
+  position: absolute;
+  z-index: 1;
   min-height: 100px;
-  background : red;
+  background : #B2DFDB;
   padding: 10px;
+  border-right: 2px solid #BDBDBD ;
 }
 
 .profile-photo-container{
-   
-   margin-left: 10px;
-   width:80px;
-   min-height: 80px;
-   border-radius: 50%;
-   text-align: center;
-   align-content: center;
-   align-items: center;
-   -moz-border-radius: 50%;
-   -webkit-border-radius: 50%;
-    background-image: url(../images/mr-bean-dummy.jpg);
-     background-position:50% 50%;
-    background-repeat:no-repeat;  
-}
 
-.profile-photo-container img{
-  max-height: 100%;
-  max-width: 100%;
-
+ margin-left: 10px;
+ margin-bottom: 15px;
+ width:80px;
+ min-height: 80px;
+ border-radius: 50%;
+ text-align: center;
+ align-content: center;
+ align-items: center;
+ -moz-border-radius: 50%;
+ -webkit-border-radius: 50%;
+ background-image: url(../images/mr-bean-dummy.jpg);
+ background-position:50% 50%;
+ background-repeat:no-repeat;  
 }
 
 .attendant-content{
-  grid-column-start: 2;
+  background : #B2DFDB;
+  grid-column-start: 1;
   grid-column-end: 6;
-  height: 100px;
-  background: blue;
+  min-height: 500px;
+  border-left: 2px solid #BDBDBD ;
 
+}
 
+.attendant-content ul{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+.attendant-content li{
+  margin: 10px;
+  display:inline;
+  text-transform: uppercase;
+  font-size: 12px;
+}
+.attendant-content nav a {
+  text-decoration: none;
+  color: #795548;
+}
+.wrapper{
+  height: 500px;
+}
+.items-box{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  align-content: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.item{
+  margin: 10px;
+}
+.items-box img{
+ height: 150px;
+ width: 150px;
 }
 /* footer */
 
@@ -169,11 +310,16 @@ footer{
   padding:5px;
   max-width: 60%
 }
+.attendant-content ul{
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
 
 } 
 
 @media screen and (min-width:550px){
- 
+
  #user-form{
   padding:15px;
   float: right;
@@ -187,7 +333,25 @@ header #website-logo{
 header nav{
   float: right;
 }
-
+.page-content{
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: auto;
+}
+.profile-info{
+  display: block;
+  position: static;
+  z-index: 0;
+  grid-column-start: 1;
+  grid-column-end: 2;
+  min-height: 100px;
+}
+.attendant-content{
+ grid-column-start: 2;
+ grid-column-end: 6;
+}
+.dropdown{
+  display:none;
+}
 footer{
   clear: both;
 }
@@ -195,13 +359,13 @@ footer{
 } 
 
 @media screen and (min-width:610px){
- 
+
  #user-form{
   min-width: 50%;
 }
 
 @media screen and (min-width:910px){
- 
+
  #user-form{
   min-width: 30%;
   margin-right: 50px;
