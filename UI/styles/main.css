@@ -56,12 +56,11 @@ hr{
 
 .tooltip .tooltiptext {
   visibility: hidden;
-  width: 120px;
   background-color: black;
   color: #fff;
-  text-align: center;
+  text-align: left;
   border-radius: 6px;
-  padding: 5px 0;
+  padding: 5px;
 
   /* Position the tooltip */
   position: absolute;
@@ -276,12 +275,37 @@ header li{
   justify-content: space-between;
   flex-wrap: wrap;
 }
+
 .item{
   margin: 10px;
 }
 .items-box img{
  height: 150px;
  width: 150px;
+}
+
+.items-box .sale-record{
+  height: 150px;
+  width: 150px;
+  background: #fff;
+  text-align: center;
+}
+
+.sale-record{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+}
+.items-box .record-details{
+  margin:auto;
+  color: #BDBDBD;
+  font-size: 1.5em;
+}
+
+.items-box .record-date{
+  color: #BDBDBD;
 }
 /* footer */
 
