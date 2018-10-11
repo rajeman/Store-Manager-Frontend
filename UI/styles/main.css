@@ -121,7 +121,7 @@ hr{
   margin-right: auto;
 }
 
-#dialog-box .confirm, .cancel{
+.confirm, .cancel{
 
  border-radius: 4px;
  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
@@ -129,7 +129,7 @@ hr{
  height: 35px;
  width:100px;
 }
-#dialog-box .confirm{
+.confirm{
  color: #fff;
  background:#795548;
  
@@ -267,7 +267,13 @@ header li{
 .wrapper{
   height: 500px;
 }
+.checkout{
+  float: right;
+  margin: 5px !important;
+  border-radius: 5px;
+}
 .items-box{
+  clear: both;
   display: flex;
   flex-direction: row;
   align-items: center;
