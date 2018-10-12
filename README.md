@@ -12,6 +12,9 @@ records
 # Github Pages
 * https://rajeman.github.io/Store-Manager/UI/index.html
 
+# Project Management
+https://www.pivotaltracker.com/n/projects/2203373
+
 # Credits
 * https://pexels.com
 * https://w3schools.com
