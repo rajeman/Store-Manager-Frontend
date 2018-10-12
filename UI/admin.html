@@ -67,7 +67,7 @@
 				</div>
 				<div class="container">
 					<div class="wrapper">	
-						<input type="button" class="confirm checkout" value="New"></input>	
+						<input type="button" class="confirm checkout" value="New" onclick="window.location.href='./create-product.html';"></input>	
 						<div class="items-box">
 							<div class="item tooltip" onclick="displayDialog();">
 								<img src="./images/item1.jpg">
@@ -160,10 +160,10 @@
 	</footer>
 	<div id="dialog-background-window">
 		<div id="dialog-box">
-			<div id="content-header">Add Item to cart?</div>
+			<div id="content-header">Select Action to Perform:</div>
 			<div class="options-button">
-				<input id="cancel-button" class="cancel" type="button" value="Cancel"></input>
-				<input id="confirm-button" class="confirm" type="button" value="Confirm"></input>
+				<input id="delete-button" class="delete" type="button" value="Delete"></input>
+				<input id="modify-button" class="modify" type="button" value="Modify"></input>
 			</div>
 		</div>
 	</div>
