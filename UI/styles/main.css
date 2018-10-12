@@ -16,7 +16,7 @@ body{
   margin: auto; 
 }
 
-input[type="password"], [type="email"], [type="text"]{
+input[type="password"], [type="email"], [type="text"], [type="number"]{
   width: 80%;
   min-height: 20px;
   margin-bottom: 15px;
