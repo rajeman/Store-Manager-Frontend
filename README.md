@@ -10,7 +10,7 @@ records
 * Store owner can add, modify and delete products.
 
 # Github Pages
-* https://rajeman.github.io/Store-Manager
+* https://rajeman.github.io/Store-Manager/UI/index.html
 
 # Credits
 * https://pexels.com
