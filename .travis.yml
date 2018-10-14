@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-  - "stable"
+  - "10.11.0"
 env:
   - CC_TEST_REPORTER_ID=76baaee499b529e48f09b8bbe25ea600d2cfa6642ee18bed78678558c1b4c226
 addons:
