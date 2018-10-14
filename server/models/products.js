@@ -17,4 +17,8 @@ const products = {
   lastId: 2,
 };
 
-export default products;
+const productsMap = new Map();
+products.productsList.forEach((product) => {
+  productsMap.set(String(product.id), product);
+});
+export { products, productsMap };

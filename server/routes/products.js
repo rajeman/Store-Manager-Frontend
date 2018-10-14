@@ -1,6 +1,5 @@
 import express from 'express';
-import products from '../models/products';
-
+import { products, productsMap } from '../models/products';
 
 const isPositiveInteger = s => /^\+?[1-9][\d]*$/.test(s);
 const admin = 2;
@@ -38,6 +37,7 @@ productsRouter.post('/', verifyParameters, (req, res) => {
   };
   if (products.productsList.push(newProduct)) {
     products.lastId += 1;
+    productsMap.set(String(newProduct.id), newProduct);
     res.send({
       message: `'${newProduct.name}' successfully added`,
     });
@@ -51,6 +51,20 @@ productsRouter.post('/', verifyParameters, (req, res) => {
 
 productsRouter.get('/', (req, res) => {
   res.send(products.productsList.filter(product => product.quantity > 0));
+});
+
+productsRouter.get('/:id', (req, res) => {
+  const product = productsMap.get(String(req.params.id));
+  if (product) {
+    res.send({
+      message: 'product found',
+      product,
+    });
+  } else {
+    res.status(404).send({
+      error: 'cannot find product',
+    });
+  }
 });
 
 

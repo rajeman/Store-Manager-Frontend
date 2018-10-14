@@ -1,7 +1,7 @@
 import expect from 'expect';
 import request from 'supertest';
 import app from '../app';
-import products from '../models/products';
+import { products, productsMap } from '../models/products';
 
 describe('POST /products', () => {
   it('should add a new product with valid parameters', () => request(app)
@@ -69,5 +69,22 @@ describe('GET /products', () => {
           created: '2018-10-14T06:33:09.250Z',
         }]),
       );
+    }));
+});
+
+describe('GET /products:id', () => {
+  it('should return the product with id equals :id', () => request(app)
+    .get('/api/v1/products/2')
+    .set('Accept', 'application/json')
+    .expect(200)
+    .then((response) => {
+      expect(response.body.message).toContain('found');
+      expect(response.body.product).toEqual({
+        id: 2,
+        quantity: 10,
+        minInvent: 5,
+        name: 'Extreme GPS',
+        created: '2018-10-14T06:38:20.250Z',
+      });
     }));
 });
