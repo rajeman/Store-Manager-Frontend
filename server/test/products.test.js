@@ -51,3 +51,22 @@ describe('POST /products', () => {
       expect(products.lastId).toBe(3);
     }));
 });
+
+
+describe('GET /products', () => {
+  it('should return all available products', () => request(app)
+    .post('/api/v1/products')
+    .send({
+      name: '3D Printer',
+      minInvent: 18,
+      quantity: 500,
+      level: 2,
+    })
+    .set('Accept', 'application/json')
+    .expect(200)
+    .then((response) => {
+      expect(response.body.message).toContain('3D Printer');
+      expect(products.productsList.length).toBe(3);
+      expect(products.lastId).toBe(3);
+    }));
+});

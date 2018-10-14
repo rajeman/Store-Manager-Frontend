@@ -49,11 +49,9 @@ productsRouter.post('/', verifyParameters, (req, res) => {
   }
 });
 
-productsRouter.greater('/', (req, res) => {
- let productsList = products.productsList;
- 
+productsRouter.get('/', (req, res) => {
+  res.send(products.productsList.filter(product => product.quantity > 0));
 });
-
 
 
 export default productsRouter;
