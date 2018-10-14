@@ -8,7 +8,7 @@ const productsRouter = express.Router();
 const verifyParameters = (req, res, next) => {
   const parameter = req.body;
 
-  if (parameter && parameter.name > 2 && isPositiveInteger(parameter.minInvent)
+  if (parameter && parameter.name.length > 2 && isPositiveInteger(parameter.minInvent)
     && isPositiveInteger(parameter.quantity)) {
     next();
   } else {
@@ -29,7 +29,7 @@ productsRouter.post('/', verifyParameters, (req, res) => {
     name: reqBody.name,
     created: new Date(),
   };
-  if (products.push(newProduct)) {
+  if (products.productsList.push(newProduct)) {
     products.lastId += 1;
     res.send({
       message: `'${newProduct.name}' successfully added`,
