@@ -87,4 +87,11 @@ describe('GET /products:id', () => {
         created: '2018-10-14T06:38:20.250Z',
       });
     }));
+  it('should return error with invalid product', () => request(app)
+    .get('/api/v1/products/10')
+    .set('Accept', 'application/json')
+    .expect(404)
+    .then((response) => {
+      expect(response.body.error).toContain('cannot find');
+    }));
 });
