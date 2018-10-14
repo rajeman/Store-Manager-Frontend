@@ -3,11 +3,18 @@ import products from '../models/products';
 
 
 const isPositiveInteger = s => /^\+?[1-9][\d]*$/.test(s);
+const admin = 2;
 const productsRouter = express.Router();
 
 const verifyParameters = (req, res, next) => {
   const parameter = req.body;
-
+  if (parameter && parameter.level !== admin) {
+    res.status(403).send({
+      error: 'You are not allowed to modify this content',
+      status: 403,
+    });
+    return;
+  }
   if (parameter && parameter.name.length > 2 && isPositiveInteger(parameter.minInvent)
     && isPositiveInteger(parameter.quantity)) {
     next();
@@ -31,6 +38,7 @@ productsRouter.post('/', verifyParameters, (req, res) => {
   };
   if (products.productsList.push(newProduct)) {
     products.lastId += 1;
+    console.log(products);
     res.send({
       message: `'${newProduct.name}' successfully added`,
     });
