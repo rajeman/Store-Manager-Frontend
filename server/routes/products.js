@@ -38,7 +38,6 @@ productsRouter.post('/', verifyParameters, (req, res) => {
   };
   if (products.productsList.push(newProduct)) {
     products.lastId += 1;
-    console.log(products);
     res.send({
       message: `'${newProduct.name}' successfully added`,
     });
@@ -49,6 +48,12 @@ productsRouter.post('/', verifyParameters, (req, res) => {
     });
   }
 });
+
+productsRouter.greater('/', (req, res) => {
+ let productsList = products.productsList;
+ 
+});
+
 
 
 export default productsRouter;
