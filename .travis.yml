@@ -5,7 +5,7 @@ scripts:
   - "npm test"
 env:
   global:
-    - CC_TEST_REPORTER_ID=85aa67068a7b1b7c0bf126082b507a94a63774f6c10c3e46333cc9a54b0f72df
+    - CC_TEST_REPORTER_ID=76baaee499b529e48f09b8bbe25ea600d2cfa6642ee18bed78678558c1b4c226
 before_script:
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
   - chmod +x ./cc-test-reporter
