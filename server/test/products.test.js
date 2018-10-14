@@ -20,7 +20,7 @@ describe('POST /products', () => {
       expect(products.lastId).toBe(3);
     }));
 
-it('should not add a new product with invalid parameters', () => request(app)
+  it('should not add a new product with invalid parameters', () => request(app)
     .post('/api/v1/products')
     .send({
       name: 'Wireless Printer',
@@ -35,9 +35,9 @@ it('should not add a new product with invalid parameters', () => request(app)
       expect(products.productsList.length).toBe(3);
       expect(products.lastId).toBe(3);
     }));
-it('should not allow non-admin to ad product', () => request(app)
+  it('should not allow non-admin to ad product', () => request(app)
     .post('/api/v1/products')
-     .send({
+    .send({
       name: '3D Printer',
       minInvent: 18,
       quantity: 500,

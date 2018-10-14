@@ -1,3 +1,7 @@
+[![Build Status](https://travis-ci.com/rajeman/Store-Manager.svg?branch=develop)](https://travis-ci.com/rajeman/Store-Manager)
+[![Maintainability](https://api.codeclimate.com/v1/badges/a0486eea2f1e5fa4df8e/maintainability)](https://codeclimate.com/github/rajeman/Store-Manager/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/a0486eea2f1e5fa4df8e/test_coverage)](https://codeclimate.com/github/rajeman/Store-Manager/test_coverage)
+[![Coverage Status](https://coveralls.io/repos/github/rajeman/Store-Manager/badge.svg?branch=develop)](https://coveralls.io/github/rajeman/Store-Manager?branch=develop)
 # Store-Manager
 Store Manager is a web application that allows store owners to manage product sales, inventory and 
 records
@@ -13,7 +17,7 @@ records
 * https://rajeman.github.io/Store-Manager/UI/index.html
 
 # Project Management
-https://www.pivotaltracker.com/n/projects/2203373
+* https://www.pivotaltracker.com/n/projects/2203373
 
 # Credits
 * https://pexels.com

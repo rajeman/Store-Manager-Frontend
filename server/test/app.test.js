@@ -10,8 +10,6 @@ describe('GET /', () => {
     .then((response) => {
       expect(response.body.message).toContain('Welcome');
     }));
-
-
 });
 
 describe('*', () => {
@@ -22,6 +20,4 @@ describe('*', () => {
     .then((response) => {
       expect(response.body.error).toContain('Invalid');
     }));
-
-
 });

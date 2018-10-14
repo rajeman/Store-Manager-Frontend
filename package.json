@@ -8,6 +8,7 @@
     "start": "npm run build && node dist/app.js",
     "lint": "./node_modules/.bin/eslint server --fix",
     "clean": "rm -rf dist",
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
     "build": "npm run clean && mkdir dist && babel server -s -d dist"
   },
   "repository": {
@@ -36,9 +37,13 @@
     "express": "^4.16.4"
   },
   "devDependencies": {
+    "coveralls": "^3.0.2",
     "expect": "^23.6.0",
     "mocha": "^5.2.0",
     "nyc": "^13.0.1",
     "supertest": "^3.3.0"
+  },
+  "engines": {
+    "node": "10.6.0"
   }
 }
