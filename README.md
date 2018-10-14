@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.com/rajeman/Store-Manager.svg?branch=develop)](https://travis-ci.com/rajeman/Store-Manager)
 # Store-Manager
 Store Manager is a web application that allows store owners to manage product sales, inventory and 
 records
@@ -13,7 +14,7 @@ records
 * https://rajeman.github.io/Store-Manager/UI/index.html
 
 # Project Management
-https://www.pivotaltracker.com/n/projects/2203373
+* https://www.pivotaltracker.com/n/projects/2203373
 
 # Credits
 * https://pexels.com
