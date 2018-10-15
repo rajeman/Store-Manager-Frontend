@@ -8,9 +8,21 @@ const verifyOrderInput = (req, res, next) => {
   let shouldExit = false;
   const orderItem = { productsArray: [] };
   if (orderInput && orderInput.attendantId && isPositiveInteger(orderInput.attendantId)) {
+    orderItem.attendantId = orderInput.attendantId;
     const { productsArray } = orderInput;
     if (productsArray instanceof Array && productsArray.length > 0) {
+      const duplicateProductsId = new Map();
       productsArray.every((inputProduct) => {
+        if (duplicateProductsId.get(String(inputProduct.productId))) {
+          res.status(400).send({
+            error: `product with id ${inputProduct.productId} is ordered twice`,
+            status: 400,
+          });
+          shouldExit = true;
+          return false;
+        }
+        duplicateProductsId.set(String(inputProduct.productId), 'dummy');
+
         const product = productsMap.get(String(inputProduct.productId));
         if (product) {
           const inputProductQuantity = inputProduct.quantity;

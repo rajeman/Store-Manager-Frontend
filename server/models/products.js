@@ -5,6 +5,7 @@ const products = {
     minInvent: 3,
     name: 'Otis Headphone',
     created: '2018-10-14T06:33:09.250Z',
+    price: 18,
   },
   {
     id: 2,
@@ -12,6 +13,7 @@ const products = {
     minInvent: 5,
     name: 'Extreme GPS',
     created: '2018-10-14T06:38:20.250Z',
+    price: 7,
   },
   ],
   lastId: 2,

@@ -7,16 +7,17 @@ const orders = {
           {
             productId: 2,
             quantity: 5,
-            pricePerProduct: 8,
+            pricePerProduct: 7,
           },
           {
             productId: 1,
             quantity: 7,
-            pricePerProduct: 8,
+            pricePerProduct: 18,
           },
         ],
         attendantId: 1,
         orderDate: '2018-09-14T06:33:09.250Z',
+        totalPrice: 161,
       },
     ],
 
