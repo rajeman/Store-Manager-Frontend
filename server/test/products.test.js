@@ -1,7 +1,7 @@
 import expect from 'expect';
 import request from 'supertest';
 import app from '../app';
-import { products, productsMap } from '../models/products';
+import { products } from '../models/products';
 
 describe('POST /products', () => {
   it('should add a new product with valid parameters', () => request(app)
