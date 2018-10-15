@@ -36,13 +36,12 @@ productsRouter.post('/', verifyParameters, (req, res) => {
     name: reqBody.name,
     created: new Date(),
   };
-    products.productsList.push(newProduct);
-    products.lastId += 1;
-    productsMap.set(String(newProduct.id), newProduct);
-    res.send({
-      message: `'${newProduct.name}' successfully added`,
-    });
- 
+  products.productsList.push(newProduct);
+  products.lastId += 1;
+  productsMap.set(String(newProduct.id), newProduct);
+  res.send({
+    message: `'${newProduct.name}' successfully added`,
+  });
 });
 
 productsRouter.get('/', (req, res) => {

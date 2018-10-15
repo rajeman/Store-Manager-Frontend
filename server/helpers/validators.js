@@ -58,16 +58,19 @@ const verifyOrderInput = (req, res, next) => {
         return false;
       });
     } else {
+      shouldExit = true;
       res.status(400).send({
         error: 'Array containing products should be provided',
         status: 400,
       });
     }
   } else {
+    shouldExit = true;
     res.status(403).send({
       error: 'Only attendants can create sales orders. Please specify a valid attendant id',
       status: 403,
     });
+    return false;
   }
   if (!shouldExit) {
     req.orderItem = orderItem;
