@@ -11,6 +11,7 @@ describe('POST /products', () => {
       minInvent: 18,
       quantity: 500,
       level: 2,
+      price: 9,
     })
     .set('Accept', 'application/json')
     .expect(200)
@@ -27,6 +28,7 @@ describe('POST /products', () => {
       minInvent: 0,
       quantity: 200,
       level: 2,
+      price: 5
     })
     .set('Accept', 'application/json')
     .expect(400)
@@ -42,6 +44,7 @@ describe('POST /products', () => {
       minInvent: 18,
       quantity: 500,
       level: 1,
+      price: 12,
     })
     .set('Accept', 'application/json')
     .expect(403)
@@ -67,6 +70,7 @@ describe('GET /products', () => {
           minInvent: 3,
           name: 'Otis Headphone',
           created: '2018-10-14T06:33:09.250Z',
+          price: 18,
         }]),
       );
     }));
@@ -85,9 +89,10 @@ describe('GET /products:id', () => {
         minInvent: 5,
         name: 'Extreme GPS',
         created: '2018-10-14T06:38:20.250Z',
+        price: 7,
       });
     }));
-  it('should return error with invalid product', () => request(app)
+  it('should return error with invalid product id', () => request(app)
     .get('/api/v1/products/10')
     .set('Accept', 'application/json')
     .expect(404)
