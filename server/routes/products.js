@@ -36,18 +36,13 @@ productsRouter.post('/', verifyParameters, (req, res) => {
     name: reqBody.name,
     created: new Date(),
   };
-  if (products.productsList.push(newProduct)) {
+    products.productsList.push(newProduct);
     products.lastId += 1;
     productsMap.set(String(newProduct.id), newProduct);
     res.send({
       message: `'${newProduct.name}' successfully added`,
     });
-  } else {
-    res.status(500).send({
-      error: 'An unknown error occured',
-      status: 500,
-    });
-  }
+ 
 });
 
 productsRouter.get('/', (req, res) => {

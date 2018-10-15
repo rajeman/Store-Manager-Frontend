@@ -28,7 +28,7 @@ describe('POST /products', () => {
       minInvent: 0,
       quantity: 200,
       level: 2,
-      price: 5
+      price: 5,
     })
     .set('Accept', 'application/json')
     .expect(400)
