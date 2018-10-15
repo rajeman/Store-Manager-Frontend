@@ -1,17 +1,16 @@
 import { productsMap } from '../models/products';
-import { orders } from '../models/orders';
 
 const isPositiveInteger = s => /^\+?[1-9][\d]*$/.test(s);
 
 
 const verifyOrderInput = (req, res, next) => {
   const orderInput = req.body;
-
-  const orderItem = {};
+  let shouldExit = false;
+  const orderItem = { productsArray: [] };
   if (orderInput && orderInput.attendantId && isPositiveInteger(orderInput.attendantId)) {
-    const { productsArray } = orders;
-    if (productsArray instanceof Array) {
-      productsArray.forEach((inputProduct) => {
+    const { productsArray } = orderInput;
+    if (productsArray instanceof Array && productsArray.length > 0) {
+      productsArray.every((inputProduct) => {
         const product = productsMap.get(String(inputProduct.productId));
         if (product) {
           const inputProductQuantity = inputProduct.quantity;
@@ -23,40 +22,45 @@ const verifyOrderInput = (req, res, next) => {
                 quantity: inputProductQuantity,
                 pricePerProduct: product.price,
               });
-            } else {
-              res.status(400).send({
-                error: `order quantity (${inputProductQuantity}) of ${product.name} with id: 
-                  ${product.id} is more than 
-                  available quantity (${storeQuantity})`,
-                status: 400,
-              });
+              return true;
             }
-          } else {
             res.status(400).send({
-              error: 'Product quantity should be a positive integer',
+              error: `order quantity (${inputProductQuantity}) of ${product.name} with id: ${product.id} is more than available quantity (${storeQuantity})`,
               status: 400,
             });
+            shouldExit = true;
+            return false;
           }
-        } else {
+          shouldExit = true;
           res.status(400).send({
-            error: `Product with id ${inputProduct.productId} does not exist`,
+            error: 'Product quantity should be a positive integer',
             status: 400,
           });
+          return false;
         }
+        shouldExit = true;
+        res.status(400).send({
+          error: `Product with id ${inputProduct.productId} does not exist`,
+          status: 400,
+        });
+        return false;
       });
-      req.orderItem = orderItem;
-      next();
     } else {
       res.status(400).send({
-        error: 'Array containing products should be specified',
+        error: 'Array containing products should be provided',
         status: 400,
       });
     }
   } else {
     res.status(403).send({
-      error: 'Only attendants can create sales orders. Please specify attendant id',
+      error: 'Only attendants can create sales orders. Please specify a valid attendant id',
       status: 403,
     });
   }
+  if (!shouldExit) {
+    req.orderItem = orderItem;
+    return next();
+  }
+  return false;
 };
 export { verifyOrderInput, isPositiveInteger };

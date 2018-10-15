@@ -7,7 +7,9 @@ const salesRouter = express.Router();
 
 
 salesRouter.post('/', verifyOrderInput, (req, res) => {
-
+  res.send({
+    message: 'passed',
+  });
 });
 
 
