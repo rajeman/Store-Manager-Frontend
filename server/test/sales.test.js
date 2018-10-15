@@ -140,3 +140,25 @@ describe('POST /sales', () => {
       expect(response.body.error).toContain('is more than available quantity');
     }));
 });
+
+describe('GET /sales', () => {
+  it('should return all sales order for an admin', () => request(app)
+    .get('/api/v1/sales')
+    .query({ level: 2 })
+    .set('Accept', 'application/json')
+    .expect(200)
+    .then((response) => {
+      expect(response.body.orders.length).toBe(2);
+      expect(response.body.message).toContain('Successfully fetched');
+    }));
+
+  it('should return error for a non admin request', () => request(app)
+    .get('/api/v1/sales')
+    .query({ level: 1 })
+    .set('Accept', 'application/json')
+    .expect(403)
+    .then((response) => {
+      expect(response.body.error).toContain('not allowed to access');
+      expect(orders.ordersList.length).toBe(2);
+    }));
+});
