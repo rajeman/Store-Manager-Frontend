@@ -27,6 +27,7 @@ describe('POST /sales', () => {
       expect(orders.ordersList.length).toBe(2);
       expect(orders.lastOrderId).toBe(2);
       expect(ordersMap.get(String(2))).toBeTruthy();
+      expect(ordersMap.get(String(2)).totalPrice).toBe(201);
     }));
 
   it('should return error with invalid attendantId', () => request(app)
@@ -99,5 +100,44 @@ describe('POST /sales', () => {
       expect(response.body.error).toContain('does not exist');
     }));
 
+it('should return error with negative product quantity', () => request(app)
+    .post('/api/v1/sales')
+    .send({
+      attendantId: 10,
+      productsArray: [{
+        productId: 1,
+        quantity: -10,
+      },
+      {
+        productId: 2,
+        quantity: 3,
+      }],
 
+    })
+    .set('Accept', 'application/json')
+    .expect(400)
+    .then((response) => {
+      expect(response.body.error).toContain('quantity should be a positive integer');
+    }));
+
+it('should return error with order quantity greater than available quantity', () => request(app)
+    .post('/api/v1/sales')
+    .send({
+      attendantId: 10,
+      productsArray: [{
+        productId: 1,
+        quantity: 10,
+      },
+      {
+        productId: 2,
+        quantity: 3,
+      }],
+
+    })
+    .set('Accept', 'application/json')
+    .expect(400)
+    .then((response) => {
+      expect(response.body.error).toContain('is more than available quantity');
+      
+    }));
 });
