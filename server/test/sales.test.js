@@ -66,7 +66,7 @@ describe('POST /sales', () => {
     .post('/api/v1/sales')
     .send({
       attendantId: 10,
-        productsArray: [{
+      productsArray: [{
         productId: 1,
         quantity: 1,
       },
@@ -85,7 +85,7 @@ describe('POST /sales', () => {
     .post('/api/v1/sales')
     .send({
       attendantId: 10,
-        productsArray: [{
+      productsArray: [{
         productId: 13,
         quantity: 1,
       },
@@ -100,7 +100,7 @@ describe('POST /sales', () => {
       expect(response.body.error).toContain('does not exist');
     }));
 
-it('should return error with negative product quantity', () => request(app)
+  it('should return error with negative product quantity', () => request(app)
     .post('/api/v1/sales')
     .send({
       attendantId: 10,
@@ -120,7 +120,7 @@ it('should return error with negative product quantity', () => request(app)
       expect(response.body.error).toContain('quantity should be a positive integer');
     }));
 
-it('should return error with order quantity greater than available quantity', () => request(app)
+  it('should return error with order quantity greater than available quantity', () => request(app)
     .post('/api/v1/sales')
     .send({
       attendantId: 10,
@@ -138,6 +138,5 @@ it('should return error with order quantity greater than available quantity', ()
     .expect(400)
     .then((response) => {
       expect(response.body.error).toContain('is more than available quantity');
-      
     }));
 });
