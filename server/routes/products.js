@@ -15,11 +15,11 @@ const verifyParameters = (req, res, next) => {
     return;
   }
   if (parameter && parameter.name.length > 2 && isPositiveInteger(parameter.minInvent)
-    && isPositiveInteger(parameter.quantity)) {
+    && isPositiveInteger(parameter.quantity) && isPositiveInteger(parameter.price)) {
     next();
   } else {
     res.status(400).send({
-      error: 'Product name must be at least 3 characters with the minimum inventory and quantity greater than zero',
+      error: 'Product name must be at least 3 characters with the minimum inventory, price and quantity greater than zero',
       status: 400,
     });
   }
@@ -32,21 +32,16 @@ productsRouter.post('/', verifyParameters, (req, res) => {
     id: products.lastId + 1,
     quantity: reqBody.quantity,
     minInvent: reqBody.minInvent,
+    price: reqBody.price,
     name: reqBody.name,
     created: new Date(),
   };
-  if (products.productsList.push(newProduct)) {
-    products.lastId += 1;
-    productsMap.set(String(newProduct.id), newProduct);
-    res.send({
-      message: `'${newProduct.name}' successfully added`,
-    });
-  } else {
-    res.status(500).send({
-      error: 'An unknown error occured',
-      status: 500,
-    });
-  }
+  products.productsList.push(newProduct);
+  products.lastId += 1;
+  productsMap.set(String(newProduct.id), newProduct);
+  res.send({
+    message: `'${newProduct.name}' successfully added`,
+  });
 });
 
 productsRouter.get('/', (req, res) => {
