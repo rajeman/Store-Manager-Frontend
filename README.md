@@ -16,6 +16,8 @@ records
 # Github Pages
 * https://rajeman.github.io/Store-Manager/UI/index.html
 
+# Heroku App
+* http://onlinestoremanager.herokuapp.com/
 # Project Management
 * https://www.pivotaltracker.com/n/projects/2203373
 
