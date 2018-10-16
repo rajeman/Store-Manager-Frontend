@@ -66,7 +66,8 @@ salesRouter.get('/:id', (req, res) => {
   if (attendantId) {
     if (!orderDetails) {
       res.send({
-        message: 'You have no order record',
+        error: 'You are not allowed to access this content',
+        status: 403,
       });
       return;
     }
