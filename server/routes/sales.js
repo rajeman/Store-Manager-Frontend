@@ -65,7 +65,7 @@ salesRouter.get('/:id', (req, res) => {
 
   if (attendantId) {
     if (!orderDetails) {
-      res.send({
+      res.status(403).send({
         error: 'You are not allowed to access this content',
         status: 403,
       });

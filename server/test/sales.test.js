@@ -174,13 +174,49 @@ describe('GET /sales:id', () => {
       expect(response.body.orderDetails.orderId).toBe(1);
     }));
 
-  it('should return invalid sale record for an invalid order id', () => request(app)
+  it('should return invalid sale record for an admin with invalid order id', () => request(app)
     .get('/api/v1/sales/12')
     .query({ level: 2 })
     .set('Accept', 'application/json')
     .expect(404)
     .then((response) => {
+      expect(response.body.error).toContain('Invalid order');
+    }));
+
+it('should return the sale record for an the attendant that generated the record', () => request(app)
+    .get('/api/v1/sales/1')
+    .query({ attendantId: 1 })
+    .set('Accept', 'application/json')
+    .expect(200)
+    .then((response) => {
       expect(response.body.message).toContain('Successfully fetched');
       expect(response.body.orderDetails.orderId).toBe(1);
+    }));
+
+  it('should return access error for an attendant with invalid order id', () => request(app)
+    .get('/api/v1/sales/12')
+    .query({ attendantId: 1 })
+    .set('Accept', 'application/json')
+    .expect(403)
+    .then((response) => {
+      expect(response.body.error).toContain('not allowed');
+    }));
+
+
+   it('should return access error if attendant did not generate the record', () => request(app)
+    .get('/api/v1/sales/1')
+    .query({ attendantId: 10 })
+    .set('Accept', 'application/json')
+    .expect(403)
+    .then((response) => {
+      expect(response.body.error).toContain('not allowed');
+    }));
+
+    it('should return access error if attendant id not provided', () => request(app)
+    .get('/api/v1/sales/1')
+    .set('Accept', 'application/json')
+    .expect(403)
+    .then((response) => {
+      expect(response.body.error).toContain('not allowed');
     }));
 });
