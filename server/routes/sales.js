@@ -43,5 +43,47 @@ salesRouter.get('/', (req, res) => {
   });
 });
 
+salesRouter.get('/:id', (req, res) => {
+  const { level, attendantId } = req.query;
+  const { id } = req.params;
+  const orderDetails = ordersMap.get(String(id));
+
+  if (level === String(admin)) {
+    if (orderDetails) {
+      res.send({
+        message: 'Successfully fetched order',
+        orderDetails,
+      });
+    } else {
+      res.status(404).send({
+        error: 'Invalid order id',
+        status: 404,
+      });
+    }
+    return;
+  }
+
+  if (attendantId) {
+    if (!orderDetails) {
+      res.status(403).send({
+        error: 'You are not allowed to access this content',
+        status: 403,
+      });
+      return;
+    }
+    if (orderDetails && String(orderDetails.attendantId) === attendantId) {
+      res.send({
+        message: 'Successfully fetched order',
+        orderDetails,
+      });
+      return;
+    }
+  }
+  res.status(403).send({
+    error: 'You are not allowed to access this content',
+    status: 403,
+  });
+});
+
 
 export default salesRouter;
