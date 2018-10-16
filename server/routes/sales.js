@@ -63,12 +63,20 @@ salesRouter.get('/:id', (req, res) => {
     return;
   }
 
-  if (attendantId && String(orderDetails.attendantId) === attendantId) {
-    res.send({
-      message: 'Successfully fetched order',
-      orderDetails,
-    });
-    return;
+  if (attendantId) {
+    if (!orderDetails) {
+      res.send({
+        message: 'You have no order record',
+      });
+      return;
+    }
+    if (orderDetails && String(orderDetails.attendantId) === attendantId) {
+      res.send({
+        message: 'Successfully fetched order',
+        orderDetails,
+      });
+      return;
+    }
   }
   res.status(403).send({
     error: 'You are not allowed to access this content',
