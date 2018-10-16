@@ -4,7 +4,7 @@ import { orders, ordersMap } from '../models/orders';
 import { productsMap } from '../models/products';
 
 const salesRouter = express.Router();
-
+const admin = 2;
 
 salesRouter.post('/', verifyOrderInput, (req, res) => {
   const { orderItem } = req;
@@ -24,6 +24,22 @@ salesRouter.post('/', verifyOrderInput, (req, res) => {
   res.send({
     message: 'Successfully created order',
     order: orderItem,
+  });
+});
+
+salesRouter.get('/', (req, res) => {
+  const { level } = req.query;
+
+  if (level !== String(admin)) {
+    res.status(403).send({
+      error: 'You are not allowed to access this content',
+      status: 403,
+    });
+    return;
+  }
+  res.send({
+    message: 'Successfully fetched orders',
+    orders: orders.ordersList,
   });
 });
 
