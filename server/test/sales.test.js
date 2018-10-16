@@ -183,7 +183,7 @@ describe('GET /sales:id', () => {
       expect(response.body.error).toContain('Invalid order');
     }));
 
-it('should return the sale record for an the attendant that generated the record', () => request(app)
+  it('should return the sale record for an the attendant that generated the record', () => request(app)
     .get('/api/v1/sales/1')
     .query({ attendantId: 1 })
     .set('Accept', 'application/json')
@@ -203,7 +203,7 @@ it('should return the sale record for an the attendant that generated the record
     }));
 
 
-   it('should return access error if attendant did not generate the record', () => request(app)
+  it('should return access error if attendant did not generate the record', () => request(app)
     .get('/api/v1/sales/1')
     .query({ attendantId: 10 })
     .set('Accept', 'application/json')
@@ -212,7 +212,7 @@ it('should return the sale record for an the attendant that generated the record
       expect(response.body.error).toContain('not allowed');
     }));
 
-    it('should return access error if attendant id not provided', () => request(app)
+  it('should return access error if attendant id not provided', () => request(app)
     .get('/api/v1/sales/1')
     .set('Accept', 'application/json')
     .expect(403)
