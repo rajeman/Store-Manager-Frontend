@@ -189,7 +189,6 @@ header li{
 
 #user-form{
   margin-right: 15px;
-  min-width: 80%;
   margin-top: 50px;
   background: #00796B;
   color: #fff;
@@ -345,10 +344,11 @@ footer{
  }
  
  #user-form{
-  padding:5px;
-  max-width: 60%
-}
-.attendant-content ul{
+   max-width: 80%;
+   margin-left: auto;
+   margin-right: auto;
+ }
+ .attendant-content ul{
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
@@ -358,20 +358,20 @@ footer{
 
 @media screen and (min-width:550px){
 
- #user-form{
-  padding:15px;
-  float: right;
-  max-width: 80%
-}
-header #website-logo{
-  float: left;
-  text-align: left;
-}
 
-header nav{
-  float: right;
-}
-.page-content{
+  header #website-logo{
+    float: left;
+    text-align: left;
+  }
+
+  header nav{
+    float: right;
+  }
+  #user-form{
+   max-width: 70%;
+
+ }
+ .page-content{
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   grid-template-rows: auto;
 }
@@ -399,14 +399,15 @@ footer{
 @media screen and (min-width:610px){
 
  #user-form{
-  min-width: 50%;
+  max-width: 55%;
+}
+
 }
 
 @media screen and (min-width:910px){
 
  #user-form{
-  min-width: 30%;
-  margin-right: 50px;
+  max-width: 40%;
 }
 
 
