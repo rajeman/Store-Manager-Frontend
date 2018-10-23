@@ -3,7 +3,7 @@ html, body{
   margin:0;
   padding:0;
   width: 100%;
-  background: #e1e1e1;;
+  background: #f4f4f4;
   height: 100%;
 
 }
@@ -52,7 +52,7 @@ hr{
 }
 
 .selected{
-  color: #fff;
+  color: #e8491d;
 }
 
 .tooltip {
@@ -229,7 +229,7 @@ header li{
   position: absolute;
   z-index: 1;
   min-height: 100px;
-  background : #e1e1e1;
+  background : #f4f4f4;
   padding: 10px;
 }
 
@@ -251,7 +251,7 @@ header li{
 }
 
 .attendant-content{
-  background : #e1e1e1;
+  background : #f4f4f4;
   grid-column-start: 1;
   grid-column-end: 6;
   min-height: 500px;
