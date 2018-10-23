@@ -1,15 +1,22 @@
 /* global */
-body{
+html, body{
   margin:0;
   padding:0;
-  min-height: 500px;
-  background: url('../images/background.jpg') no-repeat;
-  background-size: cover;
-  background-position: center;
   width: 100%;
+  background: #e1e1e1;;
+  height: 100%;
 
 }
 
+#cover{
+  min-height:100%;
+  position:relative;
+}
+.cont{
+  padding:10px;
+  padding-bottom:60px; 
+  height:100%;  
+}
 .container{
   width: 80%;
   overflow: auto;
@@ -24,7 +31,7 @@ input[type="password"], [type="email"], [type="text"], [type="number"]{
 }
 
 button[type="submit"]{
-  background:#795548;
+  background:#e8491d;
   color: #fff;
   width:80%;
   height:35px;
@@ -135,7 +142,7 @@ hr{
 }
 .confirm, .modify{
  color: #fff;
- background:#795548;
+ background:#e8491d;;
  
 }
 
@@ -147,13 +154,13 @@ hr{
 }
 /* header */
 header{
-
-  background: #00796B;
+  
+  background: #35424a; 
   color: #fff;
   padding:10px;
   min-height: 60px;
   border-bottom: 5px solid;
-  border-color: #BDBDBD;
+  border-color: #e8491d;
   border-width: 5px;
 }
 
@@ -189,15 +196,12 @@ header li{
 
 #user-form{
   margin-right: 15px;
-  min-width: 80%;
   margin-top: 50px;
-  background: #00796B;
-  color: #fff;
+  background: #e1e1e1; 
+  border-width: 5px; 10;
+  color: #000;
   padding:15px;
   min-height: 80px;
-  border: 5px solid;
-  border-color: #BDBDBD;
-  border-width: 5px;
   margin-left: 5px;
   margin-bottom: 150px;
 }
@@ -225,7 +229,7 @@ header li{
   position: absolute;
   z-index: 1;
   min-height: 100px;
-  background : #B2DFDB;
+  background : #e1e1e1;
   padding: 10px;
   border-right: 2px solid #BDBDBD ;
 }
@@ -248,7 +252,7 @@ header li{
 }
 
 .attendant-content{
-  background : #B2DFDB;
+  background : #e1e1e1;
   grid-column-start: 1;
   grid-column-end: 6;
   min-height: 500px;
@@ -323,11 +327,15 @@ header li{
 }
 /* footer */
 
+
 footer{
-  background: #00796B;
+  background: #35424a; 
   color: #fff;
   text-align: center;
-  padding: 15px;
+  position:absolute;
+  bottom:0;
+  width:100%;
+  height:60px;
 }
 
 
@@ -345,10 +353,11 @@ footer{
  }
  
  #user-form{
-  padding:5px;
-  max-width: 60%
-}
-.attendant-content ul{
+   max-width: 80%;
+   margin-left: auto;
+   margin-right: auto;
+ }
+ .attendant-content ul{
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
@@ -358,20 +367,20 @@ footer{
 
 @media screen and (min-width:550px){
 
- #user-form{
-  padding:15px;
-  float: right;
-  max-width: 80%
-}
-header #website-logo{
-  float: left;
-  text-align: left;
-}
 
-header nav{
-  float: right;
-}
-.page-content{
+  header #website-logo{
+    float: left;
+    text-align: left;
+  }
+
+  header nav{
+    float: right;
+  }
+  #user-form{
+   max-width: 70%;
+
+ }
+ .page-content{
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   grid-template-rows: auto;
 }
@@ -399,14 +408,15 @@ footer{
 @media screen and (min-width:610px){
 
  #user-form{
-  min-width: 50%;
+  max-width: 55%;
+}
+
 }
 
 @media screen and (min-width:910px){
 
  #user-form{
-  min-width: 30%;
-  margin-right: 50px;
+  max-width: 40%;
 }
 
 
