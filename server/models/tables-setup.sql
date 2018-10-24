@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS users
     user_name text NOT NULL, 
     user_email text UNIQUE NOT NULL, 
     user_password text NOT NULL,
-    total_orders integer,
+    total_orders integer default(0),
     user_level integer NOT NULL
  );
 
