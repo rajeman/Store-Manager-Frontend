@@ -18,11 +18,28 @@ records
 
 # Heroku App
 * http://onlinestoremanager.herokuapp.com/
+
 # Project Management
 * https://www.pivotaltracker.com/n/projects/2203373
+## Running App
+* Install Node.js on your computer and run the command: "npm start" at the root directory of the project.
+# Testing
+* Run "npm test" at the root directory of the project.
+# API Routes
+| Endpoint  | Functionality | Notes |
+| ------------- | ------------- |------------- |
+| GET /products  | Fetch a single product  | Get a specific product using the product's id|
+|GET /sales|Fetch all sale records|Get all sale records. Endpoint is accessible to only the store owner/admin. Admin must supply the query parameter: "level=2"|
+|GET /sales/:saleId|Fetch a single sale record|Get a specific sale record using the id. Endpoint is accessible to  the store owner/admin or the sale attendant that created the record. Admin must supply the query parameter: "level=2". The attendant must supply the query parameter: "attendantId=x", where 'x' is the attendant's id.|
+|POST /products|Create a product|Creates a new product record. Endpoint is accessible to only the store owner/admin. Admin must supply the query parameter: "level=2".|
+|POST /sales|Create a sale order|Creates a sale order. Endpoint is accessible to only the store owner/admin. Admin must supply the query parameter: "level=2"|
+
 
 # Credits
 * https://pexels.com
 * https://w3schools.com
 * https://unsplash.com 
 * https://stackoverflow.com
+ 
+
+
