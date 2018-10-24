@@ -1,3 +1,4 @@
+import validator from 'validator';
 import { productsMap } from '../models/products';
 
 const isPositiveInteger = s => /^\+?[1-9][\d]*$/.test(s);
@@ -78,4 +79,34 @@ const verifyOrderInput = (req, res, next) => {
   }
   return false;
 };
-export { verifyOrderInput, isPositiveInteger };
+
+const sendServerError = (res) => {
+  res.send({
+    error: 'Internal server error',
+    status: 500,
+  });
+};
+
+const validateUser = (req, res, next) => {
+  const {
+    email, password, rePassword, name, level,
+  } = req.body;
+  const validName = typeof name === 'string' && name.trim() !== '' && name.trim().length >= 3;
+  const validEmail = typeof email === 'string' && validator.isEmail(email);
+  const validUserType = typeof level !== 'undefined' && isPositiveInteger(level)
+      && (level === 1 || level === 2);
+  const validPassword = typeof password === 'string' && password.trim() !== ''
+        && password.trim().length >= 6 && password === rePassword;
+
+  if (validEmail && validPassword && validName && validUserType) {
+    next();
+  } else {
+    res.status(400).send({
+      error: 'Invalid input. Make sure email is valid, name and password'
+      + ' are at least 3 and 6 characters respectively and \'level\' should be 1 for attendant and 2 for admin',
+    });
+  }
+};
+export {
+  verifyOrderInput, sendServerError, validateUser,
+};

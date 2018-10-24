@@ -1,43 +1,16 @@
 import express from 'express';
 import bcrypt from 'bcrypt';
-import validator from 'validator';
+
 import dotenv from 'dotenv';
-import { isPositiveInteger } from '../helpers/validators';
+import { sendServerError, validateUser } from '../helpers/validators';
 import { createUser, getUser } from '../crud/db-query';
 
 dotenv.config();
 const authRouter = express.Router();
-const saltRound = process.env.SALT_ROUND;
-
-const sendServerError = (res) => {
-  res.send({
-    error: 'Internal server error',
-    status: 500,
-  });
-};
-
-const validateUser = (req, res, next) => {
-  const {
-    email, password, rePassword, name, level,
-  } = req.body;
-  const validName = typeof name === 'string' && name.trim() !== '' && name.trim().length >= 3;
-  const validEmail = typeof email === 'string' && validator.isEmail(email);
-  const validUserType = typeof level !== 'undefined' && isPositiveInteger(level)
-      && (level === 1 || level === 2);
-  const validPassword = typeof password === 'string' && password.trim() !== ''
-        && password.trim().length >= 6 && password === rePassword;
-
-  if (validEmail && validPassword && validName && validUserType) {
-    next();
-  } else {
-    res.status(400).send({
-      error: 'Invalid input. Make sure email is valid, name and password'
-      + ' are at least 3 and 6 characters respectively and \'level\' should be 1 for attendant and 2 for admin',
-    });
-  }
-};
-
-
+let saltRound = process.env.SALT_ROUND;
+if (!saltRound) {
+  saltRound = 15;
+}
 authRouter.post('/signup', validateUser, (req, res) => {
   getUser(req.body.email)
     .then((result) => {
