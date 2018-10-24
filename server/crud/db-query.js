@@ -30,8 +30,23 @@ const createUser = item => new Promise((resolve, reject) => {
     });
 });
 
+const getUser = email => new Promise((resolve, reject) => {
+  const client = new Client(connectionString);
+  client.connect()
+    .then(() => {
+      const sql = `SELECT * FROM ${usersTable} WHERE user_email = $1;`;
+      const params = [email];
+      client.query(sql, params)
+        .then((result) => {
+          resolve(result.rows);
+          client.end();
+        })
+        .catch(e => reject(e));
+    }).catch(e => reject(e));
+});
 
-export { createUser };
+
+export { createUser, getUser };
 
 
 // CREATE TABLE users(user_id serial PRIMARY KEY, user_name text NOT NULL,
