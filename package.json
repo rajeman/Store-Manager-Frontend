@@ -9,7 +9,8 @@
     "lint": "./node_modules/.bin/eslint server --fix",
     "clean": "rm -rf dist",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
-    "build": "npm run clean && mkdir dist && babel server -s -d dist"
+    "build": "npm run clean && mkdir dist && babel server -s -d dist",
+    "tables-setup": "psql -U postgres -f server/models/tables-setup.sql"
   },
   "repository": {
     "type": "git",

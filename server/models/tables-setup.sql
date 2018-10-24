@@ -1,3 +1,4 @@
+CREATE DATABASE store_manager;
 \connect store_manager
 CREATE TABLE IF NOT EXISTS users
  (
@@ -21,7 +22,7 @@ CREATE TABLE IF NOT EXISTS users
    
  );
 
-CREATE TABLE IF NOT products
+CREATE TABLE IF NOT EXISTS products
  (
  	product_id serial PRIMARY KEY,
  	product_name text NOT NULL,
