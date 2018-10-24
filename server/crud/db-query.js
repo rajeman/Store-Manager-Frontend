@@ -6,8 +6,8 @@ if (process.env.current_env === 'test') {
   connectionString = 'postgres://localhost:5432/store_manager_test';
 }
 const usersTable = 'users';
-const ordersTable = 'orders';
-const productsTable = 'products';
+// const ordersTable = 'orders';
+// const productsTable = 'products';
 
 
 const createUser = item => new Promise((resolve, reject) => {

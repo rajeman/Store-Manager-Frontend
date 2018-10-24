@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt';
 import validator from 'validator';
 import dotenv from 'dotenv';
 import { isPositiveInteger } from '../helpers/validators';
-import { createUser, getUser } from '../crud/db-query.js';
+import { createUser, getUser } from '../crud/db-query';
 
 dotenv.config();
 const authRouter = express.Router();
@@ -38,11 +38,10 @@ const validateUser = (req, res, next) => {
 };
 
 
-authRouter.post('/signup', validateUser, (req, res, next) => {
+authRouter.post('/signup', validateUser, (req, res) => {
   getUser(req.body.email)
     .then((result) => {
       if (result.length > 0) {
-        // console.log('user  in use');
         res.status(409).send({
           error: 'email in use',
           status: 409,
@@ -78,8 +77,8 @@ authRouter.post('/signup', validateUser, (req, res, next) => {
     })
     .catch((e) => {
       // hash the user's password for storage
-       console.log(e);
-       sendServerError(res);
+      console.log(e);
+      sendServerError(res);
     });
 });
 
