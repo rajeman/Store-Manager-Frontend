@@ -2,6 +2,8 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import productsRouter from './routes/products';
 import salesRouter from './routes/sales';
+import authRouter from './routes/auth';
+
 
 const port = process.env.PORT || 5008;
 const app = express();

@@ -28,9 +28,11 @@
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "babel-register": "^6.26.0",
+    "bcrypt": "^3.0.2",
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
-    "pg": "^7.5.0"
+    "pg": "^7.5.0",
+    "validator": "^10.8.0"
   },
   "devDependencies": {
     "coveralls": "^3.0.2",
