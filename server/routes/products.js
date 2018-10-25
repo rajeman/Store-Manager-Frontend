@@ -54,5 +54,26 @@ productsRouter.get('/', ensureToken, (req, res) => {
   });
 });
 
+productsRouter.get('/:id', ensureToken, (req, res) => {
+  // query database
+  getProducts(req.params.id).then((result) => {
+    if (result.length) {
+      res.status(200).send({
+        status: 200,
+        message: 'successfully fetched product',
+        product: result,
+      });
+    } else {
+      res.status(404).send({
+        status: 404,
+        error: 'Product not found',
+      });
+    }
+  }).catch((e) => {
+    console.log(e);
+    sendServerError(res);
+  });
+});
+
 
 export default productsRouter;

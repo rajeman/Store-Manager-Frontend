@@ -71,7 +71,7 @@ const getProducts = id => new Promise((resolve, reject) => {
     .then(() => {
       if (id) {
         const params = [id];
-        const sql = `SELECT * FROM ${productsTable} WHERE product_id == $1`;
+        const sql = `SELECT * FROM ${productsTable} WHERE product_id = $1`;
         client.query(sql, params)
           .then((result) => {
             resolve(result.rows);
