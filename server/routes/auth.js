@@ -2,7 +2,9 @@ import express from 'express';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
-import { sendServerError, validateUser, sendAuthenticationError } from '../helpers/validators';
+import {
+  sendServerError, validateUser, sendAuthenticationError, ensureToken,
+} from '../helpers/validators';
 import { createUser, getUser } from '../crud/db-query';
 
 dotenv.config();
@@ -10,12 +12,23 @@ const authRouter = express.Router();
 
 let saltRound = process.env.SALT_ROUND;
 let secretKey = process.env.TOKEN_KEY;
+let defaultPassword = process.env.DEFAULT_PASSWORD;
+const attendantLevel = 1;
 
 if (process.env.current_env === 'test') {
   secretKey = 'my_secret_key';
   saltRound = 6;
+  defaultPassword = 'password';
 }
-authRouter.post('/signup', validateUser, (req, res) => {
+authRouter.post('/signup', validateUser, ensureToken, (req, res) => {
+  if (req.body.decoded.level !== 2) {
+    // User not an admin. Has no access to route.
+    res.status(403).send({
+      error: 'You are not allowed to modify this content',
+      status: 403,
+    });
+    return;
+  }
   getUser(req.body.email)
     .then((result) => {
       if (result.length > 0) {
@@ -24,14 +37,14 @@ authRouter.post('/signup', validateUser, (req, res) => {
           status: 409,
         });
       } else {
-        bcrypt.hash(req.body.password, parseInt(saltRound, 10))
+        bcrypt.hash(defaultPassword, parseInt(saltRound, 10))
           .then((hash) => {
             // start storage process
             createUser({
               email: req.body.email,
               password: hash,
               name: req.body.name,
-              level: req.body.level,
+              level: attendantLevel,
             })
               .then((value) => {
                 if (value === 1) {
@@ -59,12 +72,14 @@ authRouter.post('/signup', validateUser, (req, res) => {
     });
 });
 
-authRouter.post('/login', (req, res) => {
+authRouter.post('/login',  (req, res) => {
   // confirm email exists in database
-     getUser(req.body.email)
+  getUser(req.body.email)
     .then((result) => {
-      if (bcrypt.compareSync(req.body.password, result[0].user_password) &&
-          req.body.level === result[0].user_level) {
+      if(!req.body.password){
+        req.body.password = '';
+      }
+      if (bcrypt.compareSync(req.body.password, result[0].user_password)) {
         const payload = {};
         payload.status = 303;
         payload.username = result[0].user_name;
@@ -82,7 +97,7 @@ authRouter.post('/login', (req, res) => {
     })
     .catch((e) => {
       console.log(e);
-     sendAuthenticationError(res);
+      sendAuthenticationError(res);
     });
 });
 

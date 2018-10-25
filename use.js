@@ -1,11 +1,11 @@
 const  bcrypt =  require('bcrypt');
 let realHash = '';
-bcrypt.hash('abcdefghij', 8)
+bcrypt.hash('adminpassword', 7)
           .then((hash) => {
             // start storage process
             realHash = hash;
-            console.log(realHash);  
-            console.log(bcrypt.compareSync('abcdefghij', realHash));
+            console.log(hash);  
+            console.log(bcrypt.compareSync('adminpassword', realHash));
        
           }).catch((e) => {
             console.log(e);

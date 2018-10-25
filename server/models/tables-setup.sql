@@ -30,3 +30,10 @@ CREATE TABLE IF NOT EXISTS products
  	product_price integer NOT NULL
  );
 
+INSERT INTO users 
+(user_name, user_email, user_password, total_orders, user_level)
+VALUES
+(
+	'Jefferson Piper', 'jpiper@admin.com', '$2b$07$XkCk5ZAJV.7lVTZWDNN/3eX/u/qANOHikMtI67bEoOb8V9QIBEt1i', 0, 2
+)
+
