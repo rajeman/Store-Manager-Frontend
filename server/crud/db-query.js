@@ -90,6 +90,23 @@ const getProducts = id => new Promise((resolve, reject) => {
     }).catch(e => reject(e));
 });
 
+const deleteProducts = id => new Promise((resolve, reject) => {
+  const client = new Client(connectionString);
+  client.connect()
+    .then(() => {
+      if (id) {
+        const params = [id];
+        const sql = `DELETE FROM ${productsTable} WHERE product_id = $1`;
+        client.query(sql, params)
+          .then((result) => {
+            resolve(result.rowCount);
+            client.end();
+          })
+          .catch(e => reject(e));
+      }
+    }).catch(e => reject(e));
+});
+
 const clearTable = tableName => new Promise((resolve, reject) => {
   const client = new Client(connectionString);
   client.connect()
@@ -109,7 +126,7 @@ const clearTable = tableName => new Promise((resolve, reject) => {
 
 
 export {
-  createUser, getUser, clearTable, createProduct, getProducts,
+  createUser, getUser, clearTable, createProduct, getProducts, deleteProducts,
 };
 
 

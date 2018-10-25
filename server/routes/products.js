@@ -2,7 +2,9 @@ import express from 'express';
 import {
   sendServerError, ensureToken, verifyProductInput,
 } from '../helpers/validators';
-import { getUser, createProduct, getProducts } from '../crud/db-query';
+import {
+  getUser, createProduct, getProducts, deleteProducts,
+} from '../crud/db-query';
 
 
 const productsRouter = express.Router();
@@ -62,6 +64,26 @@ productsRouter.get('/:id', ensureToken, (req, res) => {
         status: 200,
         message: 'successfully fetched product',
         product: result,
+      });
+    } else {
+      res.status(404).send({
+        status: 404,
+        error: 'Product not found',
+      });
+    }
+  }).catch((e) => {
+    console.log(e);
+    sendServerError(res);
+  });
+});
+
+productsRouter.delete('/:id', ensureToken, (req, res) => {
+  // query database
+  deleteProducts(req.params.id).then((result) => {
+    if (result) {
+      res.status(200).send({
+        status: 200,
+        message: 'successfully deleted product',
       });
     } else {
       res.status(404).send({
