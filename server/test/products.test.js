@@ -1,102 +1,56 @@
 import expect from 'expect';
 import request from 'supertest';
 import app from '../app';
-import { products } from '../models/products';
+import { clearTable } from '../crud/db-query';
+
+const productsTable = 'products';
 
 describe('POST /products', () => {
-  it('should add a new product with valid parameters', () => request(app)
+  before((done) => {
+    clearTable(productsTable)
+      .then(() => {
+        done();
+      })
+      .catch(e => done(e));
+  });
+  it('should add a new product for an admin', () => request(app)
     .post('/api/v1/products')
     .send({
-      name: '3D Printer',
-      minInvent: 18,
-      quantity: 500,
-      level: 2,
-      price: 9,
+      productName: 'Authentic 3D Projector',
+      price: 437,
+      minimumInventory: 7,
+      token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdGF0dXMiOjMwMywidXNlcm5hbWUiOiJKZWZmZXJzb24gUGlwZXIiLCJlbWFpbCI6ImpwaXBlckBhZG1pbi5jb20iLCJ1c2VySWQiOjEsImxldmVsIjoyLCJpYXQiOjE1NDA0NTgzNjR9.oXXINp8rYzHHzdlAfRpwGjE4Xvw7zF_TE2gdXDpROBQ',
     })
     .set('Accept', 'application/json')
-    .expect(200)
+    .expect(201)
     .then((response) => {
-      expect(response.body.message).toContain('3D Printer');
-      expect(products.productsList.length).toBe(3);
-      expect(products.lastId).toBe(3);
+      expect(response.body.message).toContain('Authentic 3D Projector');
     }));
 
-  it('should not add a new product with invalid parameters', () => request(app)
+  it('should not add a new product for a non admin', () => request(app)
     .post('/api/v1/products')
     .send({
-      name: 'Wireless Printer',
-      minInvent: 0,
-      quantity: 200,
-      level: 2,
-      price: 5,
-    })
-    .set('Accept', 'application/json')
-    .expect(400)
-    .then((response) => {
-      expect(response.body.error).toContain('Product name must be at least 3 characters');
-      expect(products.productsList.length).toBe(3);
-      expect(products.lastId).toBe(3);
-    }));
-  it('should not allow non-admin to add product', () => request(app)
-    .post('/api/v1/products')
-    .send({
-      name: '3D Printer',
-      minInvent: 18,
-      quantity: 500,
-      level: 1,
-      price: 12,
+      productName: 'Wireless Mouse',
+      price: 7,
+      minimumInventory: 65,
+      token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdGF0dXMiOjMwMywidXNlcm5hbWUiOiJmZ2RmZ2RyZyIsImVtYWlsIjoiemlAZ21haWwuY29tIiwidXNlcklkIjoyLCJsZXZlbCI6MSwiaWF0IjoxNTQwNDU4NDA3fQ.tnEcnTPnPRT-h4bk69RmA90hi436j3c2oSuJMb1vx5M',
     })
     .set('Accept', 'application/json')
     .expect(403)
     .then((response) => {
-      expect(response.body.error).toContain('not allowed to modify');
-      expect(products.productsList.length).toBe(3);
-      expect(products.lastId).toBe(3);
+      expect(response.body.error).toContain('not authorized');
     }));
-});
-
-
-describe('GET /products', () => {
-  it('should return all available products', () => request(app)
-    .get('/api/v1/products')
+  it('should return 422 error with invalid request body', () => request(app)
+    .post('/api/v1/products')
+    .send({
+      productName: 'Wireless Keyboard',
+      price: 4.37,
+      minimumInventory: 7,
+      token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdGF0dXMiOjMwMywidXNlcm5hbWUiOiJKZWZmZXJzb24gUGlwZXIiLCJlbWFpbCI6ImpwaXBlckBhZG1pbi5jb20iLCJ1c2VySWQiOjEsImxldmVsIjoyLCJpYXQiOjE1NDA0NTgzNjR9.oXXINp8rYzHHzdlAfRpwGjE4Xvw7zF_TE2gdXDpROBQ',
+    })
     .set('Accept', 'application/json')
-    .expect(200)
+    .expect(422)
     .then((response) => {
-      expect(response.body.length).toBe(3);
-      expect(response.body).toEqual(
-        expect.arrayContaining([{
-          id: 1,
-          quantity: 12,
-          minInvent: 3,
-          name: 'Otis Headphone',
-          created: '2018-10-14T06:33:09.250Z',
-          price: 18,
-        }]),
-      );
-    }));
-});
-
-describe('GET /products:id', () => {
-  it('should return the product with id equals :id', () => request(app)
-    .get('/api/v1/products/2')
-    .set('Accept', 'application/json')
-    .expect(200)
-    .then((response) => {
-      expect(response.body.message).toContain('found');
-      expect(response.body.product).toEqual({
-        id: 2,
-        quantity: 10,
-        minInvent: 5,
-        name: 'Extreme GPS',
-        created: '2018-10-14T06:38:20.250Z',
-        price: 7,
-      });
-    }));
-  it('should return error with invalid product id', () => request(app)
-    .get('/api/v1/products/10')
-    .set('Accept', 'application/json')
-    .expect(404)
-    .then((response) => {
-      expect(response.body.error).toContain('cannot find');
+      expect(response.body.error).toContain('Invalid');
     }));
 });
