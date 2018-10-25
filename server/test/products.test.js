@@ -76,3 +76,34 @@ describe('GET /products', () => {
       expect(response.body.error).toContain('Invalid');
     }));
 });
+
+describe('GET /products:id', () => {
+  it('should fetch the product for authenticated user', () => request(app)
+    .get('/api/v1/products/1')
+    .set('Accept', 'application/json')
+    .set('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdGF0dXMiOjMwMywidXNlcm5hbWUiOiJKZWZmZXJzb24gUGlwZXIiLCJlbWFpbCI6ImpwaXBlckBhZG1pbi5jb20iLCJ1c2VySWQiOjEsImxldmVsIjoyLCJpYXQiOjE1NDA0NTMyMDJ9.HplqH5tLSIr5_l69D2FuUs3mpyBqtZjFSEouLSuIFGw')
+    .expect(200)
+    .then((response) => {
+      expect(response.body.message).toContain('successfully fetched');
+      expect(response.body.product[0].product_id).toBe(1);
+      expect(response.body.product[0].product_price).toBe(437);
+    }));
+
+  it('should not fetch product for non-authenticated user', () => request(app)
+    .get('/api/v1/products/15')
+    .set('Accept', 'application/json')
+    .set('Authorization', 'Bearer hbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdGF0dXMiOjMwMywidXNlcm5hbWUiOiJKZWZmZXJzb24gUGlwZXIiLCJlbWFpbCI6ImpwaXBlckBhZG1pbi5jb20iLCJ1c2VySWQiOjEsImxldmVsIjoyLCJpYXQiOjE1NDA0NTMyMDJ9.HplqH5tLSIr5_l69D2FuUs3mpyBqtZjFSEouLSuIFGw')
+    .expect(403)
+    .then((response) => {
+      expect(response.body.error).toContain('Invalid');
+    }));
+
+  it('should fetch invalid product', () => request(app)
+    .get('/api/v1/products/3')
+    .set('Accept', 'application/json')
+    .set('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdGF0dXMiOjMwMywidXNlcm5hbWUiOiJKZWZmZXJzb24gUGlwZXIiLCJlbWFpbCI6ImpwaXBlckBhZG1pbi5jb20iLCJ1c2VySWQiOjEsImxldmVsIjoyLCJpYXQiOjE1NDA0NTMyMDJ9.HplqH5tLSIr5_l69D2FuUs3mpyBqtZjFSEouLSuIFGw')
+    .expect(404)
+    .then((response) => {
+      expect(response.body.error).toContain('not found');
+    }));
+});
