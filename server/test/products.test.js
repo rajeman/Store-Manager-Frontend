@@ -27,7 +27,7 @@ describe('POST /products', () => {
       expect(response.body.message).toContain('Authentic 3D Projector');
     }));
 
-  it('should not add a new product for a non admin', () => request(app)
+  it('should not add a new product with an invalid token', () => request(app)
     .post('/api/v1/products')
     .send({
       productName: 'Wireless Mouse',
@@ -40,6 +40,21 @@ describe('POST /products', () => {
     .then((response) => {
       expect(response.body.error).toContain('Invalid');
     }));
+
+  it('should not add a new product for an attendant', () => request(app)
+    .post('/api/v1/products')
+    .send({
+      productName: 'Wireless Mouse',
+      price: 7,
+      minimumInventory: 65,
+      token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdGF0dXMiOjMwMywidXNlcm5hbWUiOiJNciBBdHRlbmRhbnQgQnJvd24iLCJlbWFpbCI6Im1yc21pdGhAZ21haWwuY29tIiwidXNlcklkIjo5NywibGV2ZWwiOjEsImlhdCI6MTU0MDUxMDQ4Mn0.33jlhGMWr103MtOEgYkvX3xK33cr4Gn4FY9ZlOeO5JE',
+    })
+    .set('Accept', 'application/json')
+    .expect(403)
+    .then((response) => {
+      expect(response.body.error).toContain('not authorized');
+    }));
+
   it('should return 422 error with invalid request body', () => request(app)
     .post('/api/v1/products')
     .send({
@@ -123,6 +138,20 @@ describe('PUT /products:id', () => {
       expect(response.body.message).toContain('successfully updated');
     }));
 
+  it('should not modify the product for an attendant', () => request(app)
+    .put('/api/v1/products/1')
+    .send({
+      productName: 'Wireless Keyboard',
+      price: 301,
+      minimumInventory: 12,
+    })
+    .set('Accept', 'application/json')
+    .set('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdGF0dXMiOjMwMywidXNlcm5hbWUiOiJNciBBdHRlbmRhbnQgQnJvd24iLCJlbWFpbCI6Im1yc21pdGhAZ21haWwuY29tIiwidXNlcklkIjo5NywibGV2ZWwiOjEsImlhdCI6MTU0MDUxMDQ4Mn0.33jlhGMWr103MtOEgYkvX3xK33cr4Gn4FY9ZlOeO5JE')
+    .expect(403)
+    .then((response) => {
+      expect(response.body.error).toContain('not authorized');
+    }));
+
   it('should not modify the product for non-authenticated user', () => request(app)
     .put('/api/v1/products/1')
     .send({
@@ -137,7 +166,7 @@ describe('PUT /products:id', () => {
       expect(response.body.error).toContain('Invalid');
     }));
 
-  it('should not modfify invalid product', () => request(app)
+  it('should not modify invalid product', () => request(app)
     .put('/api/v1/products/3')
     .send({
       productName: 'Mouse Pad',
@@ -150,6 +179,7 @@ describe('PUT /products:id', () => {
     .then((response) => {
       expect(response.body.error).toContain('Invalid product');
     }));
+
 });
 
 
