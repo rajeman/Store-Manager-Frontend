@@ -48,7 +48,8 @@ productsRouter.get('/', ensureToken, (req, res) => {
       message: 'successfully fetched products',
       productsArray: result,
     });
-  }).catch(() => {
+  }).catch((e) => {
+    console.log(e);
     sendServerError(res);
   });
 });

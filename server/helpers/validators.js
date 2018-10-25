@@ -121,7 +121,7 @@ const ensureToken = (req, res, next) => {
   let bearerToken = '';
   const bearerHeader = req.get('Authorization');
   if (bearerHeader) {
-     bearerToken = bearerHeader.split(' ')[1];
+    bearerToken = bearerHeader.split(' ')[1];
   } else {
     bearerToken = req.body.token;
   }

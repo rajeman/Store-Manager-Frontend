@@ -65,17 +65,28 @@ const createProduct = item => new Promise((resolve, reject) => {
     });
 });
 
-const getProducts = () => new Promise((resolve, reject) => {
+const getProducts = id => new Promise((resolve, reject) => {
   const client = new Client(connectionString);
   client.connect()
     .then(() => {
-      const sql = `SELECT * FROM ${productsTable}`;
-      client.query(sql)
-        .then((result) => {
-          resolve(result.rows);
-          client.end();
-        })
-        .catch(e => reject(e));
+      if (id) {
+        const params = [id];
+        const sql = `SELECT * FROM ${productsTable} WHERE product_id == $1`;
+        client.query(sql, params)
+          .then((result) => {
+            resolve(result.rows);
+            client.end();
+          })
+          .catch(e => reject(e));
+      } else {
+        const sql = `SELECT * FROM ${productsTable}`;
+        client.query(sql)
+          .then((result) => {
+            resolve(result.rows);
+            client.end();
+          })
+          .catch(e => reject(e));
+      }
     }).catch(e => reject(e));
 });
 
