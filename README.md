@@ -28,6 +28,8 @@ records
 # API Routes
 | Endpoint  | Functionality | Notes |
 | ------------- | ------------- |------------- |
+|POST /auth/signup|Register a user |This endpoint creates a new store attendant and is available to only the admin. Admin must be logged in to use this route|
+|POST /auth/login|Login a user |Both the admin and attendant can use this endpoint. A new attendant should use the default password "attendantpassword"|
 | GET /products  | Fetch a single product  | Get a specific product using the product's id|
 |GET /sales|Fetch all sale records|Get all sale records. Endpoint is accessible to only the store owner/admin. Admin must supply the query parameter: "level=2"|
 |GET /sales/:saleId|Fetch a single sale record|Get a specific sale record using the id. Endpoint is accessible to  the store owner/admin or the sale attendant that created the record. Admin must supply the query parameter: "level=2". The attendant must supply the query parameter: "attendantId=x", where 'x' is the attendant's id.|
