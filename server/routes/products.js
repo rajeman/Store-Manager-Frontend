@@ -21,9 +21,9 @@ productsRouter.post('/', verifyProductInput, ensureToken, (req, res) => {
   getUser(req.body.decoded.email)
     .then(() => {
       createProduct(req.body).then(() => {
-        res.status(200).send({
-          status: 200,
-          message: `${req.body.productName} was successfully added`,
+        res.status(201).send({
+          status: 201,
+          message: `'${req.body.productName}' was successfully added`,
         });
       }).catch((e) => {
         console.log(e);
