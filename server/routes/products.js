@@ -1,66 +1,43 @@
 import express from 'express';
-import { products, productsMap } from '../models/products';
+import {
+  sendServerError, ensureToken, verifyProductInput,
+} from '../helpers/validators';
+import { getUser, createProduct } from '../crud/db-query';
 
-const isPositiveInteger = s => /^\+?[1-9][\d]*$/.test(s);
-const admin = 2;
+
 const productsRouter = express.Router();
 
-const verifyParameters = (req, res, next) => {
-  const parameter = req.body;
-  if (parameter && parameter.level !== admin) {
+const adminLevel = 2;
+
+productsRouter.post('/', verifyProductInput, ensureToken, (req, res) => {
+  // query database
+  if (req.body.decoded.level !== adminLevel) {
     res.status(403).send({
-      error: 'You are not allowed to modify this content',
+      error: 'Your are not authorized to modify this content',
       status: 403,
     });
     return;
   }
-  if (parameter && parameter.name && parameter.name.trim().length > 2
-    && isPositiveInteger(parameter.minInvent)
-    && isPositiveInteger(parameter.quantity) && isPositiveInteger(parameter.price)) {
-    next();
-  } else {
-    res.status(400).send({
-      error: 'Product name must be at least 3 characters with the minimum inventory, price and quantity greater than zero',
-      status: 400,
+  getUser(req.body.decoded.email)
+    .then(() => {
+      createProduct(req.body).then(() => {
+        res.status(200).send({
+          status: 200,
+          message: `${req.body.productName} was successfully added`,
+        });
+      }).catch((e) => {
+        console.log(e);
+        sendServerError(res);
+      });
+      // res.send(result);
+    })
+    .catch((e) => {
+      console.log(e);
+      res.status(404).send({
+        error: 'Invalid user',
+        status: 404,
+      });
     });
-  }
-};
-
-
-productsRouter.post('/', verifyParameters, (req, res) => {
-  const reqBody = req.body;
-  const newProduct = {
-    id: products.lastId + 1,
-    quantity: reqBody.quantity,
-    minInvent: reqBody.minInvent,
-    price: reqBody.price,
-    name: reqBody.name,
-    created: new Date(),
-  };
-  products.productsList.push(newProduct);
-  products.lastId += 1;
-  productsMap.set(String(newProduct.id), newProduct);
-  res.send({
-    message: `'${newProduct.name}' successfully added`,
-  });
-});
-
-productsRouter.get('/', (req, res) => {
-  res.send(products.productsList.filter(product => product.quantity > 0));
-});
-
-productsRouter.get('/:id', (req, res) => {
-  const product = productsMap.get(String(req.params.id));
-  if (product) {
-    res.send({
-      message: 'product found',
-      product,
-    });
-  } else {
-    res.status(404).send({
-      error: 'cannot find product',
-    });
-  }
 });
 
 

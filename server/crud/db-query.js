@@ -7,7 +7,7 @@ if (process.env.current_env === 'test') {
 }
 const usersTable = 'users';
 // const ordersTable = 'orders';
-// const productsTable = 'products';
+const productsTable = 'products';
 
 
 const createUser = item => new Promise((resolve, reject) => {
@@ -45,6 +45,26 @@ const getUser = email => new Promise((resolve, reject) => {
     }).catch(e => reject(e));
 });
 
+const createProduct = item => new Promise((resolve, reject) => {
+  const client = new Client(connectionString);
+  client.connect()
+    .then(() => {
+      const sql = `INSERT INTO ${productsTable} (product_name, minimum_inventory, product_price) VALUES ($1, $2, $3)`;
+      const params = [item.productName, item.minimumInventory, item.price];
+      client.query(sql, params)
+        .then((result) => {
+          // console.log(result.rows);
+          resolve(result.rowCount);
+          client.end();
+        })
+        .catch((e) => {
+          reject(e);
+        });
+    }).catch((e) => {
+      reject(e);
+    });
+});
+
 
 const clearTable = tableName => new Promise((resolve, reject) => {
   const client = new Client(connectionString);
@@ -60,7 +80,9 @@ const clearTable = tableName => new Promise((resolve, reject) => {
     }).catch(e => reject(e));
 });
 
-export { createUser, getUser, clearTable };
+export {
+  createUser, getUser, clearTable, createProduct,
+};
 
 
 // CREATE TABLE users(user_id serial PRIMARY KEY, user_name text NOT NULL,
