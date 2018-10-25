@@ -143,7 +143,7 @@ describe('POST /login', () => {
       expect(response.body.username).toContain('Mr Attendant Brown');
     }));
 
-   it('should not authenticate store attendant with invalid password', () => request(app)
+  it('should not authenticate store attendant with invalid password', () => request(app)
     .post('/api/v1/auth/login')
     .send({
       email: 'mrsmith@gmail.com',
@@ -155,5 +155,4 @@ describe('POST /login', () => {
       expect(response.body.userId).toBeFalsy();
       expect(response.body.error).toContain('Invalid');
     }));
-
 });

@@ -134,6 +134,21 @@ const ensureToken = (req, res, next) => {
   }
 };
 
+const verifyProductInput = (req, res, next) => {
+  const product = req.body;
+  if (product && product.productName && product.productName.length >= 3 && product.price
+    && isPositiveInteger(product.price)
+       && product.minimumInventory && isPositiveInteger(product.minimumInventory)) {
+    next();
+  } else {
+    res.status(422).send({
+      error: 'Invalid product input. Product name must be at least 3 characters with product price'
+      + ' and minimum inventory positive integers ',
+      status: 422,
+    });
+  }
+};
 export {
   verifyOrderInput, sendServerError, sendAuthenticationError, validateUser, ensureToken,
+  verifyProductInput,
 };
