@@ -90,6 +90,26 @@ const getProducts = id => new Promise((resolve, reject) => {
     }).catch(e => reject(e));
 });
 
+const updateProducts = item => new Promise((resolve, reject) => {
+  const client = new Client(connectionString);
+  client.connect()
+    .then(() => {
+      const sql = `UPDATE ${productsTable} SET product_name = $1, product_price = $2, minimum_inventory = $3 WHERE product_id = $4`;
+      const params = [item.productName, item.price, item.minimumInventory, item.id];
+      client.query(sql, params)
+        .then((result) => {
+          // console.log(result.rows);
+          resolve(result.rowCount);
+          client.end();
+        })
+        .catch((e) => {
+          reject(e);
+        });
+    }).catch((e) => {
+      reject(e);
+    });
+});
+
 const deleteProducts = id => new Promise((resolve, reject) => {
   const client = new Client(connectionString);
   client.connect()
@@ -106,6 +126,7 @@ const deleteProducts = id => new Promise((resolve, reject) => {
       }
     }).catch(e => reject(e));
 });
+
 
 const clearTable = tableName => new Promise((resolve, reject) => {
   const client = new Client(connectionString);
@@ -126,7 +147,7 @@ const clearTable = tableName => new Promise((resolve, reject) => {
 
 
 export {
-  createUser, getUser, clearTable, createProduct, getProducts, deleteProducts,
+  createUser, getUser, clearTable, createProduct, getProducts, deleteProducts, updateProducts,
 };
 
 

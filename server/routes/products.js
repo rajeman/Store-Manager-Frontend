@@ -3,7 +3,7 @@ import {
   sendServerError, ensureToken, verifyProductInput,
 } from '../helpers/validators';
 import {
-  getUser, createProduct, getProducts, deleteProducts,
+  getUser, createProduct, getProducts, deleteProducts, updateProducts,
 } from '../crud/db-query';
 
 
@@ -89,6 +89,36 @@ productsRouter.delete('/:id', ensureToken, (req, res) => {
       res.status(404).send({
         status: 404,
         error: 'Product not found',
+      });
+    }
+  }).catch((e) => {
+    console.log(e);
+    sendServerError(res);
+  });
+});
+
+productsRouter.put('/:id', verifyProductInput, ensureToken, (req, res) => {
+  if (req.body.decoded.level !== adminLevel) {
+    res.status(403).send({
+      error: 'Your are not authorized to modify this content',
+      status: 403,
+    });
+    return;
+  }
+  // query database
+  const queryParams = req.body;
+  console.log(queryParams);
+  queryParams.id = req.params.id;
+  updateProducts(queryParams).then((result) => {
+    if (result) {
+      res.status(200).send({
+        status: 200,
+        message: 'successfully updated product',
+      });
+    } else {
+      res.status(404).send({
+        status: 404,
+        error: 'Invalid product',
       });
     }
   }).catch((e) => {
