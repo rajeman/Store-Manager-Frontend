@@ -19,7 +19,7 @@ describe('POST /products', () => {
       productName: 'Authentic 3D Projector',
       price: 437,
       minimumInventory: 7,
-      token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdGF0dXMiOjMwMywidXNlcm5hbWUiOiJKZWZmZXJzb24gUGlwZXIiLCJlbWFpbCI6ImpwaXBlckBhZG1pbi5jb20iLCJ1c2VySWQiOjEsImxldmVsIjoyLCJpYXQiOjE1NDA0NTgzNjR9.oXXINp8rYzHHzdlAfRpwGjE4Xvw7zF_TE2gdXDpROBQ',
+      token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdGF0dXMiOjMwMywidXNlcm5hbWUiOiJKZWZmZXJzb24gUGlwZXIiLCJlbWFpbCI6ImpwaXBlckBhZG1pbi5jb20iLCJ1c2VySWQiOjEsImxldmVsIjoyLCJpYXQiOjE1NDA0NTMyMDJ9.HplqH5tLSIr5_l69D2FuUs3mpyBqtZjFSEouLSuIFGw',
     })
     .set('Accept', 'application/json')
     .expect(201)
@@ -38,7 +38,7 @@ describe('POST /products', () => {
     .set('Accept', 'application/json')
     .expect(403)
     .then((response) => {
-      expect(response.body.error).toContain('not authorized');
+      expect(response.body.error).toContain('Invalid');
     }));
   it('should return 422 error with invalid request body', () => request(app)
     .post('/api/v1/products')
