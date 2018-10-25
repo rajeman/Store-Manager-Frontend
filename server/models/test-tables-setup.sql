@@ -22,6 +22,8 @@ CREATE TABLE IF NOT EXISTS users
    
  );
 
+DROP TABLE PRODUCTS;
+
 CREATE TABLE IF NOT EXISTS products
  (
  	product_id serial PRIMARY KEY,
