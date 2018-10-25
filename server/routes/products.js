@@ -107,7 +107,6 @@ productsRouter.put('/:id', verifyProductInput, ensureToken, (req, res) => {
   }
   // query database
   const queryParams = req.body;
-  console.log(queryParams);
   queryParams.id = req.params.id;
   updateProducts(queryParams).then((result) => {
     if (result) {

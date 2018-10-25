@@ -108,6 +108,50 @@ describe('GET /products:id', () => {
     }));
 });
 
+describe('PUT /products:id', () => {
+  it('should modify the product for an authenticated admin', () => request(app)
+    .put('/api/v1/products/1')
+    .send({
+      productName: 'Wireless Mouse',
+      price: 300,
+      minimumInventory: 14,
+    })
+    .set('Accept', 'application/json')
+    .set('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdGF0dXMiOjMwMywidXNlcm5hbWUiOiJKZWZmZXJzb24gUGlwZXIiLCJlbWFpbCI6ImpwaXBlckBhZG1pbi5jb20iLCJ1c2VySWQiOjEsImxldmVsIjoyLCJpYXQiOjE1NDA0NTMyMDJ9.HplqH5tLSIr5_l69D2FuUs3mpyBqtZjFSEouLSuIFGw')
+    .expect(200)
+    .then((response) => {
+      expect(response.body.message).toContain('successfully updated');
+    }));
+
+  it('should not modify the product for non-authenticated user', () => request(app)
+    .put('/api/v1/products/1')
+    .send({
+      productName: 'Wireless Keyboard',
+      price: 301,
+      minimumInventory: 12,
+    })
+    .set('Accept', 'application/json')
+    .set('Authorization', 'Bearer hbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdGF0dXMiOjMwMywidXNlcm5hbWUiOiJKZWZmZXJzb24gUGlwZXIiLCJlbWFpbCI6ImpwaXBlckBhZG1pbi5jb20iLCJ1c2VySWQiOjEsImxldmVsIjoyLCJpYXQiOjE1NDA0NTMyMDJ9.HplqH5tLSIr5_l69D2FuUs3mpyBqtZjFSEouLSuIFGw')
+    .expect(403)
+    .then((response) => {
+      expect(response.body.error).toContain('Invalid');
+    }));
+
+  it('should not modfify invalid product', () => request(app)
+    .put('/api/v1/products/3')
+    .send({
+      productName: 'Mouse Pad',
+      price: 101,
+      minimumInventory: 10,
+    })
+    .set('Accept', 'application/json')
+    .set('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdGF0dXMiOjMwMywidXNlcm5hbWUiOiJKZWZmZXJzb24gUGlwZXIiLCJlbWFpbCI6ImpwaXBlckBhZG1pbi5jb20iLCJ1c2VySWQiOjEsImxldmVsIjoyLCJpYXQiOjE1NDA0NTMyMDJ9.HplqH5tLSIr5_l69D2FuUs3mpyBqtZjFSEouLSuIFGw')
+    .expect(404)
+    .then((response) => {
+      expect(response.body.error).toContain('Invalid product');
+    }));
+});
+
 
 describe('DELETE /products:id', () => {
   it('should delete the product for authenticated user', () => request(app)
@@ -137,3 +181,4 @@ describe('DELETE /products:id', () => {
       expect(response.body.error).toContain('not found');
     }));
 });
+
