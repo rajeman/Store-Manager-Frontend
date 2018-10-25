@@ -54,3 +54,25 @@ describe('POST /products', () => {
       expect(response.body.error).toContain('Invalid');
     }));
 });
+
+describe('GET /products', () => {
+  it('should fetch all products for authenticated user', () => request(app)
+    .get('/api/v1/products/')
+    .set('Accept', 'application/json')
+    .set('Authorization', `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdGF0dXMiOjMwMywidXNlcm5hbWUiOiJKZWZmZXJzb24gUGlwZXIiLCJlbWFpbCI6ImpwaXBlckBhZG1pbi5jb20iLCJ1c2VySWQiOjEsImxldmVsIjoyLCJpYXQiOjE1NDA0NTMyMDJ9.HplqH5tLSIr5_l69D2FuUs3mpyBqtZjFSEouLSuIFGw`)
+    .expect(200)
+    .then((response) => {
+      expect(response.body.message).toContain('successfully fetched');
+      expect(response.body.productsArray[0].product_name).toContain('Authentic 3D Projector');
+      expect(response.body.productsArray).toHaveLength(1);
+    }));
+
+   it('should not fecth products for non-authenticated user', () => request(app)
+    .get('/api/v1/products/')
+    .set('Accept', 'application/json')
+    .set('Authorization', `Bearer hbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdGF0dXMiOjMwMywidXNlcm5hbWUiOiJKZWZmZXJzb24gUGlwZXIiLCJlbWFpbCI6ImpwaXBlckBhZG1pbi5jb20iLCJ1c2VySWQiOjEsImxldmVsIjoyLCJpYXQiOjE1NDA0NTMyMDJ9.HplqH5tLSIr5_l69D2FuUs3mpyBqtZjFSEouLSuIFGw`)
+    .expect(403)
+    .then((response) => {
+      expect(response.body.error).toContain('Invalid');
+    }));
+});

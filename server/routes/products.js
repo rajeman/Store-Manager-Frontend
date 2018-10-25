@@ -54,4 +54,6 @@ productsRouter.get('/', ensureToken, (req, res) => {
 });
 
 
+
+
 export default productsRouter;
