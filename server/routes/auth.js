@@ -18,7 +18,7 @@ const attendantLevel = 1;
 if (process.env.current_env === 'test') {
   secretKey = 'my_secret_key';
   saltRound = 6;
-  defaultPassword = 'password';
+  defaultPassword = 'attendantpassword';
 }
 authRouter.post('/signup', validateUser, ensureToken, (req, res) => {
   if (req.body.decoded.level !== 2) {
@@ -72,11 +72,11 @@ authRouter.post('/signup', validateUser, ensureToken, (req, res) => {
     });
 });
 
-authRouter.post('/login',  (req, res) => {
+authRouter.post('/login', (req, res) => {
   // confirm email exists in database
   getUser(req.body.email)
     .then((result) => {
-      if(!req.body.password){
+      if (!req.body.password) {
         req.body.password = '';
       }
       if (bcrypt.compareSync(req.body.password, result[0].user_password)) {

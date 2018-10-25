@@ -50,7 +50,7 @@ const clearTable = tableName => new Promise((resolve, reject) => {
   const client = new Client(connectionString);
   client.connect()
     .then(() => {
-      const sql = `DELETE FROM ${tableName};`;
+      const sql = `DELETE FROM ${tableName} WHERE user_level != 2;`;
       client.query(sql)
         .then((result) => {
           resolve(result.rowCount);
