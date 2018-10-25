@@ -142,4 +142,18 @@ describe('POST /login', () => {
       expect(response.body.token).toBeTruthy();
       expect(response.body.username).toContain('Mr Attendant Brown');
     }));
+
+   it('should not authenticate store attendant with invalid password', () => request(app)
+    .post('/api/v1/auth/login')
+    .send({
+      email: 'mrsmith@gmail.com',
+      password: 'wrongattendantpassword',
+    })
+    .set('Accept', 'application/json')
+    .expect(403)
+    .then((response) => {
+      expect(response.body.userId).toBeFalsy();
+      expect(response.body.error).toContain('Invalid');
+    }));
+
 });
