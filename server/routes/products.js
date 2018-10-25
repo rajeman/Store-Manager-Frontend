@@ -2,7 +2,7 @@ import express from 'express';
 import {
   sendServerError, ensureToken, verifyProductInput,
 } from '../helpers/validators';
-import { getUser, createProduct } from '../crud/db-query';
+import { getUser, createProduct, getProducts } from '../crud/db-query';
 
 
 const productsRouter = express.Router();
@@ -10,7 +10,6 @@ const productsRouter = express.Router();
 const adminLevel = 2;
 
 productsRouter.post('/', verifyProductInput, ensureToken, (req, res) => {
-  // query database
   if (req.body.decoded.level !== adminLevel) {
     res.status(403).send({
       error: 'Your are not authorized to modify this content',
@@ -18,6 +17,7 @@ productsRouter.post('/', verifyProductInput, ensureToken, (req, res) => {
     });
     return;
   }
+  // query database
   getUser(req.body.decoded.email)
     .then(() => {
       createProduct(req.body).then(() => {
@@ -38,6 +38,19 @@ productsRouter.post('/', verifyProductInput, ensureToken, (req, res) => {
         status: 404,
       });
     });
+});
+
+productsRouter.get('/', ensureToken, (req, res) => {
+  // query database
+  getProducts().then((result) => {
+    res.status(200).send({
+      status: 200,
+      message: 'successfully fetched products',
+      productsArray: result,
+    });
+  }).catch(() => {
+    sendServerError(res);
+  });
 });
 
 

@@ -65,15 +65,28 @@ const createProduct = item => new Promise((resolve, reject) => {
     });
 });
 
+const getProducts = () => new Promise((resolve, reject) => {
+  const client = new Client(connectionString);
+  client.connect()
+    .then(() => {
+      const sql = `SELECT * FROM ${productsTable}`;
+      client.query(sql)
+        .then((result) => {
+          resolve(result.rows);
+          client.end();
+        })
+        .catch(e => reject(e));
+    }).catch(e => reject(e));
+});
 
 const clearTable = tableName => new Promise((resolve, reject) => {
   const client = new Client(connectionString);
   client.connect()
     .then(() => {
       let sql = `DELETE FROM ${tableName};`;
-      if(tableName === usersTable){
-      sql = `DELETE FROM ${tableName} WHERE user_level != 2;`;
-    }
+      if (tableName === usersTable) {
+        sql = `DELETE FROM ${tableName} WHERE user_level != 2;`;
+      }
       client.query(sql)
         .then((result) => {
           resolve(result.rowCount);
@@ -83,8 +96,9 @@ const clearTable = tableName => new Promise((resolve, reject) => {
     }).catch(e => reject(e));
 });
 
+
 export {
-  createUser, getUser, clearTable, createProduct,
+  createUser, getUser, clearTable, createProduct, getProducts,
 };
 
 
