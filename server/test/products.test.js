@@ -98,8 +98,38 @@ describe('GET /products:id', () => {
       expect(response.body.error).toContain('Invalid');
     }));
 
-  it('should fetch invalid product', () => request(app)
+  it('should not fetch invalid product', () => request(app)
     .get('/api/v1/products/3')
+    .set('Accept', 'application/json')
+    .set('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdGF0dXMiOjMwMywidXNlcm5hbWUiOiJKZWZmZXJzb24gUGlwZXIiLCJlbWFpbCI6ImpwaXBlckBhZG1pbi5jb20iLCJ1c2VySWQiOjEsImxldmVsIjoyLCJpYXQiOjE1NDA0NTMyMDJ9.HplqH5tLSIr5_l69D2FuUs3mpyBqtZjFSEouLSuIFGw')
+    .expect(404)
+    .then((response) => {
+      expect(response.body.error).toContain('not found');
+    }));
+});
+
+
+describe('DELETE /products:id', () => {
+  it('should delete the product for authenticated user', () => request(app)
+    .delete('/api/v1/products/1')
+    .set('Accept', 'application/json')
+    .set('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdGF0dXMiOjMwMywidXNlcm5hbWUiOiJKZWZmZXJzb24gUGlwZXIiLCJlbWFpbCI6ImpwaXBlckBhZG1pbi5jb20iLCJ1c2VySWQiOjEsImxldmVsIjoyLCJpYXQiOjE1NDA0NTMyMDJ9.HplqH5tLSIr5_l69D2FuUs3mpyBqtZjFSEouLSuIFGw')
+    .expect(200)
+    .then((response) => {
+      expect(response.body.message).toContain('successfully deleted');
+    }));
+
+  it('should not delete product for non-authenticated user', () => request(app)
+    .delete('/api/v1/products/2')
+    .set('Accept', 'application/json')
+    .set('Authorization', 'Bearer hbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdGF0dXMiOjMwMywidXNlcm5hbWUiOiJKZWZmZXJzb24gUGlwZXIiLCJlbWFpbCI6ImpwaXBlckBhZG1pbi5jb20iLCJ1c2VySWQiOjEsImxldmVsIjoyLCJpYXQiOjE1NDA0NTMyMDJ9.HplqH5tLSIr5_l69D2FuUs3mpyBqtZjFSEouLSuIFGw')
+    .expect(403)
+    .then((response) => {
+      expect(response.body.error).toContain('Invalid');
+    }));
+
+  it('should not delete invalid product', () => request(app)
+    .delete('/api/v1/products/3')
     .set('Accept', 'application/json')
     .set('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdGF0dXMiOjMwMywidXNlcm5hbWUiOiJKZWZmZXJzb24gUGlwZXIiLCJlbWFpbCI6ImpwaXBlckBhZG1pbi5jb20iLCJ1c2VySWQiOjEsImxldmVsIjoyLCJpYXQiOjE1NDA0NTMyMDJ9.HplqH5tLSIr5_l69D2FuUs3mpyBqtZjFSEouLSuIFGw')
     .expect(404)
