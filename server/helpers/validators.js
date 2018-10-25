@@ -87,6 +87,13 @@ const sendServerError = (res) => {
   });
 };
 
+const sendAuthenticationError = (res) => {
+  res.status(422).send({
+    error: 'Invalid username or password',
+    status: 422,
+  });
+};
+
 const validateUser = (req, res, next) => {
   const {
     email, password, rePassword, name, level,
@@ -108,5 +115,5 @@ const validateUser = (req, res, next) => {
   }
 };
 export {
-  verifyOrderInput, sendServerError, validateUser,
+  verifyOrderInput, sendServerError, sendAuthenticationError, validateUser,
 };
