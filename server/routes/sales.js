@@ -2,11 +2,35 @@ import express from 'express';
 import { verifyOrderInput } from '../helpers/validators';
 import { orders, ordersMap } from '../models/orders';
 import { productsMap } from '../models/products';
+import {
+  sendServerError, ensureToken
+} from '../helpers/validators';
+import {
+  getUser, createProduct, getProducts, deleteProducts, updateProducts,
+} from '../crud/db-query';
 
 const salesRouter = express.Router();
 const admin = 2;
 
 salesRouter.post('/', verifyOrderInput, (req, res) => {
+  const { orderItem } = req;
+  orderItem.orderDate = new Date().getTime(); 
+
+  let totalPrice = 0;
+  orderItem.productsArray.forEach((product) => {
+    totalPrice += product.pricePerProduct * product.quantity;
+    const storeProduct = productsMap.get(String(product.productId));
+    storeProduct.quantity -= product.quantity;
+  });
+  orderItem.totalPrice = totalPrice;
+
+  res.send({
+    message: 'Successfully created order',
+    order: orderItem,
+  });
+});
+
+/*salesRouter.post('/', verifyOrderInput, (req, res) => {
   const { orderItem } = req;
   orderItem.orderDate = new Date();
   orderItem.orderId = orders.lastOrderId + 1;
@@ -25,7 +49,7 @@ salesRouter.post('/', verifyOrderInput, (req, res) => {
     message: 'Successfully created order',
     order: orderItem,
   });
-});
+});*/
 
 salesRouter.get('/', (req, res) => {
   const { level } = req.query;
