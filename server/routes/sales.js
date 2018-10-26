@@ -41,9 +41,13 @@ salesRouter.put('/', verifyCartItem, ensureToken, (req, res) => {
         error: 'product does not exist',
       });
       return;
-    } 
-    //if(product.quantity > resul[0]. )
-
+    }
+    if (product.quantity > result[0].product_quantity) {
+      res.status(400).send({
+        status: 400,
+        error: `Quantity of '${result[0].product_name}' with id ${result[0].product_id} is greater than available quantity (${result[0].product_quantity})`,
+      });
+    }
   }).catch((e) => {
     console.log(e);
     res.status(404).send({

@@ -134,7 +134,7 @@ describe('PUT /products:id', () => {
       productName: 'Wireless Mouse',
       price: 300,
       minimumInventory: 14,
-      productQuantity: 250
+      productQuantity: 250,
     })
     .set('Accept', 'application/json')
     .set('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdGF0dXMiOjMwMywidXNlcm5hbWUiOiJKZWZmZXJzb24gUGlwZXIiLCJlbWFpbCI6ImpwaXBlckBhZG1pbi5jb20iLCJ1c2VySWQiOjEsImxldmVsIjoyLCJpYXQiOjE1NDA0NTMyMDJ9.HplqH5tLSIr5_l69D2FuUs3mpyBqtZjFSEouLSuIFGw')
