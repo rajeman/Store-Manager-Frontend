@@ -28,7 +28,8 @@ CREATE TABLE IF NOT EXISTS products
  	product_id serial PRIMARY KEY,
  	product_name text NOT NULL,
  	minimum_inventory integer default(0),
- 	product_price integer NOT NULL
+ 	product_price integer NOT NULL,
+    product_quantity integer NOT NULL
  );
 
 INSERT INTO users 
