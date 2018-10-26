@@ -1,49 +1,57 @@
 import express from 'express';
-import { verifyOrderInput } from '../helpers/validators';
-import { orders, ordersMap } from '../models/orders';
-import { productsMap } from '../models/products';
 import {
-  verifyCartItem, ensureToken
+  verifyCartItem, ensureToken,
 } from '../helpers/validators';
-import {
-} from '../crud/db-query';
+import { getProducts } from '../crud/db-query';
 
 const salesRouter = express.Router();
 const attendantLevel = 1;
 
-salesRouter.post('/', verifyOrderInput, (req, res) => {
-  const { orderItem } = req;
-  orderItem.orderDate = new Date().getTime(); 
+// salesRouter.post('/', verifyOrderInput, (req, res) => {
+//   const { orderItem } = req;
+//   orderItem.orderDate = new Date().getTime();
 
-  let totalPrice = 0;
-  orderItem.productsArray.forEach((product) => {
-    totalPrice += product.pricePerProduct * product.quantity;
-    const storeProduct = productsMap.get(String(product.productId));
-    storeProduct.quantity -= product.quantity;
-  });
-  orderItem.totalPrice = totalPrice;
+//   let totalPrice = 0;
+//   orderItem.productsArray.forEach((product) => {
+//     totalPrice += product.pricePerProduct * product.quantity;
+//     const storeProduct = productsMap.get(String(product.productId));
+//     storeProduct.quantity -= product.quantity;
+//   });
+//   orderItem.totalPrice = totalPrice;
 
-  res.send({
-    message: 'Successfully created order',
-    order: orderItem,
-  });
-});
+//   res.send({
+//     message: 'Successfully created order',
+//     order: orderItem,
+//   });
+// });
 
 salesRouter.put('/', verifyCartItem, ensureToken, (req, res) => {
-   if (req.body.decoded.level !== attendantLevel) {
+  if (req.body.decoded.level !== attendantLevel) {
     res.status(403).send({
-      error: 'Your are not authorized to add to cart',
+      error: 'You are not authorized to add to cart',
       status: 403,
     });
     return;
   }
-  res.send({
-    message: 'Successfully verified cart Item',
-    order: req.body.cartItem,
+  getProducts(req.body.cartItem.productId).then((result) => {
+    if (result.length <= 0) {
+      res.status(404).send({
+        status: 404,
+        error: 'product does not exist',
+      });
+      return;
+    } 
+    
+  }).catch((e) => {
+    console.log(e);
+    res.status(404).send({
+      status: 404,
+      error: 'product does not exist',
+    });
   });
 });
 
-/*salesRouter.post('/', verifyOrderInput, (req, res) => {
+/* salesRouter.post('/', verifyOrderInput, (req, res) => {
   const { orderItem } = req;
   orderItem.orderDate = new Date();
   orderItem.orderId = orders.lastOrderId + 1;
@@ -62,9 +70,9 @@ salesRouter.put('/', verifyCartItem, ensureToken, (req, res) => {
     message: 'Successfully created order',
     order: orderItem,
   });
-});*/
+}); */
 
-salesRouter.get('/', (req, res) => {
+/* salesRouter.get('/', (req, res) => {
   const { level } = req.query;
 
   if (level !== String(admin)) {
@@ -79,8 +87,8 @@ salesRouter.get('/', (req, res) => {
     orders: orders.ordersList,
   });
 });
-
-salesRouter.get('/:id', (req, res) => {
+*/
+/* salesRouter.get('/:id', (req, res) => {
   const { level, attendantId } = req.query;
   const { id } = req.params;
   const orderDetails = ordersMap.get(String(id));
@@ -120,7 +128,7 @@ salesRouter.get('/:id', (req, res) => {
     error: 'You are not allowed to access this content',
     status: 403,
   });
-});
+}); */
 
 
 export default salesRouter;

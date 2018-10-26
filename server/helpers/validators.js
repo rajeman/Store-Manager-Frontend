@@ -13,17 +13,17 @@ if (process.env.current_env === 'test') {
 const isPositiveInteger = s => /^\+?[1-9][\d]*$/.test(s);
 
 const verifyCartItem = (req, res, next) => {
-  const {productId, productQuantity} = req.body;
-   if(productId && isPositiveInteger(productId)  && productQuantity && isPositiveInteger(productQuantity)){
-          req.body.cartItem = {productId, productQuantity};
-          next();
-   } else{
+  const { productId, productQuantity } = req.body;
+  if (productId && isPositiveInteger(productId) && productQuantity
+    && isPositiveInteger(productQuantity)) {
+    req.body.cartItem = { productId, productQuantity };
+    next();
+  } else {
     res.status(422).send({
       error: 'Invalid product. Product id and product quantity must be numbers greater than zero ',
       status: 422,
     });
-   }
- 
+  }
 };
 
 const verifyOrderInput = (req, res, next) => {
@@ -170,5 +170,5 @@ const verifyProductInput = (req, res, next) => {
 };
 export {
   verifyOrderInput, sendServerError, sendAuthenticationError, validateUser, ensureToken,
-  verifyProductInput, verifyCartItem
+  verifyProductInput, verifyCartItem,
 };

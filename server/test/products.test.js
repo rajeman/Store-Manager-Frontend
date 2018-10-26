@@ -179,7 +179,6 @@ describe('PUT /products:id', () => {
     .then((response) => {
       expect(response.body.error).toContain('Invalid product');
     }));
-
 });
 
 
@@ -211,4 +210,3 @@ describe('DELETE /products:id', () => {
       expect(response.body.error).toContain('not found');
     }));
 });
-
