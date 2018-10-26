@@ -33,7 +33,8 @@ salesRouter.put('/', verifyCartItem, ensureToken, (req, res) => {
     });
     return;
   }
-  getProducts(req.body.cartItem.productId).then((result) => {
+  const product = req.body.cartItem;
+  getProducts(product.productId).then((result) => {
     if (result.length <= 0) {
       res.status(404).send({
         status: 404,
@@ -41,7 +42,8 @@ salesRouter.put('/', verifyCartItem, ensureToken, (req, res) => {
       });
       return;
     } 
-    
+    //if(product.quantity > resul[0]. )
+
   }).catch((e) => {
     console.log(e);
     res.status(404).send({
