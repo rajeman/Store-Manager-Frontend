@@ -3,10 +3,9 @@ import { verifyOrderInput } from '../helpers/validators';
 import { orders, ordersMap } from '../models/orders';
 import { productsMap } from '../models/products';
 import {
-  sendServerError, ensureToken
+  verifyCartItem, ensureToken
 } from '../helpers/validators';
 import {
-  getUser, createProduct, getProducts, deleteProducts, updateProducts,
 } from '../crud/db-query';
 
 const salesRouter = express.Router();
@@ -27,6 +26,13 @@ salesRouter.post('/', verifyOrderInput, (req, res) => {
   res.send({
     message: 'Successfully created order',
     order: orderItem,
+  });
+});
+
+salesRouter.put('/', verifyCartItem, ensureToken, (req, res) => {
+  res.send({
+    message: 'Successfully verified cart Item',
+    order: req.c,
   });
 });
 
