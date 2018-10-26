@@ -158,12 +158,13 @@ const verifyProductInput = (req, res, next) => {
   const product = req.body;
   if (product && product.productName && product.productName.length >= 3 && product.price
     && isPositiveInteger(product.price)
-       && product.minimumInventory && isPositiveInteger(product.minimumInventory)) {
+       && product.minimumInventory && isPositiveInteger(product.minimumInventory)
+       && product.productQuantity && isPositiveInteger(product.productQuantity)) {
     next();
   } else {
     res.status(422).send({
       error: 'Invalid product input. Product name must be at least 3 characters with product price'
-      + ' and minimum inventory positive integers ',
+      + ', product quantity and minimum inventory positive integers ',
       status: 422,
     });
   }
