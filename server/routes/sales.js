@@ -9,7 +9,7 @@ import {
 } from '../crud/db-query';
 
 const salesRouter = express.Router();
-const admin = 2;
+const attendantLevel = 1;
 
 salesRouter.post('/', verifyOrderInput, (req, res) => {
   const { orderItem } = req;
@@ -30,9 +30,16 @@ salesRouter.post('/', verifyOrderInput, (req, res) => {
 });
 
 salesRouter.put('/', verifyCartItem, ensureToken, (req, res) => {
+   if (req.body.decoded.level !== attendantLevel) {
+    res.status(403).send({
+      error: 'Your are not authorized to add to cart',
+      status: 403,
+    });
+    return;
+  }
   res.send({
     message: 'Successfully verified cart Item',
-    order: req.c,
+    order: req.body.cartItem,
   });
 });
 
