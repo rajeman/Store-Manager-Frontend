@@ -49,8 +49,8 @@ const createProduct = item => new Promise((resolve, reject) => {
   const client = new Client(connectionString);
   client.connect()
     .then(() => {
-      const sql = `INSERT INTO ${productsTable} (product_name, minimum_inventory, product_price) VALUES ($1, $2, $3)`;
-      const params = [item.productName, item.minimumInventory, item.price];
+      const sql = `INSERT INTO ${productsTable} (product_name, minimum_inventory, product_price, product_quantity) VALUES ($1, $2, $3, $4)`;
+      const params = [item.productName, item.minimumInventory, item.price, item.productQuantity];
       client.query(sql, params)
         .then((result) => {
           // console.log(result.rows);
