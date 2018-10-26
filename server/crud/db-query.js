@@ -94,8 +94,8 @@ const updateProducts = item => new Promise((resolve, reject) => {
   const client = new Client(connectionString);
   client.connect()
     .then(() => {
-      const sql = `UPDATE ${productsTable} SET product_name = $1, product_price = $2, minimum_inventory = $3 WHERE product_id = $4`;
-      const params = [item.productName, item.price, item.minimumInventory, item.id];
+      const sql = `UPDATE ${productsTable} SET product_name = $1, product_price = $2, minimum_inventory = $3, product_quantity = $4 WHERE product_id = $5`;
+      const params = [item.productName, item.price, item.minimumInventory, item.productQuantity, item.id];
       client.query(sql, params)
         .then((result) => {
           // console.log(result.rows);

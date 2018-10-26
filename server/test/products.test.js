@@ -19,6 +19,7 @@ describe('POST /products', () => {
       productName: 'Authentic 3D Projector',
       price: 437,
       minimumInventory: 7,
+      productQuantity: 250,
       token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdGF0dXMiOjMwMywidXNlcm5hbWUiOiJKZWZmZXJzb24gUGlwZXIiLCJlbWFpbCI6ImpwaXBlckBhZG1pbi5jb20iLCJ1c2VySWQiOjEsImxldmVsIjoyLCJpYXQiOjE1NDA0NTMyMDJ9.HplqH5tLSIr5_l69D2FuUs3mpyBqtZjFSEouLSuIFGw',
     })
     .set('Accept', 'application/json')
@@ -33,6 +34,7 @@ describe('POST /products', () => {
       productName: 'Wireless Mouse',
       price: 7,
       minimumInventory: 65,
+      productQuantity: 250,
       token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdGF0dXMiOjMwMywidXNlcm5hbWUiOiJmZ2RmZ2RyZyIsImVtYWlsIjoiemlAZ21haWwuY29tIiwidXNlcklkIjoyLCJsZXZlbCI6MSwiaWF0IjoxNTQwNDU4NDA3fQ.tnEcnTPnPRT-h4bk69RmA90hi436j3c2oSuJMb1vx5M',
     })
     .set('Accept', 'application/json')
@@ -47,6 +49,7 @@ describe('POST /products', () => {
       productName: 'Wireless Mouse',
       price: 7,
       minimumInventory: 65,
+      productQuantity: 250,
       token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdGF0dXMiOjMwMywidXNlcm5hbWUiOiJNciBBdHRlbmRhbnQgQnJvd24iLCJlbWFpbCI6Im1yc21pdGhAZ21haWwuY29tIiwidXNlcklkIjo5NywibGV2ZWwiOjEsImlhdCI6MTU0MDUxMDQ4Mn0.33jlhGMWr103MtOEgYkvX3xK33cr4Gn4FY9ZlOeO5JE',
     })
     .set('Accept', 'application/json')
@@ -61,6 +64,7 @@ describe('POST /products', () => {
       productName: 'Wireless Keyboard',
       price: 4.37,
       minimumInventory: 7,
+      productQuantity: 250,
       token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdGF0dXMiOjMwMywidXNlcm5hbWUiOiJKZWZmZXJzb24gUGlwZXIiLCJlbWFpbCI6ImpwaXBlckBhZG1pbi5jb20iLCJ1c2VySWQiOjEsImxldmVsIjoyLCJpYXQiOjE1NDA0NTgzNjR9.oXXINp8rYzHHzdlAfRpwGjE4Xvw7zF_TE2gdXDpROBQ',
     })
     .set('Accept', 'application/json')
@@ -130,6 +134,7 @@ describe('PUT /products:id', () => {
       productName: 'Wireless Mouse',
       price: 300,
       minimumInventory: 14,
+      productQuantity: 250
     })
     .set('Accept', 'application/json')
     .set('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdGF0dXMiOjMwMywidXNlcm5hbWUiOiJKZWZmZXJzb24gUGlwZXIiLCJlbWFpbCI6ImpwaXBlckBhZG1pbi5jb20iLCJ1c2VySWQiOjEsImxldmVsIjoyLCJpYXQiOjE1NDA0NTMyMDJ9.HplqH5tLSIr5_l69D2FuUs3mpyBqtZjFSEouLSuIFGw')
@@ -144,6 +149,7 @@ describe('PUT /products:id', () => {
       productName: 'Wireless Keyboard',
       price: 301,
       minimumInventory: 12,
+      productQuantity: 250,
     })
     .set('Accept', 'application/json')
     .set('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdGF0dXMiOjMwMywidXNlcm5hbWUiOiJNciBBdHRlbmRhbnQgQnJvd24iLCJlbWFpbCI6Im1yc21pdGhAZ21haWwuY29tIiwidXNlcklkIjo5NywibGV2ZWwiOjEsImlhdCI6MTU0MDUxMDQ4Mn0.33jlhGMWr103MtOEgYkvX3xK33cr4Gn4FY9ZlOeO5JE')
@@ -158,6 +164,7 @@ describe('PUT /products:id', () => {
       productName: 'Wireless Keyboard',
       price: 301,
       minimumInventory: 12,
+      productQuantity: 250,
     })
     .set('Accept', 'application/json')
     .set('Authorization', 'Bearer hbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdGF0dXMiOjMwMywidXNlcm5hbWUiOiJKZWZmZXJzb24gUGlwZXIiLCJlbWFpbCI6ImpwaXBlckBhZG1pbi5jb20iLCJ1c2VySWQiOjEsImxldmVsIjoyLCJpYXQiOjE1NDA0NTMyMDJ9.HplqH5tLSIr5_l69D2FuUs3mpyBqtZjFSEouLSuIFGw')
@@ -172,6 +179,7 @@ describe('PUT /products:id', () => {
       productName: 'Mouse Pad',
       price: 101,
       minimumInventory: 10,
+      productQuantity: 250,
     })
     .set('Accept', 'application/json')
     .set('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdGF0dXMiOjMwMywidXNlcm5hbWUiOiJKZWZmZXJzb24gUGlwZXIiLCJlbWFpbCI6ImpwaXBlckBhZG1pbi5jb20iLCJ1c2VySWQiOjEsImxldmVsIjoyLCJpYXQiOjE1NDA0NTMyMDJ9.HplqH5tLSIr5_l69D2FuUs3mpyBqtZjFSEouLSuIFGw')
