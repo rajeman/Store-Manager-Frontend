@@ -1,8 +1,8 @@
 import express from 'express';
 import {
-  verifyCartItem, ensureToken,
+  verifyCartItem, ensureToken, sendServerError,
 } from '../helpers/validators';
-import { getProducts } from '../crud/db-query';
+import { getProducts, addToCart } from '../crud/db-query';
 
 const salesRouter = express.Router();
 const attendantLevel = 1;
@@ -42,6 +42,7 @@ salesRouter.put('/', verifyCartItem, ensureToken, (req, res) => {
       });
       return;
     }
+
     if (product.productQuantity > result[0].product_quantity) {
       res.status(400).send({
         status: 400,
@@ -49,7 +50,25 @@ salesRouter.put('/', verifyCartItem, ensureToken, (req, res) => {
       });
     }
 
-    
+    const cartItem = {
+      productName: result[0].product_name,
+      productQuantity: product.productQuantity,
+      price: result[0].product_price,
+      userId: req.body.decoded.userId,
+      productId: result[0].product_id,
+      totalPrice: result[0].product_price * product.productQuantity,
+      timeAdded: (new Date()).getTime(),
+    };
+
+    addToCart(cartItem).then((re) => {
+      res.send({
+        message: 'Successfully created order',
+        order: re[0],
+      });
+    }).catch((e) => {
+      sendServerError(res);
+      console.log(e);
+    });
   }).catch((e) => {
     console.log(e);
     res.status(404).send({
