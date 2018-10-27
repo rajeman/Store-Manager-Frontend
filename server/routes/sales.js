@@ -42,10 +42,10 @@ salesRouter.put('/', verifyCartItem, ensureToken, (req, res) => {
       });
       return;
     }
-    if (product.quantity > result[0].product_quantity) {
+    if (product.productQuantity > result[0].product_quantity) {
       res.status(400).send({
         status: 400,
-        error: `Quantity of '${result[0].product_name}' with id ${result[0].product_id} is greater than available quantity (${result[0].product_quantity})`,
+        error: `Quantity of '${result[0].product_name}' (${product.productQuantity}) with id '${result[0].product_id}' is greater than available quantity (${result[0].product_quantity})`,
       });
     }
   }).catch((e) => {
