@@ -66,7 +66,6 @@ authRouter.post('/signup', validateUser, ensureToken, (req, res) => {
       }
     })
     .catch((e) => {
-      // hash the user's password for storage
       console.log(e);
       sendServerError(res);
     });

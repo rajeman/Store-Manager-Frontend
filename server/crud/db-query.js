@@ -65,15 +65,77 @@ const createProduct = item => new Promise((resolve, reject) => {
     });
 });
 
+const getProducts = id => new Promise((resolve, reject) => {
+  const client = new Client(connectionString);
+  client.connect()
+    .then(() => {
+      if (id) {
+        const params = [id];
+        const sql = `SELECT * FROM ${productsTable} WHERE product_id = $1`;
+        client.query(sql, params)
+          .then((result) => {
+            resolve(result.rows);
+            client.end();
+          })
+          .catch(e => reject(e));
+      } else {
+        const sql = `SELECT * FROM ${productsTable}`;
+        client.query(sql)
+          .then((result) => {
+            resolve(result.rows);
+            client.end();
+          })
+          .catch(e => reject(e));
+      }
+    }).catch(e => reject(e));
+});
+
+const updateProducts = item => new Promise((resolve, reject) => {
+  const client = new Client(connectionString);
+  client.connect()
+    .then(() => {
+      const sql = `UPDATE ${productsTable} SET product_name = $1, product_price = $2, minimum_inventory = $3 WHERE product_id = $4`;
+      const params = [item.productName, item.price, item.minimumInventory, item.id];
+      client.query(sql, params)
+        .then((result) => {
+          // console.log(result.rows);
+          resolve(result.rowCount);
+          client.end();
+        })
+        .catch((e) => {
+          reject(e);
+        });
+    }).catch((e) => {
+      reject(e);
+    });
+});
+
+const deleteProducts = id => new Promise((resolve, reject) => {
+  const client = new Client(connectionString);
+  client.connect()
+    .then(() => {
+      if (id) {
+        const params = [id];
+        const sql = `DELETE FROM ${productsTable} WHERE product_id = $1`;
+        client.query(sql, params)
+          .then((result) => {
+            resolve(result.rowCount);
+            client.end();
+          })
+          .catch(e => reject(e));
+      }
+    }).catch(e => reject(e));
+});
+
 
 const clearTable = tableName => new Promise((resolve, reject) => {
   const client = new Client(connectionString);
   client.connect()
     .then(() => {
       let sql = `DELETE FROM ${tableName};`;
-      if(tableName === usersTable){
-      sql = `DELETE FROM ${tableName} WHERE user_level != 2;`;
-    }
+      if (tableName === usersTable) {
+        sql = `DELETE FROM ${tableName} WHERE user_level != 2;`;
+      }
       client.query(sql)
         .then((result) => {
           resolve(result.rowCount);
@@ -83,8 +145,9 @@ const clearTable = tableName => new Promise((resolve, reject) => {
     }).catch(e => reject(e));
 });
 
+
 export {
-  createUser, getUser, clearTable, createProduct,
+  createUser, getUser, clearTable, createProduct, getProducts, deleteProducts, updateProducts,
 };
 
 

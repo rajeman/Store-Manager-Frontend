@@ -61,3 +61,6 @@ typings/
 .next
 # babel transpile directory
 dist/
+
+# short module test
+use.js

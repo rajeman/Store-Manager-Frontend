@@ -118,7 +118,13 @@ const validateUser = (req, res, next) => {
 };
 
 const ensureToken = (req, res, next) => {
-  let bearerToken = req.body.token;
+  let bearerToken = '';
+  const bearerHeader = req.get('Authorization');
+  if (bearerHeader) {
+    bearerToken = bearerHeader.split(' ')[1];
+  } else {
+    bearerToken = req.body.token;
+  }
   if (!bearerToken) {
     bearerToken = '';
   }
@@ -133,6 +139,7 @@ const ensureToken = (req, res, next) => {
     });
   }
 };
+
 
 const verifyProductInput = (req, res, next) => {
   const product = req.body;
