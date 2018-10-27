@@ -6,7 +6,7 @@ if (process.env.current_env === 'test') {
   connectionString = 'postgres://localhost:5432/store_manager_test';
 }
 const usersTable = 'users';
-// const ordersTable = 'orders';
+const ordersTable = 'orders';
 const productsTable = 'products';
 
 
@@ -128,6 +128,25 @@ const deleteProducts = id => new Promise((resolve, reject) => {
     }).catch(e => reject(e));
 });
 
+const addToCart = item => new Promise((resolve, reject) => {
+  const client = new Client(connectionString);
+  client.connect()
+    .then(() => {
+      const sql = `INSERT INTO ${orders_Table} (product_name, minimum_inventory, product_price, product_quantity) VALUES ($1, $2, $3, $4)`;
+      const params = [item.productName, item.minimumInventory, item.price, item.productQuantity];
+      client.query(sql, params)
+        .then((result) => {
+          // console.log(result.rows);
+          resolve(result.rowCount);
+          client.end();
+        })
+        .catch((e) => {
+          reject(e);
+        });
+    }).catch((e) => {
+      reject(e);
+    });
+});
 
 const clearTable = tableName => new Promise((resolve, reject) => {
   const client = new Client(connectionString);

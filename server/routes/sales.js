@@ -48,6 +48,8 @@ salesRouter.put('/', verifyCartItem, ensureToken, (req, res) => {
         error: `Quantity of '${result[0].product_name}' (${product.productQuantity}) with id '${result[0].product_id}' is greater than available quantity (${result[0].product_quantity})`,
       });
     }
+
+    
   }).catch((e) => {
     console.log(e);
     res.status(404).send({
