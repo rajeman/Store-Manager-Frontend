@@ -41,14 +41,13 @@ salesRouter.put('/', verifyCartItem, ensureToken, (req, res) => {
       timeAdded: (new Date()).getTime(),
     };
 
-    addToCart(cartItem).then((re) => {
+    addToCart(cartItem).then(() => {
       res.send({
-        message: 'Successfully created order',
-        order: re[0],
+        message: `Successfully added '${result[0].product_name}' to cart`,
       });
-    }).catch((e) => {
+    }).catch(() => {
       sendServerError(res);
-      console.log(e);
+      // console.log(e);
     });
   }).catch((e) => {
     console.log(e);

@@ -31,7 +31,7 @@ describe('POST /signup', () => {
         });
     }));
 
-  it('should create a new attendant with invalid name', () => request(app)
+  it('should not create a new attendant with invalid name', () => request(app)
     .post('/api/v1/auth/signup')
     .send({
       name: '',
@@ -44,7 +44,7 @@ describe('POST /signup', () => {
       expect(response.body.error).toContain('Invalid input');
     }));
 
-  it('should create a new attendant with invalid email', () => request(app)
+  it('should not create a new attendant with invalid email', () => request(app)
     .post('/api/v1/auth/signup')
     .send({
       name: 'Mrs Valid name',
@@ -101,19 +101,6 @@ describe('POST /login', () => {
     .then((response) => {
       expect(response.body.message).toContain('successfully logged');
       expect(response.body.token).toBeTruthy();
-    }));
-
-  it('should not authenticate admin with invalid password', () => request(app)
-    .post('/api/v1/auth/login')
-    .send({
-      email: 'jpiper@admin.com',
-      password: 'wrongPassword',
-    })
-    .set('Accept', 'application/json')
-    .expect(403)
-    .then((response) => {
-      expect(response.body.userId).toBeFalsy();
-      expect(response.body.error).toContain('Invalid');
     }));
 
   it('should not authenticate admin with invalid password', () => request(app)
