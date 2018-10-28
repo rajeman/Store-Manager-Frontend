@@ -103,7 +103,7 @@ const verifyOrderInput = (req, res, next) => {
 };
 
 const sendServerError = (res) => {
-  res.send({
+  res.status(500).send({
     error: 'Internal server error',
     status: 500,
   });
