@@ -1,3 +1,4 @@
+DROP DATABASE store_manager_test;
 CREATE DATABASE store_manager_test;
 \connect store_manager_test
  DROP TABLE  users CASCADE;
