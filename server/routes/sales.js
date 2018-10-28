@@ -60,5 +60,4 @@ salesRouter.put('/', verifyCartItem, ensureToken, (req, res) => {
 });
 
 
-
 export default salesRouter;
