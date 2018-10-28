@@ -1,7 +1,7 @@
-DROP DATABASE store_manager_test;
+
 CREATE DATABASE store_manager_test;
 \connect store_manager_test
- DROP TABLE  users CASCADE;
+DROP TABLE  IF EXISTS  users CASCADE;
 CREATE TABLE IF NOT EXISTS users
  (
  	user_id serial PRIMARY KEY, 
@@ -12,8 +12,8 @@ CREATE TABLE IF NOT EXISTS users
     user_level integer NOT NULL
  );
 
-   DROP TABLE  orders;
-  CREATE TABLE IF NOT EXISTS orders
+ DROP TABLE  IF EXISTS orders;
+ CREATE TABLE IF NOT EXISTS orders
  (
     order_id serial PRIMARY KEY, 
     user_id integer NOT NULL references users(user_id),
@@ -22,9 +22,9 @@ CREATE TABLE IF NOT EXISTS users
     order_quantity integer NOT NULL
  );
 
-    DROP TABLE  cart; 
+DROP TABLE  IF EXISTS  cart;
+CREATE TABLE IF NOT EXISTS cart
 
-  CREATE TABLE cart
  (
     time_added bigint PRIMARY KEY, 
     user_id integer NOT NULL references users(user_id),
@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS users
     total_price integer NOT NULL   
  );
 
-DROP TABLE products CASCADE ;
+DROP TABLE IF EXISTS  products CASCADE ;
 
 CREATE TABLE products
  (
