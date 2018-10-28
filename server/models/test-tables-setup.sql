@@ -23,8 +23,7 @@ CREATE TABLE IF NOT EXISTS users
  );
 
 DROP TABLE  IF EXISTS  cart;
-CREATE TABLE IF NOT EXISTS cart
-
+CREATE TABLE IF NOT EXISTS hrinys
  (
     time_added bigint PRIMARY KEY, 
     user_id integer NOT NULL references users(user_id),
