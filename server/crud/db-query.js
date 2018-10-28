@@ -133,17 +133,27 @@ const addToCart = item => new Promise((resolve, reject) => {
   const client = new Client(connectionString);
   client.connect()
     .then(() => {
-      const sql = `INSERT INTO ${cartTable} (product_name, product_price, product_quantity, 
-      product_id, user_id, time_added, total_price) VALUES ($1, $2, $3, $4, $5, $6, $7)`;
-      const params = [item.productName, item.price, item.productQuantity,
-        item.productId, item.userId, item.timeAdded, item.totalPrice];
+      const sql = `WITH quantity_decrement AS
+               ( UPDATE ${productsTable} SET product_quantity = product_quantity - $1
+                 WHERE product_id = $2 
+                  RETURNING  product_name, product_price, product_id 
+               )
+                 INSERT INTO ${cartTable} (user_id, time_added, total_price,  product_quantity,  
+                 product_name, product_price, product_id ) 
+
+                VALUES( $3, $4, $5, $1,  (SELECT product_name FROM quantity_decrement), 
+                   (SELECT product_price FROM quantity_decrement),
+                   (SELECT product_id FROM quantity_decrement))`;
+
+
+      const params = [item.productQuantity, item.productId, item.userId,
+        item.timeAdded, item.totalPrice];
       client.query(sql, params)
         .then((result) => {
           // console.log(result.rows);
           resolve(result.rows);
           client.end();
-        })
-        .catch((e) => {
+        }).catch((e) => {
           reject(e);
         });
     }).catch((e) => {
