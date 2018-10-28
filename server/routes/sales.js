@@ -45,7 +45,7 @@ salesRouter.put('/', verifyCartItem, ensureToken, (req, res) => {
       res.send({
         message: `Successfully added '${result[0].product_name}' to cart`,
       });
-    }).catch(() => {
+    }).catch((e) => {
       sendServerError(res);
        console.log(e);
     });
@@ -66,7 +66,7 @@ salesRouter.post('/',  ensureToken, (req, res) => {
     });
     return;
   }
-  
+
   getProducts(product.productId).then((result) => {
     if (result.length <= 0) {
       res.status(404).send({
