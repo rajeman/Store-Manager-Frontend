@@ -10,6 +10,15 @@ CREATE TABLE IF NOT EXISTS users
     user_level integer NOT NULL
  );
 
+CREATE TABLE IF NOT EXISTS products
+ (
+    product_id serial PRIMARY KEY,
+    product_name text NOT NULL,
+    minimum_inventory integer default(0),
+    product_price integer NOT NULL,
+    product_quantity integer NOT NULL
+ );
+ 
  CREATE TABLE IF NOT EXISTS orders
  (
  	order_id serial PRIMARY KEY, 
@@ -32,14 +41,6 @@ CREATE TABLE IF NOT EXISTS users
    
  );
 
-CREATE TABLE IF NOT EXISTS products
- (
- 	product_id serial PRIMARY KEY,
- 	product_name text NOT NULL,
- 	minimum_inventory integer default(0),
- 	product_price integer NOT NULL,
-    product_quantity integer NOT NULL
- );
 
 INSERT INTO users 
 (user_name, user_email, user_password, total_orders, user_level)

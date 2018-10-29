@@ -101,7 +101,7 @@ describe('PUT /sales', () => {
       expect(response.body.error).toContain('Invalid product');
     }));
 
-   it('should return bad request if product is greater than available quantity', () => request(app)
+  it('should return bad request if product is greater than available quantity', () => request(app)
     .put('/api/v1/sales')
     .send({
       productId: 2,
@@ -114,7 +114,7 @@ describe('PUT /sales', () => {
       expect(response.body.error).toContain('greater than available quantity');
     }));
 
-    it('should reduce the amount of available products by the amount added to cart', () => request(app)
+  it('should reduce the amount of available products by the amount added to cart', () => request(app)
     .get('/api/v1/products/2')
     .set('Accept', 'application/json')
     .set('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdGF0dXMiOjMwMywidXNlcm5hbWUiOiJNciBBdHRlbmRhbnQgQnJvd24iLCJlbWFpbCI6Im1yc21pdGhAZ21haWwuY29tIiwidXNlcklkIjoyLCJsZXZlbCI6MSwiaWF0IjoxNTQwNzMxMzk2fQ.x_IZlaOaBunwr9ablT_q4XxCCkxY-v963f5CIQ81DsI')
@@ -124,5 +124,4 @@ describe('PUT /sales', () => {
       expect(response.body.product[0].product_id).toBe(2);
       expect(response.body.product[0].product_quantity).toBe(990);
     }));
-
 });

@@ -6,7 +6,7 @@ if (process.env.current_env === 'test') {
   connectionString = 'postgres://localhost:5432/store_manager_test';
 }
 const usersTable = 'users';
-// const ordersTable = 'orders';
+const ordersTable = 'orders';
 const productsTable = 'products';
 const cartTable = 'cart';
 
@@ -161,6 +161,36 @@ const addToCart = item => new Promise((resolve, reject) => {
     });
 });
 
+const createOrder = item => new Promise((resolve, reject) => {
+  const client = new Client(connectionString);
+  client.connect()
+    .then(() => {
+      const sql = `WITH checked_out_items AS
+                    ( UPDATE ${cartTable} SET time_checked_out = $1
+                        WHERE (user_id = $2 AND time_checked_out = 0)
+                      RETURNING  product_quantity, total_price
+                     )
+                   INSERT INTO ${ordersTable} (user_id, time_checked_out, order_price, order_quantity)
+                   VALUES($2, $1, (SELECT SUM(total_price) FROM checked_out_items), 
+                                   (SELECT SUM(product_quantity) FROM checked_out_items) )
+                  `;
+
+
+      const params = [item.timeCheckedOut, item.userId];
+      client.query(sql, params)
+        .then((result) => {
+          console.log(result);
+          resolve(result.rowCount);
+          client.end();
+        }).catch((e) => {
+          reject(e);
+        });
+    }).catch((e) => {
+      reject(e);
+    });
+});
+
+
 const clearTable = tableName => new Promise((resolve, reject) => {
   const client = new Client(connectionString);
   client.connect()
@@ -181,7 +211,7 @@ const clearTable = tableName => new Promise((resolve, reject) => {
 
 export {
   createUser, getUser, clearTable, createProduct, getProducts, deleteProducts, updateProducts,
-  addToCart,
+  addToCart, createOrder,
 };
 
 
