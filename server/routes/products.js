@@ -1,44 +1,36 @@
 import express from 'express';
 import {
-  sendServerError, ensureToken, verifyProductInput,
+  ensureToken, verifyProductInput,
 } from '../helpers/validators';
+import sendResponse from '../helpers/responses';
 import {
   getUser, createProduct, getProducts, deleteProducts, updateProducts,
 } from '../crud/db-query';
+import constants from '../helpers/constants';
 
 
 const productsRouter = express.Router();
 
-const adminLevel = 2;
 
 productsRouter.post('/', verifyProductInput, ensureToken, (req, res) => {
-  if (req.body.decoded.level !== adminLevel) {
-    res.status(403).send({
-      error: 'Your are not authorized to modify this content',
-      status: 403,
-    });
+  if (req.body.decoded.level !== constants.adminLevel) {
+    sendResponse(res, 403, null, 'Your are not authorized to modify this content');
     return;
   }
   // query database
   getUser(req.body.decoded.email)
     .then(() => {
       createProduct(req.body).then(() => {
-        res.status(201).send({
-          status: 201,
-          message: `'${req.body.productName}' was successfully added`,
-        });
+        sendResponse(res, 201, `'${req.body.productName}' was successfully added`);
       }).catch((e) => {
         console.log(e);
-        sendServerError(res);
+        sendResponse(res, 500, null, 'Internal server error');
       });
       // res.send(result);
     })
     .catch((e) => {
       console.log(e);
-      res.status(404).send({
-        error: 'Invalid user',
-        status: 404,
-      });
+      sendResponse(res, 404, null, 'Invalid user');
     });
 });
 
@@ -52,7 +44,7 @@ productsRouter.get('/', ensureToken, (req, res) => {
     });
   }).catch((e) => {
     console.log(e);
-    sendServerError(res);
+    sendResponse(res, 500, null, 'Internal server error');
   });
 });
 
@@ -66,14 +58,11 @@ productsRouter.get('/:id', ensureToken, (req, res) => {
         product: result,
       });
     } else {
-      res.status(404).send({
-        status: 404,
-        error: 'Product not found',
-      });
+      sendResponse(res, 404, null, 'Product not found');
     }
   }).catch((e) => {
     console.log(e);
-    sendServerError(res);
+    sendResponse(res, 500, null, 'Internal server error');
   });
 });
 
@@ -81,28 +70,19 @@ productsRouter.delete('/:id', ensureToken, (req, res) => {
   // query database
   deleteProducts(req.params.id).then((result) => {
     if (result) {
-      res.status(200).send({
-        status: 200,
-        message: 'successfully deleted product',
-      });
+      sendResponse(res, 200, 'successfully deleted product');
     } else {
-      res.status(404).send({
-        status: 404,
-        error: 'Product not found',
-      });
+      sendResponse(res, 404, null, 'Product not found');
     }
   }).catch((e) => {
     console.log(e);
-    sendServerError(res);
+    sendResponse(res, 500, null, 'Internal server error');
   });
 });
 
 productsRouter.put('/:id', verifyProductInput, ensureToken, (req, res) => {
-  if (req.body.decoded.level !== adminLevel) {
-    res.status(403).send({
-      error: 'Your are not authorized to modify this content',
-      status: 403,
-    });
+  if (req.body.decoded.level !== constants.adminLevel) {
+    sendResponse(res, 403, null, 'You are not authorized to modify this content');
     return;
   }
   // query database
@@ -110,19 +90,13 @@ productsRouter.put('/:id', verifyProductInput, ensureToken, (req, res) => {
   queryParams.id = req.params.id;
   updateProducts(queryParams).then((result) => {
     if (result) {
-      res.status(200).send({
-        status: 200,
-        message: 'successfully updated product',
-      });
+      sendResponse(res, 200, 'successfully updated product');
     } else {
-      res.status(404).send({
-        status: 404,
-        error: 'Invalid product',
-      });
+      sendResponse(res, 404, null, 'Invalid product');
     }
   }).catch((e) => {
     console.log(e);
-    sendServerError(res);
+    sendResponse(res, 500, null, 'Internal server error');
   });
 });
 

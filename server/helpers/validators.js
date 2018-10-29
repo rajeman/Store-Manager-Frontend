@@ -1,6 +1,7 @@
 import validator from 'validator';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import sendResponse from './responses';
 
 dotenv.config();
 let secretKey = process.env.TOKEN_KEY;
@@ -18,26 +19,10 @@ const verifyCartItem = (req, res, next) => {
     req.body.cartItem = { productId, productQuantity };
     next();
   } else {
-    res.status(422).send({
-      error: 'Invalid product. Product id and product quantity must be numbers greater than zero ',
-      status: 422,
-    });
+    sendResponse(res, 422, null, 'Invalid product. Product id and product quantity must be numbers greater than zero ');
   }
 };
 
-const sendServerError = (res) => {
-  res.status(500).send({
-    error: 'Internal server error',
-    status: 500,
-  });
-};
-
-const sendAuthenticationError = (res) => {
-  res.status(403).send({
-    error: 'Invalid username or password',
-    status: 403,
-  });
-};
 
 const validateUser = (req, res, next) => {
   const { name, email } = req.body;
@@ -46,10 +31,7 @@ const validateUser = (req, res, next) => {
   if (validEmail && validName) {
     next();
   } else {
-    res.status(400).send({
-      error: 'Invalid input. Make sure email is valid and name'
-      + ' must be at least 3 characters ',
-    });
+    sendResponse(res, 400, null, 'Invalid input. Make sure email is valid and name');
   }
 };
 
@@ -69,10 +51,7 @@ const ensureToken = (req, res, next) => {
     req.body.decoded = decoded;
     next();
   } catch (err) {
-    res.status(403).send({
-      error: 'Invalid Token',
-      status: 403,
-    });
+    sendResponse(res, 403, null, 'Invalid Token');
   }
 };
 
@@ -85,14 +64,11 @@ const verifyProductInput = (req, res, next) => {
        && product.productQuantity && isPositiveInteger(product.productQuantity)) {
     next();
   } else {
-    res.status(422).send({
-      error: 'Invalid product input. Product name must be at least 3 characters with product price'
-      + ', product quantity and minimum inventory positive integers ',
-      status: 422,
-    });
+    sendResponse(res, 422, null, 'Invalid product input. Product name must be at least 3 characters with product price'
+      + ', product quantity and minimum inventory positive integers ');
   }
 };
 export {
-  sendServerError, sendAuthenticationError, validateUser, ensureToken,
+  validateUser, ensureToken,
   verifyProductInput, verifyCartItem,
 };

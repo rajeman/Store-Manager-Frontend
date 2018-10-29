@@ -1,35 +1,30 @@
 import express from 'express';
 import {
-  verifyCartItem, ensureToken, sendServerError,
+  verifyCartItem, ensureToken,
 } from '../helpers/validators';
+import sendResponse from '../helpers/responses';
 import { getProducts, addToCart, createOrder } from '../crud/db-query';
+import constants from '../helpers/constants';
 
 const salesRouter = express.Router();
-const attendantLevel = 1;
+
 
 salesRouter.put('/', verifyCartItem, ensureToken, (req, res) => {
-  if (req.body.decoded.level !== attendantLevel) {
-    res.status(403).send({
-      error: 'You are not authorized to add to cart',
-      status: 403,
-    });
+  if (req.body.decoded.level !== constants.attendantLevel) {
+    sendResponse(res, 403, null, 'You are not authorized to add to cart');
     return;
   }
   const product = req.body.cartItem;
   getProducts(product.productId).then((result) => {
     if (result.length <= 0) {
-      res.status(404).send({
-        status: 404,
-        error: `product with id '${product.productId}' does not exist`,
-      });
+      sendResponse(res, 404, null, `product with id '${product.productId}' does not exist`);
       return;
     }
 
     if (product.productQuantity > result[0].product_quantity) {
-      res.status(400).send({
-        status: 400,
-        error: `Quantity of '${result[0].product_name}' (${product.productQuantity}) with id '${result[0].product_id}' is greater than available quantity (${result[0].product_quantity})`,
-      });
+      sendResponse(res, 400, null,
+        `Quantity of '${result[0].product_name}' (${product.productQuantity}) with id '${result[0].product_id}' is greater than available quantity (${result[0].product_quantity})`);
+
       return;
     }
 
@@ -42,28 +37,20 @@ salesRouter.put('/', verifyCartItem, ensureToken, (req, res) => {
     };
 
     addToCart(cartItem).then(() => {
-      res.send({
-        message: `Successfully added '${result[0].product_name}' to cart`,
-      });
+      sendResponse(res, 200, `Successfully added '${result[0].product_name}' to cart`);
     }).catch(() => {
-      sendServerError(res);
+      sendResponse(res, 500, null, 'Internal server error');
       // console.log(e);
     });
   }).catch((e) => {
     console.log(e);
-    res.status(404).send({
-      status: 404,
-      error: 'product does not exist',
-    });
+    sendResponse(res, 404, null, 'product does not exist');
   });
 });
 
 salesRouter.post('/', ensureToken, (req, res) => {
-  if (req.body.decoded.level !== attendantLevel) {
-    res.status(403).send({
-      error: 'You are not authorized to create order',
-      status: 403,
-    });
+  if (req.body.decoded.level !== constants.attendantLevel) {
+    sendResponse(res, 403, null, 'You are not authorized to add to create order');
     return;
   }
   const timeCheckedOut = (new Date()).getTime();
@@ -73,10 +60,7 @@ salesRouter.post('/', ensureToken, (req, res) => {
   };
   createOrder(orderDetails).then((result) => {
     if (result < 0) {
-      res.status(400).send({
-        status: 400,
-        error: 'your cart is empty',
-      });
+      sendResponse(res, 400, null, 'your cart is empty');
       return;
     }
     res.send({
@@ -87,13 +71,10 @@ salesRouter.post('/', ensureToken, (req, res) => {
   }).catch((e) => {
     // console.log(e);
     if (e.code === '23502') { // error code for non null constraint
-      res.status(400).send({
-        status: 400,
-        error: 'your cart is empty',
-      });
+      sendResponse(res, 400, null, 'your cart is empty');
       return;
     }
-    sendServerError(res);
+    sendResponse(res, 500, null, 'Internal server error');
   });
 });
 

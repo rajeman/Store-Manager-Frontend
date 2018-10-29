@@ -2,8 +2,11 @@ import express from 'express';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import sendResponse from '../helpers/responses';
+import constants from '../helpers/constants';
+
 import {
-  sendServerError, validateUser, sendAuthenticationError, ensureToken,
+  validateUser, ensureToken,
 } from '../helpers/validators';
 import { createUser, getUser } from '../crud/db-query';
 
@@ -13,7 +16,6 @@ const authRouter = express.Router();
 let saltRound = process.env.SALT_ROUND;
 let secretKey = process.env.TOKEN_KEY;
 let defaultPassword = process.env.DEFAULT_PASSWORD;
-const attendantLevel = 1;
 
 if (process.env.current_env === 'test') {
   secretKey = 'my_secret_key';
@@ -21,21 +23,15 @@ if (process.env.current_env === 'test') {
   defaultPassword = 'attendantpassword';
 }
 authRouter.post('/signup', validateUser, ensureToken, (req, res) => {
-  if (req.body.decoded.level !== 2) {
+  if (req.body.decoded.level !== constants.adminLevel) {
     // User not an admin. Has no access to route.
-    res.status(403).send({
-      error: 'You are not allowed to modify this content',
-      status: 403,
-    });
+    sendResponse(res, 403, null, 'Your are not allowed to modify this content');
     return;
   }
   getUser(req.body.email)
     .then((result) => {
       if (result.length > 0) {
-        res.status(409).send({
-          error: 'email in use',
-          status: 409,
-        });
+        sendResponse(res, 409, null, 'email in use');
       } else {
         bcrypt.hash(defaultPassword, parseInt(saltRound, 10))
           .then((hash) => {
@@ -44,30 +40,27 @@ authRouter.post('/signup', validateUser, ensureToken, (req, res) => {
               email: req.body.email,
               password: hash,
               name: req.body.name,
-              level: attendantLevel,
+              level: constants.attendantLevel,
             })
               .then((value) => {
                 if (value === 1) {
-                  res.status(201).send({
-                    status: '201',
-                    message: 'account created',
-                  });
+                  sendResponse(res, 201, null, 'account created');
                 } else {
-                  sendServerError(res);
+                  sendResponse(res, 500, null, 'Internal server error');
                 }
-              }).catch((e) => {
-                console.log(e);
-                sendServerError(res);
+              }).catch(() => {
+                // console.log(e);
+                sendResponse(res, 500, null, 'Internal server error');
               });
-          }).catch((e) => {
-            console.log(e);
-            sendServerError(res);
+          }).catch(() => {
+            // console.log(e);
+            sendResponse(res, 500, null, 'Internal server error');
           });
       }
     })
-    .catch((e) => {
-      console.log(e);
-      sendServerError(res);
+    .catch(() => {
+      // console.log(e);
+      sendResponse(res, 500, null, 'Internal server error');
     });
 });
 
@@ -91,12 +84,12 @@ authRouter.post('/login', (req, res) => {
         res.header('Authorization', `Bearer ${token}`);
         res.status(303).send(payload);
       } else {
-        sendAuthenticationError(res);
+        sendResponse(res, 403, null, 'Invalid username or password');
       }
     })
     .catch((e) => {
       console.log(e);
-      sendAuthenticationError(res);
+      sendResponse(res, 403, null, 'Invalid username or password');
     });
 });
 
