@@ -127,7 +127,7 @@ describe('PUT /sales', () => {
 });
 
 
-describe('POST /sales', ()=>{
+describe('POST /sales', () => {
   it('should create sale order for an attendant', () => request(app)
     .post('/api/v1/sales')
     .send({
