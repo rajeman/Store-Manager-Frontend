@@ -66,9 +66,10 @@ salesRouter.post('/', ensureToken, (req, res) => {
     });
     return;
   }
+  const timeCheckedOut = (new Date()).getTime();
   const orderDetails = {
     userId: req.body.decoded.userId,
-    timeCheckedOut: (new Date()).getTime(),
+    timeCheckedOut,
   };
   createOrder(orderDetails).then((result) => {
     if (result < 0) {
@@ -81,9 +82,10 @@ salesRouter.post('/', ensureToken, (req, res) => {
     res.send({
       message: 'Successfully created order',
       status: 200,
+      orderId: timeCheckedOut,
     });
   }).catch((e) => {
-    //console.log(e);
+    // console.log(e);
     if (e.code === '23502') { // error code for non null constraint
       res.status(400).send({
         status: 400,

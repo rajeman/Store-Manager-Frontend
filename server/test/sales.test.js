@@ -125,3 +125,52 @@ describe('PUT /sales', () => {
       expect(response.body.product[0].product_quantity).toBe(990);
     }));
 });
+
+
+describe('POST /sales', ()=>{
+  it('should create sale order for an attendant', () => request(app)
+    .post('/api/v1/sales')
+    .send({
+      token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdGF0dXMiOjMwMywidXNlcm5hbWUiOiJNciBBdHRlbmRhbnQgQnJvd24iLCJlbWFpbCI6Im1yc21pdGhAZ21haWwuY29tIiwidXNlcklkIjoyLCJsZXZlbCI6MSwiaWF0IjoxNTQwNzMxMzk2fQ.x_IZlaOaBunwr9ablT_q4XxCCkxY-v963f5CIQ81DsI',
+    })
+    .set('Accept', 'application/json')
+    .expect(200)
+    .then((response) => {
+      expect(response.body.message).toContain('Successfully created');
+      expect(response.body.orderId).toBeTruthy();
+    }));
+
+  it('should not create sale order when cart is empty', () => request(app)
+    .post('/api/v1/sales')
+    .send({
+      token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdGF0dXMiOjMwMywidXNlcm5hbWUiOiJNciBBdHRlbmRhbnQgQnJvd24iLCJlbWFpbCI6Im1yc21pdGhAZ21haWwuY29tIiwidXNlcklkIjoyLCJsZXZlbCI6MSwiaWF0IjoxNTQwNzMxMzk2fQ.x_IZlaOaBunwr9ablT_q4XxCCkxY-v963f5CIQ81DsI',
+    })
+    .set('Accept', 'application/json')
+    .expect(400)
+    .then((response) => {
+      expect(response.body.error).toContain('cart is empty');
+      expect(response.body.orderId).toBeFalsy();
+    }));
+
+  it('should return authorization error for an admin', () => request(app)
+    .post('/api/v1/sales')
+    .send({
+      token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdGF0dXMiOjMwMywidXNlcm5hbWUiOiJKZWZmZXJzb24gUGlwZXIiLCJlbWFpbCI6ImpwaXBlckBhZG1pbi5jb20iLCJ1c2VySWQiOjEsImxldmVsIjoyLCJpYXQiOjE1NDA0NTMyMDJ9.HplqH5tLSIr5_l69D2FuUs3mpyBqtZjFSEouLSuIFGw',
+    })
+    .set('Accept', 'application/json')
+    .expect(403)
+    .then((response) => {
+      expect(response.body.error).toContain('not authorized');
+    }));
+
+  it('should return authorization error for a non user', () => request(app)
+    .post('/api/v1/sales')
+    .send({
+      token: 'faketoken',
+    })
+    .set('Accept', 'application/json')
+    .expect(403)
+    .then((response) => {
+      expect(response.body.error).toContain('Invalid Token');
+    }));
+});

@@ -179,7 +179,6 @@ const createOrder = item => new Promise((resolve, reject) => {
       const params = [item.timeCheckedOut, item.userId];
       client.query(sql, params)
         .then((result) => {
-          console.log(result);
           resolve(result.rowCount);
           client.end();
         }).catch((e) => {
