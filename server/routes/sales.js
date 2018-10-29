@@ -1,87 +1,99 @@
 import express from 'express';
-import { verifyOrderInput } from '../helpers/validators';
-import { orders, ordersMap } from '../models/orders';
-import { productsMap } from '../models/products';
+import {
+  verifyCartItem, ensureToken, sendServerError,
+} from '../helpers/validators';
+import { getProducts, addToCart, createOrder } from '../crud/db-query';
 
 const salesRouter = express.Router();
-const admin = 2;
+const attendantLevel = 1;
 
-salesRouter.post('/', verifyOrderInput, (req, res) => {
-  const { orderItem } = req;
-  orderItem.orderDate = new Date();
-  orderItem.orderId = orders.lastOrderId + 1;
-  orders.lastOrderId += 1;
-  let totalPrice = 0;
-  orderItem.productsArray.forEach((product) => {
-    totalPrice += product.pricePerProduct * product.quantity;
-    const storeProduct = productsMap.get(String(product.productId));
-    storeProduct.quantity -= product.quantity;
-  });
-  orderItem.totalPrice = totalPrice;
-  orders.ordersList.push(orderItem);
-  ordersMap.set(String(orderItem.orderId), orderItem);
-
-  res.send({
-    message: 'Successfully created order',
-    order: orderItem,
-  });
-});
-
-salesRouter.get('/', (req, res) => {
-  const { level } = req.query;
-
-  if (level !== String(admin)) {
+salesRouter.put('/', verifyCartItem, ensureToken, (req, res) => {
+  if (req.body.decoded.level !== attendantLevel) {
     res.status(403).send({
-      error: 'You are not allowed to access this content',
+      error: 'You are not authorized to add to cart',
       status: 403,
     });
     return;
   }
-  res.send({
-    message: 'Successfully fetched orders',
-    orders: orders.ordersList,
+  const product = req.body.cartItem;
+  getProducts(product.productId).then((result) => {
+    if (result.length <= 0) {
+      res.status(404).send({
+        status: 404,
+        error: `product with id '${product.productId}' does not exist`,
+      });
+      return;
+    }
+
+    if (product.productQuantity > result[0].product_quantity) {
+      res.status(400).send({
+        status: 400,
+        error: `Quantity of '${result[0].product_name}' (${product.productQuantity}) with id '${result[0].product_id}' is greater than available quantity (${result[0].product_quantity})`,
+      });
+      return;
+    }
+
+    const cartItem = {
+      productQuantity: product.productQuantity,
+      userId: req.body.decoded.userId,
+      productId: result[0].product_id,
+      totalPrice: result[0].product_price * product.productQuantity,
+      timeAdded: (new Date()).getTime(),
+    };
+
+    addToCart(cartItem).then(() => {
+      res.send({
+        message: `Successfully added '${result[0].product_name}' to cart`,
+      });
+    }).catch(() => {
+      sendServerError(res);
+      // console.log(e);
+    });
+  }).catch((e) => {
+    console.log(e);
+    res.status(404).send({
+      status: 404,
+      error: 'product does not exist',
+    });
   });
 });
 
-salesRouter.get('/:id', (req, res) => {
-  const { level, attendantId } = req.query;
-  const { id } = req.params;
-  const orderDetails = ordersMap.get(String(id));
-
-  if (level === String(admin)) {
-    if (orderDetails) {
-      res.send({
-        message: 'Successfully fetched order',
-        orderDetails,
-      });
-    } else {
-      res.status(404).send({
-        error: 'Invalid order id',
-        status: 404,
-      });
-    }
+salesRouter.post('/', ensureToken, (req, res) => {
+  if (req.body.decoded.level !== attendantLevel) {
+    res.status(403).send({
+      error: 'You are not authorized to create order',
+      status: 403,
+    });
     return;
   }
-
-  if (attendantId) {
-    if (!orderDetails) {
-      res.status(403).send({
-        error: 'You are not allowed to access this content',
-        status: 403,
+  const timeCheckedOut = (new Date()).getTime();
+  const orderDetails = {
+    userId: req.body.decoded.userId,
+    timeCheckedOut,
+  };
+  createOrder(orderDetails).then((result) => {
+    if (result < 0) {
+      res.status(400).send({
+        status: 400,
+        error: 'your cart is empty',
       });
       return;
     }
-    if (orderDetails && String(orderDetails.attendantId) === attendantId) {
-      res.send({
-        message: 'Successfully fetched order',
-        orderDetails,
+    res.send({
+      message: 'Successfully created order',
+      status: 200,
+      orderId: timeCheckedOut,
+    });
+  }).catch((e) => {
+    // console.log(e);
+    if (e.code === '23502') { // error code for non null constraint
+      res.status(400).send({
+        status: 400,
+        error: 'your cart is empty',
       });
       return;
     }
-  }
-  res.status(403).send({
-    error: 'You are not allowed to access this content',
-    status: 403,
+    sendServerError(res);
   });
 });
 

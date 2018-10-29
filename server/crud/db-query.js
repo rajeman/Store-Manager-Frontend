@@ -6,8 +6,9 @@ if (process.env.current_env === 'test') {
   connectionString = 'postgres://localhost:5432/store_manager_test';
 }
 const usersTable = 'users';
-// const ordersTable = 'orders';
+const ordersTable = 'orders';
 const productsTable = 'products';
+const cartTable = 'cart';
 
 
 const createUser = item => new Promise((resolve, reject) => {
@@ -49,8 +50,8 @@ const createProduct = item => new Promise((resolve, reject) => {
   const client = new Client(connectionString);
   client.connect()
     .then(() => {
-      const sql = `INSERT INTO ${productsTable} (product_name, minimum_inventory, product_price) VALUES ($1, $2, $3)`;
-      const params = [item.productName, item.minimumInventory, item.price];
+      const sql = `INSERT INTO ${productsTable} (product_name, minimum_inventory, product_price, product_quantity) VALUES ($1, $2, $3, $4)`;
+      const params = [item.productName, item.minimumInventory, item.price, item.productQuantity];
       client.query(sql, params)
         .then((result) => {
           // console.log(result.rows);
@@ -94,8 +95,9 @@ const updateProducts = item => new Promise((resolve, reject) => {
   const client = new Client(connectionString);
   client.connect()
     .then(() => {
-      const sql = `UPDATE ${productsTable} SET product_name = $1, product_price = $2, minimum_inventory = $3 WHERE product_id = $4`;
-      const params = [item.productName, item.price, item.minimumInventory, item.id];
+      const sql = `UPDATE ${productsTable} SET product_name = $1, product_price = $2, minimum_inventory = $3, product_quantity = $4 WHERE product_id = $5`;
+      const params = [item.productName, item.price, item.minimumInventory,
+        item.productQuantity, item.id];
       client.query(sql, params)
         .then((result) => {
           // console.log(result.rows);
@@ -127,6 +129,66 @@ const deleteProducts = id => new Promise((resolve, reject) => {
     }).catch(e => reject(e));
 });
 
+const addToCart = item => new Promise((resolve, reject) => {
+  const client = new Client(connectionString);
+  client.connect()
+    .then(() => {
+      const sql = `WITH quantity_decrement AS
+               ( UPDATE ${productsTable} SET product_quantity = product_quantity - $1
+                 WHERE product_id = $2 
+                  RETURNING  product_name, product_price, product_id 
+               )
+                 INSERT INTO ${cartTable} (user_id, time_added, total_price,  product_quantity,  
+                 product_name, product_price, product_id ) 
+
+                VALUES( $3, $4, $5, $1,  (SELECT product_name FROM quantity_decrement), 
+                   (SELECT product_price FROM quantity_decrement),
+                   (SELECT product_id FROM quantity_decrement))`;
+
+
+      const params = [item.productQuantity, item.productId, item.userId,
+        item.timeAdded, item.totalPrice];
+      client.query(sql, params)
+        .then((result) => {
+          // console.log(result.rows);
+          resolve(result.rows);
+          client.end();
+        }).catch((e) => {
+          reject(e);
+        });
+    }).catch((e) => {
+      reject(e);
+    });
+});
+
+const createOrder = item => new Promise((resolve, reject) => {
+  const client = new Client(connectionString);
+  client.connect()
+    .then(() => {
+      const sql = `WITH checked_out_items AS
+                    ( UPDATE ${cartTable} SET time_checked_out = $1
+                        WHERE (user_id = $2 AND time_checked_out = 0)
+                      RETURNING  product_quantity, total_price
+                     )
+                   INSERT INTO ${ordersTable} (user_id, time_checked_out, order_price, order_quantity)
+                   VALUES($2, $1, (SELECT SUM(total_price) FROM checked_out_items), 
+                                   (SELECT SUM(product_quantity) FROM checked_out_items) )
+                  `;
+
+
+      const params = [item.timeCheckedOut, item.userId];
+      client.query(sql, params)
+        .then((result) => {
+          resolve(result.rowCount);
+          client.end();
+        }).catch((e) => {
+          reject(e);
+        });
+    }).catch((e) => {
+      reject(e);
+    });
+});
+
 
 const clearTable = tableName => new Promise((resolve, reject) => {
   const client = new Client(connectionString);
@@ -148,6 +210,7 @@ const clearTable = tableName => new Promise((resolve, reject) => {
 
 export {
   createUser, getUser, clearTable, createProduct, getProducts, deleteProducts, updateProducts,
+  addToCart, createOrder,
 };
 
 

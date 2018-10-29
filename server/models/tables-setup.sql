@@ -10,25 +10,37 @@ CREATE TABLE IF NOT EXISTS users
     user_level integer NOT NULL
  );
 
+CREATE TABLE IF NOT EXISTS products
+ (
+    product_id serial PRIMARY KEY,
+    product_name text NOT NULL,
+    minimum_inventory integer default(0),
+    product_price integer NOT NULL,
+    product_quantity integer NOT NULL
+ );
+ 
  CREATE TABLE IF NOT EXISTS orders
  (
  	order_id serial PRIMARY KEY, 
- 	user_id integer NOT NULL,
+ 	user_id integer NOT NULL references users(user_id),
  	time_checked_out bigint default (0),
+    order_price integer NOT NULL,
+    order_quantity integer NOT NULL
+ );
+
+  CREATE TABLE IF NOT EXISTS cart
+ (
+    time_added bigint PRIMARY KEY, 
+    user_id integer NOT NULL references users(user_id),
+    time_checked_out bigint default (0),
     product_name text NOT NULL, 
     product_price integer NOT NULL,
     product_quantity integer NOT NULL,
-    order_price integer NOT NULL
+    product_id integer NOT NULL references products(product_id) ,
+    total_price integer NOT NULL
    
  );
 
-CREATE TABLE IF NOT EXISTS products
- (
- 	product_id serial PRIMARY KEY,
- 	product_name text NOT NULL,
- 	minimum_inventory integer default(0),
- 	product_price integer NOT NULL
- );
 
 INSERT INTO users 
 (user_name, user_email, user_password, total_orders, user_level)

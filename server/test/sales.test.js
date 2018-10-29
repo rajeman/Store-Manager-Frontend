@@ -1,222 +1,176 @@
 import expect from 'expect';
 import request from 'supertest';
 import app from '../app';
-import { productsMap } from '../models/products';
-import { orders, ordersMap } from '../models/orders';
+import { createProduct } from '../crud/db-query';
 
-describe('POST /sales', () => {
-  it('should create a new order with valid body input', () => request(app)
+describe('PUT /sales', () => {
+  // Add a new product to products table
+  before((done) => {
+    createProduct({
+      productName: 'Bluetooth Headset',
+      price: 18,
+      productQuantity: 1000,
+      minimumInventory: 150,
+      token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdGF0dXMiOjMwMywidXNlcm5hbWUiOiJKZWZmZXJzb24gUGlwZXIiLCJlbWFpbCI6ImpwaXBlckBhZG1pbi5jb20iLCJ1c2VySWQiOjEsImxldmVsIjoyLCJpYXQiOjE1NDA0NTgzNjR9.oXXINp8rYzHHzdlAfRpwGjE4Xvw7zF_TE2gdXDpROBQ',
+    }).then(() => {
+      done();
+    }).catch((e) => {
+      console.log(e);
+      done(e);
+    });
+  });
+  // product id is 2 because it is the second added product in the new table.
+  // product.test.js is executed as test files were sorted with --sort.
+
+  it('should add specified product to cart for an attendant', () => request(app)
+    .put('/api/v1/sales')
+    .send({
+      productId: 2,
+      productQuantity: 10,
+      token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdGF0dXMiOjMwMywidXNlcm5hbWUiOiJNciBBdHRlbmRhbnQgQnJvd24iLCJlbWFpbCI6Im1yc21pdGhAZ21haWwuY29tIiwidXNlcklkIjoyLCJsZXZlbCI6MSwiaWF0IjoxNTQwNzMxMzk2fQ.x_IZlaOaBunwr9ablT_q4XxCCkxY-v963f5CIQ81DsI',
+    })
+    .set('Accept', 'application/json')
+    .expect(200)
+    .then((response) => {
+      expect(response.body.message).toContain('Bluetooth Headset');
+    }));
+
+  it('should not add specified product to cart for an attendant with inactive account', () => request(app)
+    .put('/api/v1/sales')
+    .send({
+      productId: 2,
+      productQuantity: 10,
+      token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdGF0dXMiOjMwMywidXNlcm5hbWUiOiJNciBBdHRlbmRhbnQgQnJvd24iLCJlbWFpbCI6Im1yc21pdGhAZ21haWwuY29tIiwidXNlcklkIjo5NywibGV2ZWwiOjEsImlhdCI6MTU0MDUxMDQ4Mn0.33jlhGMWr103MtOEgYkvX3xK33cr4Gn4FY9ZlOeO5JE',
+    })
+    .set('Accept', 'application/json')
+    .expect(500)
+    .then((response) => {
+      expect(response.body.error).toContain('server error');
+    }));
+
+  it('should not add specified product to cart with invalid token', () => request(app)
+    .put('/api/v1/sales')
+    .send({
+      productId: 2,
+      productQuantity: 10,
+      token: 'dHRlbmRhbnQgQnJvd24iLCJlbWFpbCI6Im1yc21pdGhAZ21haWwuY29tIiwidXNlcklkIjo5NywibGV2ZWwiOjEsImlhdCI6MTU0MDUxMDQ4Mn0.33jlhGMWr103MtOEgYkvX3xK33cr4Gn4FY9ZlOeO5JE',
+    })
+    .set('Accept', 'application/json')
+    .expect(403)
+    .then((response) => {
+      expect(response.body.error).toContain('Invalid');
+    }));
+
+  it('should not add specified product to cart for an admin', () => request(app)
+    .put('/api/v1/sales')
+    .send({
+      productId: 2,
+      productQuantity: 10,
+      token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdGF0dXMiOjMwMywidXNlcm5hbWUiOiJKZWZmZXJzb24gUGlwZXIiLCJlbWFpbCI6ImpwaXBlckBhZG1pbi5jb20iLCJ1c2VySWQiOjEsImxldmVsIjoyLCJpYXQiOjE1NDA0NTMyMDJ9.HplqH5tLSIr5_l69D2FuUs3mpyBqtZjFSEouLSuIFGw',
+    })
+    .set('Accept', 'application/json')
+    .expect(403)
+    .then((response) => {
+      expect(response.body.error).toContain('not authorized');
+    }));
+
+  it('should not add a product to cart with invalid id', () => request(app)
+    .put('/api/v1/sales')
+    .send({
+      productId: 5,
+      productQuantity: 10,
+      token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdGF0dXMiOjMwMywidXNlcm5hbWUiOiJNciBBdHRlbmRhbnQgQnJvd24iLCJlbWFpbCI6Im1yc21pdGhAZ21haWwuY29tIiwidXNlcklkIjoyLCJsZXZlbCI6MSwiaWF0IjoxNTQwNzMxMzk2fQ.x_IZlaOaBunwr9ablT_q4XxCCkxY-v963f5CIQ81DsI',
+    })
+    .set('Accept', 'application/json')
+    .expect(404)
+    .then((response) => {
+      expect(response.body.error).toContain('does not exist');
+    }));
+
+
+  it('should unprocessable entity for invalid input', () => request(app)
+    .put('/api/v1/sales')
+    .send({
+      productId: -5,
+      productQuantity: -10,
+      token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdGF0dXMiOjMwMywidXNlcm5hbWUiOiJNciBBdHRlbmRhbnQgQnJvd24iLCJlbWFpbCI6Im1yc21pdGhAZ21haWwuY29tIiwidXNlcklkIjoyLCJsZXZlbCI6MSwiaWF0IjoxNTQwNzMxMzk2fQ.x_IZlaOaBunwr9ablT_q4XxCCkxY-v963f5CIQ81DsI',
+    })
+    .set('Accept', 'application/json')
+    .expect(422)
+    .then((response) => {
+      expect(response.body.error).toContain('Invalid product');
+    }));
+
+  it('should return bad request if product is greater than available quantity', () => request(app)
+    .put('/api/v1/sales')
+    .send({
+      productId: 2,
+      productQuantity: 995,
+      token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdGF0dXMiOjMwMywidXNlcm5hbWUiOiJNciBBdHRlbmRhbnQgQnJvd24iLCJlbWFpbCI6Im1yc21pdGhAZ21haWwuY29tIiwidXNlcklkIjoyLCJsZXZlbCI6MSwiaWF0IjoxNTQwNzMxMzk2fQ.x_IZlaOaBunwr9ablT_q4XxCCkxY-v963f5CIQ81DsI',
+    })
+    .set('Accept', 'application/json')
+    .expect(400)
+    .then((response) => {
+      expect(response.body.error).toContain('greater than available quantity');
+    }));
+
+  it('should reduce the amount of available products by the amount added to cart', () => request(app)
+    .get('/api/v1/products/2')
+    .set('Accept', 'application/json')
+    .set('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdGF0dXMiOjMwMywidXNlcm5hbWUiOiJNciBBdHRlbmRhbnQgQnJvd24iLCJlbWFpbCI6Im1yc21pdGhAZ21haWwuY29tIiwidXNlcklkIjoyLCJsZXZlbCI6MSwiaWF0IjoxNTQwNzMxMzk2fQ.x_IZlaOaBunwr9ablT_q4XxCCkxY-v963f5CIQ81DsI')
+    .expect(200)
+    .then((response) => {
+      expect(response.body.message).toContain('successfully fetched');
+      expect(response.body.product[0].product_id).toBe(2);
+      expect(response.body.product[0].product_quantity).toBe(990);
+    }));
+});
+
+
+describe('POST /sales', ()=>{
+  it('should create sale order for an attendant', () => request(app)
     .post('/api/v1/sales')
     .send({
-      attendantId: 10,
-      productsArray: [{
-        productId: 1,
-        quantity: 10,
-      },
-      {
-        productId: 2,
-        quantity: 3,
-      }],
-
+      token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdGF0dXMiOjMwMywidXNlcm5hbWUiOiJNciBBdHRlbmRhbnQgQnJvd24iLCJlbWFpbCI6Im1yc21pdGhAZ21haWwuY29tIiwidXNlcklkIjoyLCJsZXZlbCI6MSwiaWF0IjoxNTQwNzMxMzk2fQ.x_IZlaOaBunwr9ablT_q4XxCCkxY-v963f5CIQ81DsI',
     })
     .set('Accept', 'application/json')
     .expect(200)
     .then((response) => {
       expect(response.body.message).toContain('Successfully created');
-      expect(productsMap.get(String(1)).quantity).toBe(2);
-      expect(orders.ordersList.length).toBe(2);
-      expect(orders.lastOrderId).toBe(2);
-      expect(ordersMap.get(String(2))).toBeTruthy();
-      expect(ordersMap.get(String(2)).totalPrice).toBe(201);
+      expect(response.body.orderId).toBeTruthy();
     }));
 
-  it('should return error with invalid attendantId', () => request(app)
+  it('should not create sale order when cart is empty', () => request(app)
     .post('/api/v1/sales')
     .send({
-      attendantId: -10,
-      productsArray: [{
-        productId: 1,
-        quantity: 10,
-      },
-      {
-        productId: 2,
-        quantity: 3,
-      }],
-
-    })
-    .set('Accept', 'application/json')
-    .expect(403)
-    .then((response) => {
-      expect(response.body.error).toContain('specify a valid attendant id');
-    }));
-
-  it('should return error with invalid or empty products array', () => request(app)
-    .post('/api/v1/sales')
-    .send({
-      attendantId: 10,
-      productsArray: [],
+      token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdGF0dXMiOjMwMywidXNlcm5hbWUiOiJNciBBdHRlbmRhbnQgQnJvd24iLCJlbWFpbCI6Im1yc21pdGhAZ21haWwuY29tIiwidXNlcklkIjoyLCJsZXZlbCI6MSwiaWF0IjoxNTQwNzMxMzk2fQ.x_IZlaOaBunwr9ablT_q4XxCCkxY-v963f5CIQ81DsI',
     })
     .set('Accept', 'application/json')
     .expect(400)
     .then((response) => {
-      expect(response.body.error).toContain('products should be provided');
+      expect(response.body.error).toContain('cart is empty');
+      expect(response.body.orderId).toBeFalsy();
     }));
 
-  it('should return error with duplicate product id order', () => request(app)
+  it('should return authorization error for an admin', () => request(app)
     .post('/api/v1/sales')
     .send({
-      attendantId: 10,
-      productsArray: [{
-        productId: 1,
-        quantity: 1,
-      },
-      {
-        productId: 1,
-        quantity: 1,
-      }],
+      token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdGF0dXMiOjMwMywidXNlcm5hbWUiOiJKZWZmZXJzb24gUGlwZXIiLCJlbWFpbCI6ImpwaXBlckBhZG1pbi5jb20iLCJ1c2VySWQiOjEsImxldmVsIjoyLCJpYXQiOjE1NDA0NTMyMDJ9.HplqH5tLSIr5_l69D2FuUs3mpyBqtZjFSEouLSuIFGw',
     })
-    .set('Accept', 'application/json')
-    .expect(400)
-    .then((response) => {
-      expect(response.body.error).toContain('is ordered twice');
-    }));
-
-  it('should return error with invalid product id', () => request(app)
-    .post('/api/v1/sales')
-    .send({
-      attendantId: 10,
-      productsArray: [{
-        productId: 13,
-        quantity: 1,
-      },
-      {
-        productId: 1,
-        quantity: 1,
-      }],
-    })
-    .set('Accept', 'application/json')
-    .expect(400)
-    .then((response) => {
-      expect(response.body.error).toContain('does not exist');
-    }));
-
-  it('should return error with negative product quantity', () => request(app)
-    .post('/api/v1/sales')
-    .send({
-      attendantId: 10,
-      productsArray: [{
-        productId: 1,
-        quantity: -10,
-      },
-      {
-        productId: 2,
-        quantity: 3,
-      }],
-
-    })
-    .set('Accept', 'application/json')
-    .expect(400)
-    .then((response) => {
-      expect(response.body.error).toContain('quantity should be a positive integer');
-    }));
-
-  it('should return error with order quantity greater than available quantity', () => request(app)
-    .post('/api/v1/sales')
-    .send({
-      attendantId: 10,
-      productsArray: [{
-        productId: 1,
-        quantity: 10,
-      },
-      {
-        productId: 2,
-        quantity: 3,
-      }],
-
-    })
-    .set('Accept', 'application/json')
-    .expect(400)
-    .then((response) => {
-      expect(response.body.error).toContain('is more than available quantity');
-    }));
-});
-
-describe('GET /sales', () => {
-  it('should return all sales order for an admin', () => request(app)
-    .get('/api/v1/sales')
-    .query({ level: 2 })
-    .set('Accept', 'application/json')
-    .expect(200)
-    .then((response) => {
-      expect(response.body.orders.length).toBe(2);
-      expect(response.body.message).toContain('Successfully fetched');
-    }));
-
-  it('should return error for a non admin request', () => request(app)
-    .get('/api/v1/sales')
-    .query({ level: 1 })
     .set('Accept', 'application/json')
     .expect(403)
     .then((response) => {
-      expect(response.body.error).toContain('not allowed to access');
-      expect(orders.ordersList.length).toBe(2);
-    }));
-});
-
-describe('GET /sales:id', () => {
-  it('should return the sale record for an admin', () => request(app)
-    .get('/api/v1/sales/1')
-    .query({ level: 2 })
-    .set('Accept', 'application/json')
-    .expect(200)
-    .then((response) => {
-      expect(response.body.message).toContain('Successfully fetched');
-      expect(response.body.orderDetails.orderId).toBe(1);
+      expect(response.body.error).toContain('not authorized');
     }));
 
-  it('should return invalid sale record for an admin with invalid order id', () => request(app)
-    .get('/api/v1/sales/12')
-    .query({ level: 2 })
-    .set('Accept', 'application/json')
-    .expect(404)
-    .then((response) => {
-      expect(response.body.error).toContain('Invalid order');
-    }));
-
-  it('should return the sale record for an the attendant that generated the record', () => request(app)
-    .get('/api/v1/sales/1')
-    .query({ attendantId: 1 })
-    .set('Accept', 'application/json')
-    .expect(200)
-    .then((response) => {
-      expect(response.body.message).toContain('Successfully fetched');
-      expect(response.body.orderDetails.orderId).toBe(1);
-    }));
-
-  it('should return access error for an attendant with invalid order id', () => request(app)
-    .get('/api/v1/sales/12')
-    .query({ attendantId: 1 })
+  it('should return authorization error for a non user', () => request(app)
+    .post('/api/v1/sales')
+    .send({
+      token: 'faketoken',
+    })
     .set('Accept', 'application/json')
     .expect(403)
     .then((response) => {
-      expect(response.body.error).toContain('not allowed');
-    }));
-
-
-  it('should return access error if attendant did not generate the record', () => request(app)
-    .get('/api/v1/sales/1')
-    .query({ attendantId: 10 })
-    .set('Accept', 'application/json')
-    .expect(403)
-    .then((response) => {
-      expect(response.body.error).toContain('not allowed');
-    }));
-
-  it('should return access error if attendant id not provided', () => request(app)
-    .get('/api/v1/sales/1')
-    .set('Accept', 'application/json')
-    .expect(403)
-    .then((response) => {
-      expect(response.body.error).toContain('not allowed');
+      expect(response.body.error).toContain('Invalid Token');
     }));
 });
