@@ -3,7 +3,9 @@ import {
   verifyCartItem, ensureToken,
 } from '../helpers/validators';
 import sendResponse from '../helpers/responses';
-import { getProducts, addToCart, createOrder, getOrders } from '../crud/db-query';
+import {
+  getProducts, addToCart, createOrder, getOrders,
+} from '../crud/db-query';
 import constants from '../helpers/constants';
 
 const salesRouter = express.Router();

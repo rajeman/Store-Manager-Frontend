@@ -4,7 +4,6 @@ import app from '../app';
 import { createProduct } from '../crud/db-query';
 
 describe('PUT /sales', () => {
-
   before((done) => {
     createProduct({
       productName: 'Bluetooth Headset',
