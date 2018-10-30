@@ -3,7 +3,7 @@ import {
   verifyCartItem, ensureToken,
 } from '../helpers/validators';
 import sendResponse from '../helpers/responses';
-import { getProducts, addToCart, createOrder } from '../crud/db-query';
+import { getProducts, addToCart, createOrder, getOrders } from '../crud/db-query';
 import constants from '../helpers/constants';
 
 const salesRouter = express.Router();
@@ -74,6 +74,24 @@ salesRouter.post('/', ensureToken, (req, res) => {
       sendResponse(res, 400, null, 'your cart is empty');
       return;
     }
+    sendResponse(res, 500, null, 'Internal server error');
+  });
+});
+
+salesRouter.get('/', ensureToken, (req, res) => {
+  // query database
+  if (req.body.decoded.level !== constants.adminLevel) {
+    sendResponse(res, 403, null, 'You are not authorized to view sales records');
+    return;
+  }
+  getOrders().then((result) => {
+    res.status(200).send({
+      status: 200,
+      message: 'successfully fetched orders',
+      ordersArray: result,
+    });
+  }).catch((e) => {
+    console.log(e);
     sendResponse(res, 500, null, 'Internal server error');
   });
 });

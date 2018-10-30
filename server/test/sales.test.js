@@ -4,7 +4,7 @@ import app from '../app';
 import { createProduct } from '../crud/db-query';
 
 describe('PUT /sales', () => {
-  // Add a new product to products table
+
   before((done) => {
     createProduct({
       productName: 'Bluetooth Headset',
@@ -172,5 +172,38 @@ describe('POST /sales', () => {
     .expect(403)
     .then((response) => {
       expect(response.body.error).toContain('Invalid Token');
+    }));
+});
+
+describe('GET /sales', () => {
+  it('should fetch sales record for an admin', () => request(app)
+    .get('/api/v1/sales/')
+    .set('Accept', 'application/json')
+    .set('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdGF0dXMiOjMwMywidXNlcm5hbWUiOiJKZWZmZXJzb24gUGlwZXIiLCJlbWFpbCI6ImpwaXBlckBhZG1pbi5jb20iLCJ1c2VySWQiOjEsImxldmVsIjoyLCJpYXQiOjE1NDA0NTMyMDJ9.HplqH5tLSIr5_l69D2FuUs3mpyBqtZjFSEouLSuIFGw')
+    .expect(200)
+    .then((response) => {
+      expect(response.body.message).toContain('successfully fetched');
+      expect(response.body.ordersArray).toBeTruthy();
+      expect(response.body.ordersArray).toHaveLength(1);
+    }));
+
+  it('should not fetch any sale record for  an attendant', () => request(app)
+    .get('/api/v1/sales/')
+    .set('Accept', 'application/json')
+    .set('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdGF0dXMiOjMwMywidXNlcm5hbWUiOiJNciBBdHRlbmRhbnQgQnJvd24iLCJlbWFpbCI6Im1yc21pdGhAZ21haWwuY29tIiwidXNlcklkIjoyLCJsZXZlbCI6MSwiaWF0IjoxNTQwNzMxMzk2fQ.x_IZlaOaBunwr9ablT_q4XxCCkxY-v963f5CIQ81DsI')
+    .expect(403)
+    .then((response) => {
+      expect(response.body.error).toContain('not authorized');
+      expect(response.body.ordersArray).toBeFalsy();
+    }));
+
+  it('should not fetch any sale record for  non authenticated user', () => request(app)
+    .get('/api/v1/sales/')
+    .set('Accept', 'application/json')
+    .set('Authorization', 'Bearer ')
+    .expect(403)
+    .then((response) => {
+      expect(response.body.error).toContain('Invalid Token');
+      expect(response.body.ordersArray).toBeFalsy();
     }));
 });
