@@ -189,6 +189,30 @@ const createOrder = item => new Promise((resolve, reject) => {
     });
 });
 
+const getOrders = id => new Promise((resolve, reject) => {
+  const client = new Client(connectionString);
+  client.connect()
+    .then(() => {
+      if (id) {
+        const params = [id];
+        const sql = `SELECT * FROM ${ordersTable} WHERE order_id = $1`;
+        client.query(sql, params)
+          .then((result) => {
+            resolve(result.rows);
+            client.end();
+          })
+          .catch(e => reject(e));
+      } else {
+        const sql = `SELECT * FROM ${ordersTable}`;
+        client.query(sql)
+          .then((result) => {
+            resolve(result.rows);
+            client.end();
+          })
+          .catch(e => reject(e));
+      }
+    }).catch(e => reject(e));
+});
 
 const clearTable = tableName => new Promise((resolve, reject) => {
   const client = new Client(connectionString);
@@ -210,7 +234,7 @@ const clearTable = tableName => new Promise((resolve, reject) => {
 
 export {
   createUser, getUser, clearTable, createProduct, getProducts, deleteProducts, updateProducts,
-  addToCart, createOrder,
+  addToCart, createOrder, getOrders
 };
 
 
