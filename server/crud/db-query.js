@@ -31,12 +31,16 @@ const createUser = item => new Promise((resolve, reject) => {
     });
 });
 
-const getUser = email => new Promise((resolve, reject) => {
+const getUser = userInput => new Promise((resolve, reject) => {
   const client = new Client(connectionString);
   client.connect()
     .then(() => {
-      const sql = `SELECT * FROM ${usersTable} WHERE user_email = $1;`;
-      const params = [email];
+      let sql = `SELECT * FROM ${usersTable} WHERE user_email = $1;`;
+      if (!userInput.includes('@')) {
+        sql = `SELECT * FROM ${usersTable} WHERE user_id = $1;`;
+      }
+
+      const params = [userInput];
       client.query(sql, params)
         .then((result) => {
           resolve(result.rows);
@@ -203,7 +207,9 @@ const getOrders = id => new Promise((resolve, reject) => {
           })
           .catch(e => reject(e));
       } else {
-        const sql = `SELECT * FROM ${ordersTable}`;
+        // const sql = `SELECT * FROM ${ordersTable},
+        // users.user_name WHERE orders.user_id = users.user_id`;
+        const sql = 'SELECT orders.*, users.user_name FROM users LEFT JOIN orders ON orders.user_id = users.user_id WHERE orders.user_id = users.user_id';
         client.query(sql)
           .then((result) => {
             resolve(result.rows);
@@ -234,7 +240,7 @@ const clearTable = tableName => new Promise((resolve, reject) => {
 
 export {
   createUser, getUser, clearTable, createProduct, getProducts, deleteProducts, updateProducts,
-  addToCart, createOrder, getOrders
+  addToCart, createOrder, getOrders,
 };
 
 
