@@ -1,9 +1,11 @@
 import { Client } from 'pg';
+import dotenv from 'dotenv';
 
+dotenv.config();
 let connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/store_manager';
 
 if (process.env.current_env === 'test') {
-  connectionString = 'postgres://localhost:5432/store_manager_test';
+  connectionString = process.env.TEST_DATABASE_URL;
 }
 const usersTable = 'users';
 const ordersTable = 'orders';

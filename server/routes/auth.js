@@ -18,9 +18,9 @@ let secretKey = process.env.TOKEN_KEY;
 let defaultPassword = process.env.DEFAULT_PASSWORD;
 
 if (process.env.current_env === 'test') {
-  secretKey = 'my_secret_key';
-  saltRound = 6;
-  defaultPassword = 'attendantpassword';
+  secretKey = process.env.TEST_TOKEN_KEY;
+  saltRound = process.env.TEST_SALT_ROUND;
+  defaultPassword = process.env.TEST_DEFAULT_PASSWORD;
 }
 authRouter.post('/signup', validateUser, ensureToken, (req, res) => {
   if (req.body.decoded.level !== constants.adminLevel) {
@@ -44,7 +44,7 @@ authRouter.post('/signup', validateUser, ensureToken, (req, res) => {
             })
               .then((value) => {
                 if (value === 1) {
-                  sendResponse(res, 201,  `account created for '${req.body.name}'`);
+                  sendResponse(res, 201, `account created for '${req.body.name}'`);
                 } else {
                   sendResponse(res, 500, null, 'Internal server error');
                 }

@@ -7,7 +7,7 @@ dotenv.config();
 let secretKey = process.env.TOKEN_KEY;
 
 if (process.env.current_env === 'test') {
-  secretKey = 'my_secret_key';
+  secretKey = process.env.TEST_TOKEN_KEY;
 }
 
 const isPositiveInteger = s => /^\+?[1-9][\d]*$/.test(s);
