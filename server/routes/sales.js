@@ -100,22 +100,26 @@ salesRouter.get('/', ensureToken, (req, res) => {
 
 salesRouter.get('/:id', ensureToken, (req, res) => {
   // query database
-  if (req.body.decoded.level === constants.adminLevel) {
-    getOrders(req.params.id).then((result) => {
-      if(result.length <=0){
-        sendResponse(res, 404, null, 'order not found')
-        return ;
-      }
+  getOrders(req.params.id).then((result) => {
+    if (result.length <= 0) {
+      sendResponse(res, 404, null, 'order not found');
+      return;
+    }
+    if (req.body.decoded.level === constants.adminLevel
+        || (req.body.decoded.level === constants.attendantLevel
+          && result[0].user_id === req.body.decoded.userId)) {
       res.status(200).send({
         status: 200,
-        message: 'successfully fetched orders',
+        message: 'successfully fetched order',
         orderDetails: result,
       });
-    }).catch((e) => {
-      console.log(e);
-      sendResponse(res, 500, null, 'Internal server error');
-    });
-  }
+      return;
+    }
+    sendResponse(res, 403, null, 'You are not authorized to view this order');
+  }).catch((e) => {
+    console.log(e);
+    sendResponse(res, 500, null, 'Internal server error');
+  });
 });
 
 

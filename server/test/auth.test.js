@@ -87,6 +87,24 @@ describe('POST /signup', () => {
     .then((response) => {
       expect(response.body.error).toContain('Invalid');
     }));
+
+   it('should create a second attendant for an admin', () => request(app)
+    .post('/api/v1/auth/signup')
+    .send({
+      name: 'Mr Attendant Gold',
+      email: 'mrgold@gmail.com',
+      token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdGF0dXMiOjMwMywidXNlcm5hbWUiOiJKZWZmZXJzb24gUGlwZXIiLCJlbWFpbCI6ImpwaXBlckBhZG1pbi5jb20iLCJ1c2VySWQiOjEsImxldmVsIjoyLCJpYXQiOjE1NDA0NTMyMDJ9.HplqH5tLSIr5_l69D2FuUs3mpyBqtZjFSEouLSuIFGw',
+    })
+    .set('Accept', 'application/json')
+    .expect(201)
+    .then((response) => {
+      expect(response.body.message).toContain('account created');
+      // ensure attendant is in database
+      getUser('mrgold@gmail.com')
+        .then((result) => {
+          expect(result[0].user_email).toBe('mrgold@gmail.com');
+        });
+    }));
 });
 
 describe('POST /login', () => {
@@ -128,6 +146,20 @@ describe('POST /login', () => {
       expect(response.body.message).toContain('successfully logged');
       expect(response.body.token).toBeTruthy();
       expect(response.body.username).toContain('Mr Attendant Brown');
+    }));
+
+  it('should authenticate a second store attendant with default password', () => request(app)
+    .post('/api/v1/auth/login')
+    .send({
+      email: 'mrgold@gmail.com',
+      password: 'attendantpassword',
+    })
+    .set('Accept', 'application/json')
+    .expect(303)
+    .then((response) => {
+      expect(response.body.message).toContain('successfully logged');
+      expect(response.body.token).toBeTruthy();
+      expect(response.body.username).toContain('Mr Attendant Gold');
     }));
 
   it('should not authenticate store attendant with invalid password', () => request(app)
