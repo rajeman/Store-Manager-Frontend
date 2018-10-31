@@ -145,7 +145,6 @@ describe('POST /login', () => {
     .then((response) => {
       expect(response.body.message).toContain('successfully logged');
       expect(response.body.token).toBeTruthy();
-      expect(response.body.username).toContain('Mr Attendant Brown');
     }));
 
   it('should authenticate a second store attendant with default password', () => request(app)
@@ -159,7 +158,6 @@ describe('POST /login', () => {
     .then((response) => {
       expect(response.body.message).toContain('successfully logged');
       expect(response.body.token).toBeTruthy();
-      expect(response.body.username).toContain('Mr Attendant Gold');
     }));
 
   it('should not authenticate store attendant with invalid password', () => request(app)

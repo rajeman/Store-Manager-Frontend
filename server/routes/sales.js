@@ -1,18 +1,17 @@
 import express from 'express';
 import {
-  ensureToken,
+  ensureToken, isAttendant, isAdmin,
 } from '../helpers/validators';
 import sendResponse from '../helpers/responses';
 import {
   createOrder, getOrders,
 } from '../crud/db-query';
-import constants from '../helpers/constants';
 
 const salesRouter = express.Router();
 
 
 salesRouter.post('/', ensureToken, (req, res) => {
-  if (req.body.decoded.level !== constants.attendantLevel) {
+  if (!isAttendant(req.body.decoded.level)) {
     sendResponse(res, 403, null, 'You are not authorized to add to create order');
     return;
   }
@@ -42,9 +41,8 @@ salesRouter.post('/', ensureToken, (req, res) => {
 });
 
 salesRouter.get('/', ensureToken, (req, res) => {
-  // query database
-  if (req.body.decoded.level !== constants.adminLevel) {
-    sendResponse(res, 403, null, 'You are not authorized to view sales records');
+  if (!isAdmin(req.body.decoded.level)) {
+    sendResponse(res, 403, null, 'You are not authorized to view sales record');
     return;
   }
   getOrders().then((result) => {
@@ -53,8 +51,8 @@ salesRouter.get('/', ensureToken, (req, res) => {
       message: 'successfully fetched orders',
       ordersArray: result,
     });
-  }).catch((e) => {
-    console.log(e);
+  }).catch(() => {
+    // console.log(e);
     sendResponse(res, 500, null, 'Internal server error');
   });
 });
@@ -66,8 +64,8 @@ salesRouter.get('/:id', ensureToken, (req, res) => {
       sendResponse(res, 404, null, 'order not found');
       return;
     }
-    if (req.body.decoded.level === constants.adminLevel
-        || (req.body.decoded.level === constants.attendantLevel
+    if (isAdmin(req.body.decoded.level)
+        || (isAttendant(req.body.decoded.level)
           && result[0].user_id === req.body.decoded.userId)) {
       res.status(200).send({
         status: 200,
@@ -77,8 +75,8 @@ salesRouter.get('/:id', ensureToken, (req, res) => {
       return;
     }
     sendResponse(res, 403, null, 'You are not authorized to view this order');
-  }).catch((e) => {
-    console.log(e);
+  }).catch(() => {
+    // console.log(e);
     sendResponse(res, 500, null, 'Internal server error');
   });
 });
