@@ -240,7 +240,7 @@ describe('GET /sales :id', () => {
       expect(response.body.orderDetails).toBeFalsy();
     }));
 
-it('should not fetch details of sale record for the attendant that did not create it', () => request(app)
+  it('should not fetch details of sale record for the attendant that did not create it', () => request(app)
     .get('/api/v1/sales/1')
     .set('Accept', 'application/json')
     .set('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdGF0dXMiOjMwMywidXNlcm5hbWUiOiJNciBBdHRlbmRhbnQgR29sZCIsImVtYWlsIjoibXJnb2xkQGdtYWlsLmNvbSIsInVzZXJJZCI6MywibGV2ZWwiOjEsImlhdCI6MTU0MDk3NzY0Mn0.-xA2RymKHanoJMLbSh0dI0UNBzvLrj35gwngEvREpqU')
@@ -249,6 +249,4 @@ it('should not fetch details of sale record for the attendant that did not creat
       expect(response.body.error).toContain('not authorized');
       expect(response.body.orderDetails).toBeFalsy();
     }));
-
-
 });

@@ -88,7 +88,7 @@ describe('POST /signup', () => {
       expect(response.body.error).toContain('Invalid');
     }));
 
-   it('should create a second attendant for an admin', () => request(app)
+  it('should create a second attendant for an admin', () => request(app)
     .post('/api/v1/auth/signup')
     .send({
       name: 'Mr Attendant Gold',
