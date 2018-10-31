@@ -44,7 +44,7 @@ authRouter.post('/signup', validateUser, ensureToken, (req, res) => {
             })
               .then((value) => {
                 if (value === 1) {
-                  sendResponse(res, 201, null, 'account created');
+                  sendResponse(res, 201,  `account created for '${req.body.name}'`);
                 } else {
                   sendResponse(res, 500, null, 'Internal server error');
                 }
