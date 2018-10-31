@@ -2,6 +2,8 @@ import validator from 'validator';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import sendResponse from './responses';
+import constants from './constants';
+import { getUser } from '../crud/db-query';
 
 dotenv.config();
 let secretKey = process.env.TOKEN_KEY;
@@ -49,12 +51,24 @@ const ensureToken = (req, res, next) => {
   try {
     const decoded = jwt.verify(bearerToken, secretKey);
     req.body.decoded = decoded;
-    next();
+    // confirm email exists in database
+    getUser(req.body.decoded.email)
+      .then((result) => {
+        req.body.databaseResult = result;
+        next();
+      })
+      .catch(() => {
+        //console.log(e);
+        sendResponse(res, 403, null, 'Invalid username or password');
+      });
+    // next();
   } catch (err) {
     sendResponse(res, 403, null, 'Invalid Token');
   }
 };
 
+const isAdmin = level => level === constants.adminLevel;
+const isAttendant = level => level === constants.attendantLevel;
 
 const verifyProductInput = (req, res, next) => {
   const product = req.body;
@@ -70,5 +84,5 @@ const verifyProductInput = (req, res, next) => {
 };
 export {
   validateUser, ensureToken,
-  verifyProductInput, verifyCartItem,
+  verifyProductInput, verifyCartItem, isAdmin, isAttendant,
 };

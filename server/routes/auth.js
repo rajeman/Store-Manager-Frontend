@@ -6,7 +6,7 @@ import sendResponse from '../helpers/responses';
 import constants from '../helpers/constants';
 
 import {
-  validateUser, ensureToken,
+  validateUser, ensureToken, isAdmin,
 } from '../helpers/validators';
 import { createUser, getUser } from '../crud/db-query';
 
@@ -23,8 +23,8 @@ if (process.env.current_env === 'test') {
   defaultPassword = process.env.TEST_DEFAULT_PASSWORD;
 }
 authRouter.post('/signup', validateUser, ensureToken, (req, res) => {
-  if (req.body.decoded.level !== constants.adminLevel) {
-    // User not an admin. Has no access to route.
+  // User not an admin. Has no access to route.
+  if (!isAdmin) {
     sendResponse(res, 403, null, 'You are not allowed to modify this content');
     return;
   }
@@ -73,22 +73,22 @@ authRouter.post('/login', (req, res) => {
       }
       if (bcrypt.compareSync(req.body.password, result[0].user_password)) {
         const payload = {};
-        payload.status = 303;
         payload.username = result[0].user_name;
         payload.email = result[0].user_email;
         payload.userId = result[0].user_id;
         payload.level = result[0].user_level;
         const token = jwt.sign(payload, secretKey);
-        payload.token = token;
-        payload.message = 'successfully logged in';
         res.header('Authorization', `Bearer ${token}`);
-        res.status(303).send(payload);
+        res.status(303).send({
+          message: 'successfully logged in',
+          token,
+        });
       } else {
         sendResponse(res, 403, null, 'Invalid username or password');
       }
     })
-    .catch((e) => {
-      console.log(e);
+    .catch(() => {
+      // console.log(e);
       sendResponse(res, 403, null, 'Invalid username or password');
     });
 });
