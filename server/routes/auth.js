@@ -25,7 +25,7 @@ if (process.env.current_env === 'test') {
 authRouter.post('/signup', validateUser, ensureToken, (req, res) => {
   if (req.body.decoded.level !== constants.adminLevel) {
     // User not an admin. Has no access to route.
-    sendResponse(res, 403, null, 'Your are not allowed to modify this content');
+    sendResponse(res, 403, null, 'You are not allowed to modify this content');
     return;
   }
   getUser(req.body.email)

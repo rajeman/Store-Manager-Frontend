@@ -227,6 +227,22 @@ const getOrders = id => new Promise((resolve, reject) => {
     }).catch(e => reject(e));
 });
 
+const getCart = id => new Promise((resolve, reject) => {
+  const client = new Client(connectionString);
+  client.connect()
+    .then(() => {
+      const sql = `SELECT * FROM ${cartTable} WHERE user_id = $1 AND time_checked_out = 0;`;
+
+      const params = [id];
+      client.query(sql, params)
+        .then((result) => {
+          resolve(result.rows);
+          client.end();
+        })
+        .catch(e => reject(e));
+    }).catch(e => reject(e));
+});
+
 const clearTable = tableName => new Promise((resolve, reject) => {
   const client = new Client(connectionString);
   client.connect()
@@ -247,7 +263,7 @@ const clearTable = tableName => new Promise((resolve, reject) => {
 
 export {
   createUser, getUser, clearTable, createProduct, getProducts, deleteProducts, updateProducts,
-  addToCart, createOrder, getOrders,
+  addToCart, createOrder, getOrders, getCart,
 };
 
 
