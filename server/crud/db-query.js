@@ -199,7 +199,12 @@ const getOrders = id => new Promise((resolve, reject) => {
     .then(() => {
       if (id) {
         const params = [id];
-        const sql = `SELECT * FROM ${ordersTable} WHERE order_id = $1`;
+        const sql = `WITH order_summary AS
+                    ( SELECT orders.*, users.user_name FROM users LEFT JOIN orders ON orders.user_id = users.user_id WHERE order_id = $1
+                     )
+                    SELECT * FROM (SELECT * FROM ${cartTable} WHERE time_checked_out = (SELECT time_checked_out FROM order_summary)) a, (SELECT * FROM order_summary) b
+                  `;
+
         client.query(sql, params)
           .then((result) => {
             resolve(result.rows);

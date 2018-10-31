@@ -206,3 +206,17 @@ describe('GET /sales', () => {
       expect(response.body.ordersArray).toBeFalsy();
     }));
 });
+
+describe('GET /sales :id', () => {
+  it('should fetch details of valid sale record for admin', () => request(app)
+    .get('/api/v1/sales/1')
+    .set('Accept', 'application/json')
+    .set('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdGF0dXMiOjMwMywidXNlcm5hbWUiOiJKZWZmZXJzb24gUGlwZXIiLCJlbWFpbCI6ImpwaXBlckBhZG1pbi5jb20iLCJ1c2VySWQiOjEsImxldmVsIjoyLCJpYXQiOjE1NDA0NTMyMDJ9.HplqH5tLSIr5_l69D2FuUs3mpyBqtZjFSEouLSuIFGw')
+    .expect(200)
+    .then((response) => {
+      expect(response.body.message).toContain('successfully fetched');
+      expect(response.body.orderDetails).toBeTruthy();
+      expect(response.body.orderDetails).toHaveLength(1);
+    }));
+
+});
