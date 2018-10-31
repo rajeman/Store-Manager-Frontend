@@ -4,7 +4,7 @@ import {
 } from '../helpers/validators';
 import sendResponse from '../helpers/responses';
 import {
-  getProducts, addToCart, createOrder, getOrders,
+  getProducts, addToCart, createOrder, getOrders, getCart,
 } from '../crud/db-query';
 import constants from '../helpers/constants';
 
@@ -116,6 +116,24 @@ salesRouter.get('/:id', ensureToken, (req, res) => {
       return;
     }
     sendResponse(res, 403, null, 'You are not authorized to view this order');
+  }).catch((e) => {
+    console.log(e);
+    sendResponse(res, 500, null, 'Internal server error');
+  });
+});
+
+salesRouter.get('/cart/', ensureToken, (req, res) => {
+  // query database
+  if (req.body.decoded.level !== constants.attendantLevel) {
+    sendResponse(res, 403, null, 'You are not authorized to view cart');
+    return;
+  }
+  getCart().then((result) => {
+    res.status(200).send({
+      status: 200,
+      message: 'successfully fetched cart',
+      cartArray: result,
+    });
   }).catch((e) => {
     console.log(e);
     sendResponse(res, 500, null, 'Internal server error');
