@@ -124,6 +124,7 @@ describe('POST /cart', () => {
       expect(response.body.product[0].product_quantity).toBe(990);
     }));
 });
+
 describe('GET /cart', () => {
   it('should fetch the items in an attendant\'s cart', () => request(app)
     .get('/api/v1/cart/')
