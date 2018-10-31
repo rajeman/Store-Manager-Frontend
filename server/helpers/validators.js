@@ -57,8 +57,8 @@ const ensureToken = (req, res, next) => {
         req.body.databaseResult = result;
         next();
       })
-      .catch((e) => {
-        console.log(e);
+      .catch(() => {
+        //console.log(e);
         sendResponse(res, 403, null, 'Invalid username or password');
       });
     // next();
