@@ -1,8 +1,8 @@
 
 const sendResponse = (res, code, message, error) => {
   res.status(code).send({
-    message: message || error,
-    error: error || message,
+    message: message || undefined,
+    error: error || undefined,
     code,
   });
 };
