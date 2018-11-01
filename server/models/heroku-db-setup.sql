@@ -1,5 +1,3 @@
-CREATE DATABASE store_manager;
-\connect store_manager
 CREATE TABLE IF NOT EXISTS users
  (
  	user_id serial PRIMARY KEY, 
