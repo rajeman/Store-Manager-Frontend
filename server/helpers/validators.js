@@ -57,7 +57,7 @@ const ensureToken = (req, res, next) => {
       })
       .catch(() => {
         // console.log(e);
-        sendResponse(res, 403, null, 'Invalid username or password');
+        sendResponse(res, 403, null, 'Invalid user');
       });
     // next();
   } catch (err) {

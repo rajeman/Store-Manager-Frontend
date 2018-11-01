@@ -12,7 +12,7 @@ const salesRouter = express.Router();
 
 salesRouter.post('/', ensureToken, (req, res) => {
   if (!isAttendant(req.body.decoded.level)) {
-    sendResponse(res, 403, null, 'You are not authorized to add to create order');
+    sendResponse(res, 403, null, 'You are not authorized to create order');
     return;
   }
   const timeCheckedOut = (new Date()).getTime();

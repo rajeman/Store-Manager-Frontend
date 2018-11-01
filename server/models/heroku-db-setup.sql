@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS products
     product_name text NOT NULL, 
     product_price integer NOT NULL,
     product_quantity integer NOT NULL,
-    product_id integer NOT NULL references products(product_id) ,
+    product_id integer NOT NULL,
     total_price integer NOT NULL
    
  );
