@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS products
     product_name text NOT NULL,
     minimum_inventory integer default(0),
     product_price integer NOT NULL,
-    product_quantity integer NOT NULL,
+    product_quantity integer NOT NULL
  );
  
  CREATE TABLE IF NOT EXISTS orders
