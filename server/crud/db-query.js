@@ -38,9 +38,9 @@ const getUser = userInput => new Promise((resolve, reject) => {
   client.connect()
     .then(() => {
       const sql = `SELECT * FROM ${usersTable} WHERE user_email = $1;`;
-     /* if (!userInput.includes('@')) {
+      /* if (!userInput.includes('@')) {
         sql = `SELECT * FROM ${usersTable} WHERE user_id = $1;`;
-      }*/
+      } */
       const params = [userInput];
       client.query(sql, params)
         .then((result) => {

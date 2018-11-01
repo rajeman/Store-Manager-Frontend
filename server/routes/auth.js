@@ -1,7 +1,6 @@
 import express from 'express';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import dotenv from 'dotenv';
 import sendResponse from '../helpers/responses';
 import constants from '../helpers/constants';
 
@@ -10,7 +9,6 @@ import {
 } from '../helpers/validators';
 import { createUser, getUser } from '../crud/db-query';
 
-dotenv.config();
 const authRouter = express.Router();
 
 let saltRound = process.env.SALT_ROUND;

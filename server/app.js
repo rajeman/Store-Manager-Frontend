@@ -1,10 +1,12 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-
+import dotenv from 'dotenv';
 import productsRouter from './routes/products';
 import salesRouter from './routes/sales';
 import authRouter from './routes/auth';
 import cartRouter from './routes/cart';
+
+dotenv.config();
 
 const port = process.env.PORT || 5008;
 
