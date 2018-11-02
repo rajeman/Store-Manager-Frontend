@@ -288,8 +288,14 @@ header li{
   text-decoration: none;
   color: #795548;
   font-family: sans-serif;
-  font-size: 18px;
+  font: bold 18px Arial;
+  border-top: 1px solid #CCCCCC;
+  border-right: 1px solid #333333;
+  border-bottom: 1px solid #333333;
+  border-left: 1px solid #CCCCCC;
+
 }
+/* https://stackoverflow.com/questions/710089/how-do-i-make-an-html-link-look-like-a-button */
 .wrapper{
   height: 500px;
 }
