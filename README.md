@@ -19,6 +19,9 @@ records
 # Heroku App
 * http://onlinestoremanager.herokuapp.com/
 
+# API Docs
+* https://onlinestoremanager.herokuapp.com/api-docs
+
 # Project Management
 * https://www.pivotaltracker.com/n/projects/2203373
 ## Running App
