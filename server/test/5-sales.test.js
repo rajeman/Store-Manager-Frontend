@@ -13,7 +13,7 @@ describe('POST /sales', () => {
     .expect(200)
     .then((response) => {
       expect(response.body.message).toContain('Successfully created');
-      expect(response.body.orderId).toBeTruthy();
+      expect(response.body.orderTime).toBeTruthy();
     }));
 
   it('should not create sale order when cart is empty', () => request(app)
@@ -25,7 +25,7 @@ describe('POST /sales', () => {
     .expect(400)
     .then((response) => {
       expect(response.body.error).toContain('cart is empty');
-      expect(response.body.orderId).toBeFalsy();
+      expect(response.body.orderTime).toBeFalsy();
     }));
 
   it('should return authorization error for an admin', () => request(app)

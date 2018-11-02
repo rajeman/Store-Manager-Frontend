@@ -6,6 +6,7 @@ import constants from './constants';
 import { getUser } from '../crud/db-query';
 
 dotenv.config();
+
 let secretKey = process.env.TOKEN_KEY;
 
 if (process.env.current_env === 'test') {
@@ -58,8 +59,8 @@ const ensureToken = (req, res, next) => {
         next();
       })
       .catch(() => {
-        //console.log(e);
-        sendResponse(res, 403, null, 'Invalid username or password');
+        // console.log(e);
+        sendResponse(res, 403, null, 'Invalid user');
       });
     // next();
   } catch (err) {

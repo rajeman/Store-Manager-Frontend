@@ -6,7 +6,6 @@ import sendResponse from '../helpers/responses';
 import {
   createProduct, getProducts, deleteProducts, updateProducts,
 } from '../crud/db-query';
-import constants from '../helpers/constants';
 
 
 const productsRouter = express.Router();
@@ -79,8 +78,8 @@ productsRouter.delete('/:id', ensureToken, (req, res) => {
 });
 
 productsRouter.put('/:id', verifyProductInput, ensureToken, (req, res) => {
-  if (req.body.decoded.level !== constants.adminLevel) {
-    sendResponse(res, 403, null, 'You are not authorized to modify this content');
+  if (!isAdmin(req.body.decoded.level)) {
+    sendResponse(res, 403, null, 'Your are not authorized to modify this content');
     return;
   }
   // query database

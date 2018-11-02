@@ -1,0 +1,1175 @@
+{
+   "openapi": "3.0.0",
+   "info": {
+      "version": "1.0.0",
+      "title": "Store Manager",
+      "description": "API docs for Store Manager.",
+      "contact": {
+         "name": "Emmanuel Raji",
+         "email": "manuelraji15@gmail.com"
+      }
+   },
+   "servers": [
+      {
+         "url": "https://onlinestoremanager.herokuapp.com/api/v1"
+      }
+   ],
+   "components": {
+      "securitySchemes": {
+         "bearerAuth": {
+            "type": "http",
+            "scheme": "bearer",
+            "bearerFormat": "JWT"
+         }
+      }
+   },
+   "paths": {
+      "/auth/login": {
+         "post": {
+            "tags": [
+               "Users"
+            ],
+            "summary": "sign in an existing user",
+            "requestBody": {
+               "required": true,
+               "content": {
+                  "application/json": {
+                     "schema": {
+                        "type": "object",
+                        "required": [
+                           "entry"
+                        ],
+                        "properties": {
+                           "email": {
+                              "type": "string"
+                           },
+                           "password": {
+                              "type": "string"
+                           }
+                        }
+                     }
+                  }
+               }
+            },
+            "responses": {
+               "303": {
+                  "description": "successfully logged in",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "type": "object",
+                           "properties": {
+                              "success": {
+                                 "type": "boolean"
+                              },
+                              "message": {
+                                 "type": "string"
+                              }
+                           }
+                        }
+                     }
+                  }
+               },
+               "400": {
+                  "description": "Invalid input details",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "type": "object",
+                           "properties": {
+                              "code": {
+                                 "type": "boolean"
+                              },
+                              "error": {
+                                 "type": "string"
+                              }
+                           }
+                        }
+                     }
+                  }
+               },
+               "403": {
+                  "description": "Invalid username or password",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "type": "object",
+                           "properties": {
+                              "success": {
+                                 "type": "boolean"
+                              },
+                              "message": {
+                                 "type": "string"
+                              }
+                           }
+                        }
+                     }
+                  }
+               },
+               "500": {
+                  "description": "internal server error",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "type": "object",
+                           "properties": {
+                              "error": {
+                                 "type": "string"
+                              },
+                              "code": {
+                                 "type": "integer"
+                              }
+                           }
+                        }
+                     }
+                  }
+               }
+            }
+         }
+      },
+      "/auth/signup": {
+         "post": {
+            "tags": [
+               "Users"
+            ],
+            "security": [
+               {
+                  "bearerAuth": []
+               }
+            ],
+            "summary": "create a new attendant",
+            "requestBody": {
+               "required": true,
+               "content": {
+                  "application/json": {
+                     "schema": {
+                        "type": "object",
+                        "required": [
+                           "entry"
+                        ],
+                        "properties": {
+                           "email": {
+                              "type": "string"
+                           },
+                           "name": {
+                              "type": "string"
+                           }
+                        }
+                     }
+                  }
+               }
+            },
+            "responses": {
+               "200": {
+                  "description": "successfully created attendant",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "type": "object",
+                           "properties": {
+                              "code": {
+                                 "type": "boolean"
+                              },
+                              "message": {
+                                 "type": "string"
+                              }
+                           }
+                        }
+                     }
+                  }
+               },
+               "400": {
+                  "description": "Invalid input details",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "type": "object",
+                           "properties": {
+                              "code": {
+                                 "type": "boolean"
+                              },
+                              "error": {
+                                 "type": "string"
+                              }
+                           }
+                        }
+                     }
+                  }
+               },
+               "500": {
+                  "description": "internal server error",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "type": "object",
+                           "properties": {
+                              "error": {
+                                 "type": "string"
+                              },
+                              "code": {
+                                 "type": "integer"
+                              }
+                           }
+                        }
+                     }
+                  }
+               }
+            }
+         }
+      },
+      "/products": {
+         "get": {
+            "tags": [
+               "Products"
+            ],
+            "security": [
+               {
+                  "bearerAuth": []
+               }
+            ],
+            "summary": "Returns all products in store",
+            "responses": {
+               "200": {
+                  "description": "Successfully fetched products",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "type": "array",
+                           "items": {
+                              "type": "object",
+                              "required": [
+                                 "products"
+                              ]
+                           }
+                        }
+                     }
+                  }
+               },
+               "403": {
+                  "description": "you are not authorized",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "type": "object",
+                           "properties": {
+                              "error": {
+                                 "type": "string"
+                              },
+                              "code": {
+                                 "type": "integer"
+                              }
+                           }
+                        }
+                     }
+                  }
+               },
+               "500": {
+                  "description": "internal server error",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "type": "object",
+                           "properties": {
+                              "error": {
+                                 "type": "string"
+                              },
+                              "code": {
+                                 "type": "integer"
+                              }
+                           }
+                        }
+                     }
+                  }
+               }
+            }
+         },
+         "post": {
+            "tags": [
+               "Products"
+            ],
+            "security": [
+               {
+                  "bearerAuth": []
+               }
+            ],
+            "summary": "Lets an admin add new product to store",
+            "requestBody": {
+               "required": true,
+               "content": {
+                  "application/json": {
+                     "schema": {
+                        "type": "object",
+                        "required": [
+                           "product"
+                        ],
+                        "properties": {
+                           "productName": {
+                              "type": "string"
+                           },
+                           "price": {
+                              "type": "integer"
+                           },
+                           "productQuantity": {
+                              "type": "integer"
+                           },
+                           "minimumInventory": {
+                              "type": "integer"
+                           }
+                        }
+                     }
+                  }
+               }
+            },
+            "responses": {
+               "201": {
+                  "description": "Successfully created product",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "type": "object",
+                           "properties": {
+                              "message": {
+                                 "type": "string"
+                              },
+                              "success": {
+                                 "type": "boolean"
+                              }
+                           }
+                        }
+                     }
+                  }
+               },
+               "403": {
+                  "description": "you are not authorized",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "type": "object",
+                           "properties": {
+                              "error": {
+                                 "type": "string"
+                              },
+                              "code": {
+                                 "type": "integer"
+                              }
+                           }
+                        }
+                     }
+                  }
+               },
+               "422": {
+                  "description": "Invalid input details",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "type": "object",
+                           "properties": {
+                              "error": {
+                                 "type": "string"
+                              },
+                              "code": {
+                                 "type": "boolean"
+                              }
+                           }
+                        }
+                     }
+                  }
+               },
+               "500": {
+                  "description": "internal server error",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "type": "object",
+                           "properties": {
+                              "error": {
+                                 "type": "string"
+                              },
+                              "code": {
+                                 "type": "integer"
+                              }
+                           }
+                        }
+                     }
+                  }
+               }
+            }
+         }
+      },
+      "/products/{productId}": {
+         "get": {
+            "tags": [
+               "Products"
+            ],
+            "security": [
+               {
+                  "bearerAuth": []
+               }
+            ],
+            "summary": "Returns the specified product",
+            "parameters": [
+               {
+                  "name": "productId",
+                  "in": "path",
+                  "required": true,
+                  "description": "  Enter the product id",
+                  "schema": {
+                     "type": "integer"
+                  }
+               }
+            ],
+            "responses": {
+               "200": {
+                  "description": "Successfully fetched product",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "type": "object",
+                           "items": {
+                              "type": "object",
+                              "properties": {
+                                 "product_id": {
+                                    "type": "integer"
+                                 },
+                                 "product_name": {
+                                    "type": "string"
+                                 },
+                                 "product_price": {
+                                    "type": "integer"
+                                 },
+                                 "product_quantity": {
+                                    "type": "integer"
+                                 },
+                                 "minimum_inventory": {
+                                    "type": "integer"
+                                 }
+                              }
+                           }
+                        }
+                     }
+                  }
+               },
+               "403": {
+                  "description": "you are not authorized",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "type": "object",
+                           "properties": {
+                              "error": {
+                                 "type": "string"
+                              },
+                              "code": {
+                                 "type": "integer"
+                              }
+                           }
+                        }
+                     }
+                  }
+               },
+               "404": {
+                  "description": "product not found",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "type": "object",
+                           "properties": {
+                              "success": {
+                                 "type": "boolean"
+                              },
+                              "message": {
+                                 "type": "string"
+                              }
+                           }
+                        }
+                     }
+                  }
+               },
+               "500": {
+                  "description": "internal server error",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "type": "object",
+                           "properties": {
+                              "error": {
+                                 "type": "string"
+                              },
+                              "code": {
+                                 "type": "integer"
+                              }
+                           }
+                        }
+                     }
+                  }
+               }
+            }
+         },
+         "put": {
+            "tags": [
+               "Products"
+            ],
+            "security": [
+               {
+                  "bearerAuth": []
+               }
+            ],
+            "summary": "Lets an admin modify a product",
+            "parameters": [
+               {
+                  "name": "productId",
+                  "in": "path",
+                  "required": true,
+                  "description": "The id of the product to be modified",
+                  "schema": {
+                     "type": "integer"
+                  }
+               }
+            ],
+            "requestBody": {
+               "required": true,
+               "content": {
+                  "application/json": {
+                     "schema": {
+                        "type": "object",
+                        "required": [
+                           "product"
+                        ],
+                        "properties": {
+                           "productName": {
+                              "type": "string"
+                           },
+                           "price": {
+                              "type": "integer"
+                           },
+                           "productQuantity": {
+                              "type": "integer"
+                           },
+                           "minimumInventory": {
+                              "type": "integer"
+                           }
+                        }
+                     }
+                  }
+               }
+            },
+            "responses": {
+               "200": {
+                  "description": "Successfully updated product",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "type": "object",
+                           "items": {
+                              "type": "object",
+                              "properties": {
+                                 "message": {
+                                    "type": "string"
+                                 },
+                                 "success": {
+                                    "type": "boolean"
+                                 }
+                              }
+                           }
+                        }
+                     }
+                  }
+               },
+               "403": {
+                  "description": "you are not authorized",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "type": "object",
+                           "properties": {
+                              "error": {
+                                 "type": "string"
+                              },
+                              "code": {
+                                 "type": "integer"
+                              }
+                           }
+                        }
+                     }
+                  }
+               },
+               "404": {
+                  "description": "invalid product",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "type": "object",
+                           "properties": {
+                              "success": {
+                                 "type": "boolean"
+                              },
+                              "message": {
+                                 "type": "string"
+                              }
+                           }
+                        }
+                     }
+                  }
+               },
+               "422": {
+                  "description": "Invalid input details",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "type": "object",
+                           "properties": {
+                              "error": {
+                                 "type": "string"
+                              },
+                              "code": {
+                                 "type": "boolean"
+                              }
+                           }
+                        }
+                     }
+                  }
+               },
+               "500": {
+                  "description": "internal server error",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "type": "object",
+                           "properties": {
+                              "error": {
+                                 "type": "string"
+                              },
+                              "code": {
+                                 "type": "integer"
+                              }
+                           }
+                        }
+                     }
+                  }
+               }
+            }
+         },
+         "delete": {
+            "tags": [
+               "Products"
+            ],
+            "security": [
+               {
+                  "bearerAuth": []
+               }
+            ],
+            "summary": "Lets an admin delete a product",
+            "parameters": [
+               {
+                  "name": "productId",
+                  "in": "path",
+                  "required": true,
+                  "description": "The ID of the product to delete",
+                  "schema": {
+                     "type": "integer"
+                  }
+               }
+            ],
+            "responses": {
+               "200": {
+                  "description": "Successfully deleted product",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "type": "object",
+                           "items": {
+                              "type": "object",
+                              "properties": {
+                                 "message": {
+                                    "type": "string"
+                                 },
+                                 "code": {
+                                    "type": "boolean"
+                                 }
+                              }
+                           }
+                        }
+                     }
+                  }
+               },
+               "403": {
+                  "description": "you are not authorized",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "type": "object",
+                           "properties": {
+                              "error": {
+                                 "type": "string"
+                              },
+                              "code": {
+                                 "type": "integer"
+                              }
+                           }
+                        }
+                     }
+                  }
+               },
+               "404": {
+                  "description": "product not fount",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "type": "object",
+                           "properties": {
+                              "code": {
+                                 "type": "boolean"
+                              },
+                              "error": {
+                                 "type": "string"
+                              }
+                           }
+                        }
+                     }
+                  }
+               },
+               "500": {
+                  "description": "internal server error",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "type": "object",
+                           "properties": {
+                              "error": {
+                                 "type": "string"
+                              },
+                              "code": {
+                                 "type": "integer"
+                              }
+                           }
+                        }
+                     }
+                  }
+               }
+            }
+         }
+      },
+      "/cart": {
+         "get": {
+            "tags": [
+               "Cart"
+            ],
+            "security": [
+               {
+                  "bearerAuth": []
+               }
+            ],
+            "summary": "get items in cart",
+            "responses": {
+               "200": {
+                  "description": "successfully fecthed items",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "type": "object",
+                           "properties": {
+                              "message": {
+                                 "type": "string"
+                              },
+                              "code": {
+                                 "type": "integer"
+                              }
+                           }
+                        }
+                     }
+                  }
+               },
+               "403": {
+                  "description": "Invalid token",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "type": "object",
+                           "properties": {
+                              "error": {
+                                 "type": "string"
+                              },
+                              "code": {
+                                 "type": "integer"
+                              }
+                           }
+                        }
+                     }
+                  }
+               }
+            }
+         },
+         "post": {
+            "tags": [
+               "Cart"
+            ],
+            "security": [
+               {
+                  "bearerAuth": []
+               }
+            ],
+            "summary": "add an item to cart",
+            "requestBody": {
+               "required": true,
+               "content": {
+                  "application/json": {
+                     "schema": {
+                        "type": "object",
+                        "required": [
+                           "product"
+                        ],
+                        "properties": {
+                           "productId": {
+                              "type": "integer"
+                           },
+                           "productQuantity": {
+                              "type": "integer"
+                           }
+                        }
+                     }
+                  }
+               }
+            },
+            "responses": {
+               "200": {
+                  "description": "Successfully added item to cart",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "type": "object",
+                           "properties": {
+                              "message": {
+                                 "type": "string"
+                              },
+                              "code": {
+                                 "type": "integer"
+                              }
+                           }
+                        }
+                     }
+                  }
+               },
+               "400": {
+                  "description": "invalid input details",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "type": "object",
+                           "properties": {
+                              "error": {
+                                 "type": "string"
+                              },
+                              "code": {
+                                 "type": "integer"
+                              }
+                           }
+                        }
+                     }
+                  }
+               },
+               "403": {
+                  "description": "you are not authorized",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "type": "object",
+                           "properties": {
+                              "error": {
+                                 "type": "string"
+                              },
+                              "code": {
+                                 "type": "integer"
+                              }
+                           }
+                        }
+                     }
+                  }
+               },
+               "500": {
+                  "description": "internal server error",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "type": "object",
+                           "properties": {
+                              "error": {
+                                 "type": "string"
+                              },
+                              "code": {
+                                 "type": "integer"
+                              }
+                           }
+                        }
+                     }
+                  }
+               }
+            }
+         }
+      },
+      "/sales": {
+         "get": {
+            "tags": [
+               "Sales"
+            ],
+            "security": [
+               {
+                  "bearerAuth": []
+               }
+            ],
+            "summary": "gets all sale records",
+            "responses": {
+               "200": {
+                  "description": "gets all the sale records in the store. route is accessible to only the admin record'",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "type": "object",
+                           "properties": {
+                              "message": {
+                                 "type": "string"
+                              },
+                              "code": {
+                                 "type": "integer"
+                              }
+                           }
+                        }
+                     }
+                  }
+               },
+               "403": {
+                  "description": "Invalid token",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "type": "object",
+                           "properties": {
+                              "error": {
+                                 "type": "string"
+                              },
+                              "code": {
+                                 "type": "integer"
+                              }
+                           }
+                        }
+                     }
+                  }
+               }
+            }
+         },
+         "post": {
+            "tags": [
+               "Sales"
+            ],
+            "security": [
+               {
+                  "bearerAuth": []
+               }
+            ],
+            "summary": "creates a new sale record",
+            "requestBody": {
+               "required": true,
+               "content": {
+                  "application/json": {
+                     "schema": {
+                        "type": "object"
+                     }
+                  }
+               }
+            },
+            "responses": {
+               "200": {
+                  "description": "Successfully created order",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "type": "object",
+                           "properties": {
+                              "message": {
+                                 "type": "string"
+                              },
+                              "code": {
+                                 "type": "integer"
+                              }
+                           }
+                        }
+                     }
+                  }
+               },
+               "400": {
+                  "description": "your cart is empty",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "type": "object",
+                           "properties": {
+                              "error": {
+                                 "type": "string"
+                              },
+                              "code": {
+                                 "type": "integer"
+                              }
+                           }
+                        }
+                     }
+                  }
+               },
+               "403": {
+                  "description": "you are not authorized",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "type": "object",
+                           "properties": {
+                              "error": {
+                                 "type": "string"
+                              },
+                              "code": {
+                                 "type": "integer"
+                              }
+                           }
+                        }
+                     }
+                  }
+               },
+               "500": {
+                  "description": "internal server error",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "type": "object",
+                           "properties": {
+                              "error": {
+                                 "type": "string"
+                              },
+                              "code": {
+                                 "type": "integer"
+                              }
+                           }
+                        }
+                     }
+                  }
+               }
+            }
+         }
+      },
+      "/sales/{saleId}": {
+         "get": {
+            "tags": [
+               "Sales"
+            ],
+            "security": [
+               {
+                  "bearerAuth": []
+               }
+            ],
+            "summary": "Returns a sale order",
+            "parameters": [
+               {
+                  "name": "saleId",
+                  "in": "path",
+                  "required": true,
+                  "description": "Enter id of the sale record order",
+                  "schema": {
+                     "type": "integer"
+                  }
+               }
+            ],
+            "responses": {
+               "200": {
+                  "description": "Successful fetched sale record",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "type": "array",
+                           "items": {
+                              "type": "object",
+                              "properties": {
+                                 "order_id": {
+                                    "type": "integer"
+                                 },
+                                 "date": {
+                                    "type": "integer"
+                                 },
+                                 "product_name": {
+                                    "type": "string"
+                                 },
+                                 "product_price": {
+                                    "type": "integer"
+                                 },
+                                 "product_quantity": {
+                                    "type": "integer"
+                                 },
+                                 "total_price": {
+                                    "type": "integer"
+                                 },
+                                 "user_id": {
+                                    "type": "integer"
+                                 },
+                                 "user_name": {
+                                    "type": "string"
+                                 }
+                              }
+                           }
+                        }
+                     }
+                  }
+               },
+               "403": {
+                  "description": "you are not authorized",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "type": "object",
+                           "properties": {
+                              "error": {
+                                 "type": "string"
+                              },
+                              "code": {
+                                 "type": "integer"
+                              }
+                           }
+                        }
+                     }
+                  }
+               },
+               "404": {
+                  "description": "order not found",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "type": "object",
+                           "properties": {
+                              "error": {
+                                 "type": "string"
+                              },
+                              "code": {
+                                 "type": "integer"
+                              }
+                           }
+                        }
+                     }
+                  }
+               },
+               "500": {
+                  "description": "internal server error",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "type": "object",
+                           "properties": {
+                              "error": {
+                                 "type": "string"
+                              },
+                              "code": {
+                                 "type": "integer"
+                              }
+                           }
+                        }
+                     }
+                  }
+               }
+            }
+         }
+      }
+   }
+}

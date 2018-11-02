@@ -2,7 +2,7 @@ import { Client } from 'pg';
 import dotenv from 'dotenv';
 
 dotenv.config();
-let connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/store_manager';
+let connectionString = process.env.DATABASE_URL;
 
 if (process.env.current_env === 'test') {
   connectionString = process.env.TEST_DATABASE_URL;
@@ -38,9 +38,9 @@ const getUser = userInput => new Promise((resolve, reject) => {
   client.connect()
     .then(() => {
       const sql = `SELECT * FROM ${usersTable} WHERE user_email = $1;`;
-     /* if (!userInput.includes('@')) {
+      /* if (!userInput.includes('@')) {
         sql = `SELECT * FROM ${usersTable} WHERE user_id = $1;`;
-      }*/
+      } */
       const params = [userInput];
       client.query(sql, params)
         .then((result) => {
