@@ -6,7 +6,6 @@ import sendResponse from '../helpers/responses';
 import {
   createProduct, getProducts, deleteProducts, updateProducts,
 } from '../crud/db-query';
-import constants from '../helpers/constants';
 
 
 const productsRouter = express.Router();
@@ -79,8 +78,7 @@ productsRouter.delete('/:id', ensureToken, (req, res) => {
 });
 
 productsRouter.put('/:id', verifyProductInput, ensureToken, (req, res) => {
-  
-   if (!isAdmin(req.body.decoded.level)) {
+  if (!isAdmin(req.body.decoded.level)) {
     sendResponse(res, 403, null, 'Your are not authorized to modify this content');
     return;
   }

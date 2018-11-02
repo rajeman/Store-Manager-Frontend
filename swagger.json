@@ -5,18 +5,11 @@
       "title": "Store Manager",
       "description": "API docs for Store Manager.",
       "contact": {
+         "name": "Emmanuel Raji",
          "email": "manuelraji15@gmail.com"
-      },
-      "license": {
-         "name": "MIT",
-         "url": "https://opensource.org/licenses/MIT"
       }
    },
    "servers": [
-      {
-         "description": "SwaggerHub API Auto Mocking",
-         "url": "https://virtserver.swaggerhub.com/rajeman/Store-Manager/1.0.0"
-      },
       {
          "url": "https://onlinestoremanager.herokuapp.com/api/v1"
       }
@@ -66,10 +59,10 @@
                         "schema": {
                            "type": "object",
                            "properties": {
-                              "message": {
-                                 "type": "string"
+                              "success": {
+                                 "type": "boolean"
                               },
-                              "token": {
+                              "message": {
                                  "type": "string"
                               }
                            }
@@ -139,11 +132,16 @@
             "tags": [
                "Users"
             ],
+            "security": [
+               {
+                  "bearerAuth": []
+               }
+            ],
             "summary": "create a new attendant",
             "requestBody": {
                "required": true,
                "content": {
-                  "application/x-www-form-urlencoded": {
+                  "application/json": {
                      "schema": {
                         "type": "object",
                         "required": [
@@ -241,24 +239,7 @@
                               "type": "object",
                               "required": [
                                  "products"
-                              ],
-                              "properties": {
-                                 "product_id": {
-                                    "type": "integer"
-                                 },
-                                 "product_name": {
-                                    "type": "string"
-                                 },
-                                 "product_price": {
-                                    "type": "integer"
-                                 },
-                                 "product_quantity": {
-                                    "type": "integer"
-                                 },
-                                 "minimumInventory": {
-                                    "type": "integer"
-                                 }
-                              }
+                              ]
                            }
                         }
                      }
@@ -315,7 +296,7 @@
             "requestBody": {
                "required": true,
                "content": {
-                  "application/x-www-form-urlencoded": {
+                  "application/json": {
                      "schema": {
                         "type": "object",
                         "required": [
@@ -548,30 +529,24 @@
             "requestBody": {
                "required": true,
                "content": {
-                  "application/x-www-form-urlencoded": {
+                  "application/json": {
                      "schema": {
                         "type": "object",
                         "required": [
                            "product"
                         ],
                         "properties": {
-                           "product": {
+                           "productName": {
                               "type": "string"
                            },
                            "price": {
                               "type": "integer"
                            },
-                           "quantity": {
+                           "productQuantity": {
                               "type": "integer"
                            },
-                           "category": {
-                              "type": "string"
-                           },
-                           "minimumInventoryQuantityRequired": {
+                           "minimumInventory": {
                               "type": "integer"
-                           },
-                           "imageUrl": {
-                              "type": "string"
                            }
                         }
                      }
@@ -837,7 +812,7 @@
             "requestBody": {
                "required": true,
                "content": {
-                  "application/x-www-form-urlencoded": {
+                  "application/json": {
                      "schema": {
                         "type": "object",
                         "required": [
@@ -994,7 +969,7 @@
             "requestBody": {
                "required": true,
                "content": {
-                  "application/x-www-form-urlencoded": {
+                  "application/json": {
                      "schema": {
                         "type": "object"
                      }
