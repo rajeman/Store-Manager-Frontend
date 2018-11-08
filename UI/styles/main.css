@@ -316,12 +316,41 @@ header li{
 
 .item{
   margin: 10px;
+  cursor: pointer;
 }
 .items-box img{
- height: 150px;
- width: 150px;
+ height: 220px;
+ width: 220px;
+}
+.quant-avail, .name-description, .price{
+width: 220px;
+}
+.quant-avail{
+  height: 24px;
+  margin:auto;
+  text-align: center;
+  font-size: 17px;
+
+}
+.name-description{
+  display: inline-block;
+  height: 49px;
+  font-family:'Roboto Condensed', sans-serif;
+  color: blue;
+  margin: auto;
+  line-height: 2.5ex;
+  height: 5ex; 
+  font-size: 18px;
+  overflow: hidden;
+  text-align: center;
 }
 
+.price{
+  height: 19px;
+  color: #e8491d;
+  font-size: 17px;
+  text-align: center;
+}
 .items-box .sale-record{
   height: 150px;
   width: 150px;
