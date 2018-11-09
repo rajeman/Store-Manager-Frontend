@@ -150,7 +150,7 @@ hr{
 }
 .confirm, .modify{
  color: #fff;
- background:#e8491d;;
+ background:#e8491d;
  
 }
 
@@ -172,17 +172,24 @@ table, th, td{
   border: 1px solid black;
 }
 
-th {
-    height: 50px;
-}
 
 td {
     height: 40px;
     font-family:'Robofont-size: 17px;to Condensed', sans-serif;
+    cursor: pointer;
 }
 
 tr:nth-child(even){
   background-color: #eef;
+  }
+
+tr:hover{
+  background: #e8491d;
+}
+
+th {
+  background-color:  #f4f4f4;
+   height: 50px;
 }
 /* header */
 header{

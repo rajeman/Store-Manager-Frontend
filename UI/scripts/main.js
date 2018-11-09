@@ -31,5 +31,10 @@ const displayDialog = ()=>{
 
 const gotoProduct =()=>{
   window.location.href='./product-details.html';
-}
+};
+
+const getOrderId =(event)=>{
+ // alert(event.target.parentElement.getElementsByTagName('td')[0].innerHTML);
+  window.location.href='./admin-record-details.html';
+};
 
