@@ -160,6 +160,30 @@ hr{
 #dialog-box .cancel{
  background:#BDBDBD;
 }
+
+table{
+  margin-top: 15px;
+  width:100%;
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+table, th, td{
+  border: 1px solid black;
+}
+
+th {
+    height: 50px;
+}
+
+td {
+    height: 40px;
+    font-family:'Robofont-size: 17px;to Condensed', sans-serif;
+}
+
+tr:nth-child(even){
+  background-color: #eef;
+}
 /* header */
 header{
   
