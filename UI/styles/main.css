@@ -421,6 +421,14 @@ width: 220px;
 .items-box .record-date{
   color: #BDBDBD;
 }
+
+#dialog-box input{
+  margin:10px;
+}
+#dialog-box label{
+ margin:10px;
+ font-family:'Robofont-size: 17px;to Condensed', sans-serif;
+}
 /* footer */
 
 
