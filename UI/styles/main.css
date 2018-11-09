@@ -21,6 +21,7 @@ html, body{
   width: 80%;
   overflow: auto;
   margin: auto; 
+  text-align: center;
 }
 
 input[type="password"], [type="email"], [type="text"], [type="number"]{
@@ -274,7 +275,7 @@ header li{
   align-items: center;
 }
 .attendant-content li{
-  margin: 10px;
+  margin: 8px;
   display:inline;
   text-transform: uppercase;
   font-size: 12px;
@@ -295,22 +296,21 @@ header li{
   border-left: 1px solid #CCCCCC;
 
 }
-/* https://stackoverflow.com/questions/710089/how-do-i-make-an-html-link-look-like-a-button */
+
 .wrapper{
   height: 500px;
 }
 .checkout{
-  float: right;
-  margin: 5px !important;
   border-radius: 5px;
+  margin: 5px;
 }
 .items-box{
   clear: both;
   display: flex;
   flex-direction: row;
   align-items: center;
-  align-content: space-between;
-  justify-content: space-between;
+  align-content: center;
+  justify-content: center;
   flex-wrap: wrap;
 }
 
@@ -325,17 +325,17 @@ header li{
 .quant-avail, .name-description, .price{
 width: 220px;
 }
-.quant-avail{
+.quant-avail, .min-invent{
   height: 24px;
   margin:auto;
   text-align: center;
-  font-size: 17px;
+  color: #e8491d;
 
 }
 .name-description{
   display: inline-block;
   height: 49px;
-  font-family:'Roboto Condensed', sans-serif;
+  font-family:'Robofont-size: 17px;to Condensed', sans-serif;
   color: blue;
   margin: auto;
   line-height: 2.5ex;
@@ -351,12 +351,28 @@ width: 220px;
   font-size: 17px;
   text-align: center;
 }
+.detailed-price{
+ margin-left: auto;
+ margin-right: auto;
+}
 .items-box .sale-record{
   height: 150px;
   width: 150px;
   background: #fff;
   text-align: center;
 }
+
+.product-details{
+  text-align: center;
+ zoom: 0.8;
+ -moz-transform: scale(0.8);
+}
+
+.detailed-description{
+ width: 400px;
+ 
+}
+
 
 .sale-record{
   display: flex;
@@ -408,8 +424,9 @@ footer{
  }
  .attendant-content ul{
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 } 
@@ -462,10 +479,41 @@ footer{
 
 }
 
+@media screen and (min-width:700px){
+
+  .items-box{
+     zoom: 0.8;
+    -moz-transform: scale(0.8);
+}
+.product-details{
+  text-align: center;
+ zoom: 0.9;
+ -moz-transform: scale(0.9);
+}
+
+.detailed-description{
+ width: 500px;
+ 
+}
+.checkout{
+  float: right;
+}
+
+
+
+}
+
+
 @media screen and (min-width:910px){
 
  #user-form{
   max-width: 40%;
+}
+ .attendant-content ul{
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: nowrap;
 }
 
 

@@ -30,6 +30,6 @@ const displayDialog = ()=>{
 };
 
 const gotoProduct =()=>{
-  window.location.href='./product-details';
+  window.location.href='./product-details.html';
 }
 
