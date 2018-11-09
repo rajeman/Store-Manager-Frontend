@@ -29,3 +29,7 @@ const displayDialog = ()=>{
  dialogBackgroundWindow.style.display = 'block';
 };
 
+const gotoProduct =()=>{
+  window.location.href='./product-details.html';
+}
+
