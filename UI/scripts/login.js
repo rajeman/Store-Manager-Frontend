@@ -10,8 +10,8 @@ const login = () => {
   const email = document.getElementById('email').value;
   const password = document.getElementById('password').value;
   const userInput = { email, password };
-  document.getElementsByClassName('lds-hourglass')[0].style.display="inline";
-  document.getElementsByClassName('pop-up')[0].style.display="none";
+  document.getElementsByClassName('lds-hourglass')[0].style.display = 'inline';
+  document.getElementsByClassName('pop-up')[0].style.display = 'none';
 	 fetch(loginUrl, {
     method: 'Post',
     headers: {
@@ -30,16 +30,16 @@ const login = () => {
             window.location.replace(attendantPage);
           }
         }, 300);
-      } else{
-        document.getElementsByClassName('lds-hourglass')[0].style.display="none";
-        document.getElementsByClassName('pop-up')[0].style.display="block";
-        document.getElementsByClassName('pop-up')[0].innerHTML= data.error;
+      } else {
+        document.getElementsByClassName('lds-hourglass')[0].style.display = 'none';
+        document.getElementsByClassName('pop-up')[0].style.display = 'block';
+        document.getElementsByClassName('pop-up')[0].innerHTML = data.error;
       }
     }).catch((e) => {
-      document.getElementsByClassName('lds-hourglass')[0].style.display="none";
-       document.getElementsByClassName('pop-up')[0].style.display="block";
-      document.getElementsByClassName('pop-up')[0].innerHTML= "Network Error";
+      document.getElementsByClassName('lds-hourglass')[0].style.display = 'none';
+      document.getElementsByClassName('pop-up')[0].style.display = 'block';
+      document.getElementsByClassName('pop-up')[0].innerHTML = 'Network Error';
 
-      console.log(e)});
+      console.log(e);
+    });
 };
-
