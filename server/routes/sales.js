@@ -52,7 +52,6 @@ salesRouter.get('/', ensureToken, (req, res) => {
       ordersArray: result,
     });
   }).catch(() => {
-    
     sendResponse(res, 500, null, 'Internal server error');
   });
 });
@@ -76,7 +75,7 @@ salesRouter.get('/:id', ensureToken, (req, res) => {
     }
     sendResponse(res, 403, null, 'You are not authorized to view this order');
   }).catch(() => {
-     //console.log(e);
+    // console.log(e);
     sendResponse(res, 500, null, 'Internal server error');
   });
 });
