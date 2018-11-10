@@ -26,6 +26,7 @@ app.use('/api/v1/cart', cartRouter);
 app.get('/', (req, res) => {
   res.send({ message: 'Welcome to Store Manager' });
 });
+app.use('/', express.static('UI'));
 app.use('*', (req, res) => {
   res.status(404).send({ error: 'Invalid Route' });
 });
