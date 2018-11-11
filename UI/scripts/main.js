@@ -42,3 +42,5 @@ const getOrderId = (event) => {
   // alert(event.target.parentElement.getElementsByTagName('td')[0].innerHTML);
   window.location.href = './order-details.html';
 };
+
+

@@ -371,9 +371,11 @@ width: 220px;
   color: blue;
   margin: auto;
   line-height: 2.5ex;
+  height: 2.5ex;
   font-size: 18px;
   overflow: hidden;
   text-align: center;
+  text-overflow: ellipsis;
 }
 
 .price{
@@ -401,7 +403,7 @@ width: 220px;
 
 .detailed-description{
  width: 400px;
- 
+ height: auto;
 }
 
 

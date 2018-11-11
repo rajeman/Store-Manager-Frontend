@@ -6,6 +6,7 @@
 	<link href="https://fonts.googleapis.com/css?family=Lato|Roboto+Condensed" rel="stylesheet">
 	<link href="./styles/main.css" rel="stylesheet">
 	<link href="./styles/extras.css" rel="stylesheet">
+	<script type="text/javascript" src="./scripts/product-details.js"></script>
 	<title>Store-Manager | Admin Dashboard</title>
 </head>
 
@@ -46,30 +47,27 @@
 				<div class="page-content">
 					<div class="profile-info">
 						<div class="profile-photo-container"></div>
-						<div class="label">Name:</div>
-						<div class="details">Jax Bishop</div>
-						<div class="label">Email:</div>
-						<div class="details">bishopjack@gmail.com</div>
+						<div class="label" >Name:</div>
+						<div class="details" id="username"></div>
+						<div class="label" >Email:</div>
+						<div class="details" id="email"></div>
 						<div class="label">Job Title:</div>
-						<div class="details">Admin</div>
+						<div class="details" id="level"></div>
 						<div class="label">Last logged in:</div>
 						<div class="details">09-Oct-18 4:07pm</div>
 					</div>
 					<div class="attendant-content">
 						
-						<div class="product-details">
+						<div class="product-details" id="product">
 							<img src="./images/item1.jpg">
 							<div class="quant-avail">
-								500 available
 							</div>
 							<div class="min-invent">
-								Minimum Inventory: 30
 							</div>
 							<div class="name-description detailed-description">
-								Original VR Headset for Gamers and Fun Lovers Original VR Headset for Gamers and Fun Lovers Original VR Headset for Gamers and Fun Lovers
 							</div>
 							<div class="price detailed-price">
-								$<span class="actual-price">8</span> per item
+								$<span class="actual-price"></span> per item
 							</div>
 							<input type="button" class="confirm modify" value="Modify" onclick="window.location.href='./modify-product.html';"></input>	
 							<input type="button" class="delete" value="Delete" onclick="displayDialog();"></input>	

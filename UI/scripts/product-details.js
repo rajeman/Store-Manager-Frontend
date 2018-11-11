@@ -3,10 +3,9 @@ let host = 'http://onlinestoremanager.herokuapp.com';
 if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
   host = 'http://localhost:5008';
 }
-
+const adminPage = `${host}/admin.html`;
 const loginPage = `${host}/login.html`;
 const profileUrl = `${host}/api/v1/user`;
-const productsUrl = `${host}/api/v1/products`;
 const token = localStorage.getItem('Authorization');
 const signout = () => {
   localStorage.removeItem('Authorization');
@@ -15,9 +14,6 @@ const signout = () => {
 if (!token) {
   window.location.replace(loginPage);
 }
-const gotoProduct = (productId) => {
-  window.location.href = `./product-details.html?id=${productId}`;
-};
 const authHeader = `Bearer ${token}`;
 const populateProfile = () => {
   fetch(profileUrl, {
@@ -45,8 +41,14 @@ const populateProfile = () => {
     }).catch(e => console.log(e));
 };
 
-const populateProducts = () => {
-  fetch(productsUrl, {
+const params = (new URL(document.location)).searchParams;
+const productId = params.get("id");
+const productUrl = `${host}/api/v1/products/${productId}`;
+if(!productId){
+  window.location.replace(adminPage);
+}
+
+fetch(productUrl, {
     method: 'Get',
     headers: {
       'Content-type': 'application/json',
@@ -55,22 +57,20 @@ const populateProducts = () => {
   }).then(response => response.json())
     .then((data) => {
       if (data.message) {
-        data.products.forEach((item) => {
-          const productItem = document.getElementsByClassName('item')[0].cloneNode(true);
-          productItem.id = item.product_id;
-          productItem.getElementsByClassName('quant-avail')[0].innerHTML = `${item.product_quantity} available`;
-          productItem.getElementsByClassName('name-description')[0].innerHTML = item.product_name;
-          productItem.getElementsByClassName('actual-price')[0].innerHTML = item.product_price;
-          productItem.addEventListener('click', ()=>{gotoProduct(productItem.id)});
+          const productItem = document.getElementById('product');
+          productItem.id = data.product[0].product_id;
+          productItem.getElementsByClassName('quant-avail')[0].innerHTML = `${data.product[0].product_quantity} available`;
+          productItem.getElementsByClassName('detailed-description')[0].innerHTML = data.product[0].product_name;
+          productItem.getElementsByClassName('actual-price')[0].innerHTML = data.product[0].product_price;
+          productItem.getElementsByClassName('min-invent')[0].innerHTML = `Minimum Inventory: ${data.product[0].minimum_inventory}`;
           productItem.style.display = 'block';
-          document.getElementsByClassName('items-box')[0].appendChild(productItem);
-        });
+         // document.getElementsByClassName('items-box')[0].appendChild(productItem);
+  
       } else {
-          signout();
+          //signout();
+          //alert cannot find product
+           window.location.replace(adminPage);
       }
     }).catch(e => console.log(e));
-};
-
-
 populateProfile();
-populateProducts();
+
