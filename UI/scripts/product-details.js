@@ -42,35 +42,39 @@ const populateProfile = () => {
 };
 
 const params = (new URL(document.location)).searchParams;
-const productId = params.get("id");
+const productId = params.get('id');
 const productUrl = `${host}/api/v1/products/${productId}`;
-if(!productId){
+if (!productId) {
   window.location.replace(adminPage);
 }
 
 fetch(productUrl, {
-    method: 'Get',
-    headers: {
-      'Content-type': 'application/json',
-      Authorization: authHeader,
-    },
-  }).then(response => response.json())
-    .then((data) => {
-      if (data.message) {
-          const productItem = document.getElementById('product');
-          productItem.id = data.product[0].product_id;
-          productItem.getElementsByClassName('quant-avail')[0].innerHTML = `${data.product[0].product_quantity} available`;
-          productItem.getElementsByClassName('detailed-description')[0].innerHTML = data.product[0].product_name;
-          productItem.getElementsByClassName('actual-price')[0].innerHTML = data.product[0].product_price;
-          productItem.getElementsByClassName('min-invent')[0].innerHTML = `Minimum Inventory: ${data.product[0].minimum_inventory}`;
-          productItem.style.display = 'block';
-         // document.getElementsByClassName('items-box')[0].appendChild(productItem);
-  
-      } else {
-          //signout();
-          //alert cannot find product
-           window.location.replace(adminPage);
-      }
-    }).catch(e => console.log(e));
+  method: 'Get',
+  headers: {
+    'Content-type': 'application/json',
+    Authorization: authHeader,
+  },
+}).then(response => response.json())
+  .then((data) => {
+    if (data.message) {
+      const productItem = document.getElementById('product');
+      productItem.id = data.product[0].product_id;
+      productItem.getElementsByClassName('quant-avail')[0].innerHTML = `${data.product[0].product_quantity} available`;
+      productItem.getElementsByClassName('detailed-description')[0].innerHTML = data.product[0].product_name;
+      productItem.getElementsByClassName('actual-price')[0].innerHTML = data.product[0].product_price;
+      productItem.getElementsByClassName('min-invent')[0].innerHTML = `Minimum Inventory: ${data.product[0].minimum_inventory}`;
+      const modifyButton = document.getElementById('modify');
+      modifyButton.addEventListener('click', () => { modifyProduct(productItem.id); });
+      productItem.style.display = 'block';
+      // document.getElementsByClassName('items-box')[0].appendChild(productItem);
+    } else {
+      // signout();
+      // alert cannot find product
+      window.location.replace(adminPage);
+    }
+  }).catch(e => console.log(e));
 populateProfile();
 
+const modifyProduct = (productId) => {
+  window.location.href = `./modify-product.html?id=${productId}`;
+};

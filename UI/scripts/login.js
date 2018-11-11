@@ -23,6 +23,7 @@ const login = () => {
     	 // console.log(data);
       if (data.message) {
         localStorage.setItem('Authorization', data.token);
+        localStorage.setItem('Level', data.level);
         setTimeout(() => {
           if (data.level === 2) {
             window.location.href = adminPage;

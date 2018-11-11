@@ -61,12 +61,12 @@ const populateProducts = () => {
           productItem.getElementsByClassName('quant-avail')[0].innerHTML = `${item.product_quantity} available`;
           productItem.getElementsByClassName('name-description')[0].innerHTML = item.product_name;
           productItem.getElementsByClassName('actual-price')[0].innerHTML = item.product_price;
-          productItem.addEventListener('click', ()=>{gotoProduct(productItem.id)});
+          productItem.addEventListener('click', () => { gotoProduct(productItem.id); });
           productItem.style.display = 'block';
           document.getElementsByClassName('items-box')[0].appendChild(productItem);
         });
       } else {
-          signout();
+        signout();
       }
     }).catch(e => console.log(e));
 };
