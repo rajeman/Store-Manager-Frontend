@@ -346,6 +346,7 @@ header li{
 }
 
 .item{
+  display: none;
   margin: 10px;
   cursor: pointer;
 }
@@ -365,15 +366,16 @@ width: 220px;
 }
 .name-description{
   display: inline-block;
-  height: 49px;
+  height: auto;
   font-family:'Robofont-size: 17px;to Condensed', sans-serif;
   color: blue;
   margin: auto;
   line-height: 2.5ex;
-  height: 5ex; 
+  height: 2.5ex;
   font-size: 18px;
   overflow: hidden;
   text-align: center;
+  text-overflow: ellipsis;
 }
 
 .price{
@@ -401,7 +403,7 @@ width: 220px;
 
 .detailed-description{
  width: 400px;
- 
+ height: auto;
 }
 
 

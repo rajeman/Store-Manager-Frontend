@@ -33,7 +33,7 @@ productsRouter.get('/', ensureToken, (req, res) => {
     res.status(200).send({
       status: 200,
       message: 'successfully fetched products',
-      productsArray: result,
+      products: result,
     });
   }).catch(() => {
     // console.log(e);
