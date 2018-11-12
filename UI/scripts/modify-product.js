@@ -8,6 +8,7 @@ const attendantPage = `${host}/attendant-dashboard.html`;
 const loginPage = `${host}/login.html`;
 const profileUrl = `${host}/api/v1/user`;
 const token = localStorage.getItem('Authorization');
+
 const signout = () => {
   localStorage.removeItem('Authorization');
   window.location.href = loginPage;
@@ -87,3 +88,5 @@ const doModify = () => {
 
   return false;
 };
+
+

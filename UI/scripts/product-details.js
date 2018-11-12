@@ -7,9 +7,16 @@ const adminPage = `${host}/admin.html`;
 const loginPage = `${host}/login.html`;
 const profileUrl = `${host}/api/v1/user`;
 const token = localStorage.getItem('Authorization');
+const deleteButton = document.getElementById('delete-button');
+const dialogBackgroundWindow = document.getElementById('dialog-background-window');
+console.log(dialogBackgroundWindow);
 const signout = () => {
   localStorage.removeItem('Authorization');
   window.location.href = loginPage;
+};
+
+const displayDialog = () => {
+  dialogBackgroundWindow.style.display = 'block';
 };
 if (!token) {
   window.location.replace(loginPage);
@@ -78,3 +85,33 @@ populateProfile();
 const modifyProduct = (productId) => {
   window.location.href = `./modify-product.html?id=${productId}`;
 };
+
+const doDeleteProduct = () => {
+  fetch(productUrl, {
+    method: 'Delete',
+    headers: {
+      'Content-type': 'application/json',
+      Authorization: authHeader,
+    },
+  }).then(response => response.json())
+    .then((data) => {
+      // console.log(data);
+      if (data.message) {
+        setTimeout(() => {
+          // reply with modify success
+          window.location.href = adminPage;
+        }, 300);
+      } else {
+        // show it failed to delete
+        console.log(data.error);
+      }
+    }).catch((e) => {
+      console.log(e);
+    });
+};
+if (deleteButton) {
+  deleteButton.onclick = () => {
+    dialogBackgroundWindow.style.display = 'none';
+    doDeleteProduct();
+  };
+}
