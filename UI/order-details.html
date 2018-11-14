@@ -6,6 +6,7 @@
 	<link href="https://fonts.googleapis.com/css?family=Lato|Roboto+Condensed" rel="stylesheet">
 	<link href="./styles/main.css" rel="stylesheet">
 	<link href="./styles/extras.css" rel="stylesheet">
+	<script type="text/javascript" src="./scripts/order-details.js"></script>
 	<title>Store-Manager | Admin Dashboard</title>
 </head>
 
@@ -27,13 +28,12 @@
 					<img src="./images/icon-menu.png">
 					<div class="profile-info">
 						<div class="profile-photo-container"></div>
-						<div class="label">Name:</div>
-						<div class="details">Jax Bishop</div>
-						<div class="label">Email:</div>
-						<div class="details">bishopjack@gmail.com</div>
-						<hr>
+						<div class="label" >Name:</div>
+						<div class="details" id="usernameu"></div>
+						<div class="label" >Email:</div>
+						<div class="details" id="emailu"></div>
 						<div class="label">Job Title:</div>
-						<div class="details">Admin</div>
+						<div class="details" id="levelu"></div>
 						<div class="label">Last logged in:</div>
 						<div class="details">09-Oct-18 4:07pm</div>
 					</div>
@@ -46,12 +46,12 @@
 				<div class="page-content">
 					<div class="profile-info">
 						<div class="profile-photo-container"></div>
-						<div class="label">Name:</div>
-						<div class="details">Jax Bishop</div>
-						<div class="label">Email:</div>
-						<div class="details">bishopjack@gmail.com</div>
+						<div class="label" >Name:</div>
+						<div class="details" id="username"></div>
+						<div class="label" >Email:</div>
+						<div class="details" id="email"></div>
 						<div class="label">Job Title:</div>
-						<div class="details">Admin</div>
+						<div class="details" id="level"></div>
 						<div class="label">Last logged in:</div>
 						<div class="details">09-Oct-18 4:07pm</div>
 					</div>
@@ -59,7 +59,7 @@
 						<div class="container">						
 							<div class="wrapper">
 								<h2>Order Summary</h2>
-								<table>
+								<table id = "orders-table">
 									<tr>
 										<th>Attendant ID</th>
 										<th>Attendant Name</th> 
@@ -68,30 +68,15 @@
 										<th>Total Item</th>
 										<th>Order Price</th>
 									</tr>
-									<tr>
-										<td>1</td>
-										<td>John Doe</td> 
-										<td>161283928</td>
-										<td>649298092</td>
-										<td>25</td>
-										<td>300</td>
-									</tr>
 								</table>
 								<h2>Details</h2>
-								<table>
+								<table id= "details-table" >
 									<tr>
 										<th>Product ID</th>
 										<th>Product Name</th> 
 										<th>Quantity</th> 
 										<th>Price per Product</th>
 										<th>Total Price</th>
-									</tr>
-									<tr onclick="getOrderId(event);">
-										<td>1</td>
-										<td>Wireless Projector</td> 
-										<td>10</td>
-										<td>220</td>
-										<td>2200</td>
 									</tr>
 								</table>
 							</div>

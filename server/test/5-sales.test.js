@@ -59,8 +59,8 @@ describe('GET /sales', () => {
     .expect(200)
     .then((response) => {
       expect(response.body.message).toContain('successfully fetched');
-      expect(response.body.ordersArray).toBeTruthy();
-      expect(response.body.ordersArray).toHaveLength(1);
+      expect(response.body.orders).toBeTruthy();
+      expect(response.body.orders).toHaveLength(1);
     }));
 
   it('should not fetch any sale record for  an attendant', () => request(app)
@@ -70,7 +70,7 @@ describe('GET /sales', () => {
     .expect(403)
     .then((response) => {
       expect(response.body.error).toContain('not authorized');
-      expect(response.body.ordersArray).toBeFalsy();
+      expect(response.body.orders).toBeFalsy();
     }));
 
   it('should not fetch any sale record for  non authenticated user', () => request(app)
@@ -80,7 +80,7 @@ describe('GET /sales', () => {
     .expect(403)
     .then((response) => {
       expect(response.body.error).toContain('Invalid Token');
-      expect(response.body.ordersArray).toBeFalsy();
+      expect(response.body.orders).toBeFalsy();
     }));
 });
 

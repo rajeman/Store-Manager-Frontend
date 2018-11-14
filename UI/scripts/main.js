@@ -1,7 +1,7 @@
 const confirmButton = document.getElementById('confirm-button');
 const cancelButton = document.getElementById('cancel-button');
 const modifyButton = document.getElementById('modify-button');
-//const dialogBackgroundWindow = document.getElementById('dialog-background-window');
+// const dialogBackgroundWindow = document.getElementById('dialog-background-window');
 if (confirmButton) {
   confirmButton.onclick = () => {
     dialogBackgroundWindow.style.display = 'none';
@@ -27,8 +27,3 @@ const gotoProductAttendant = () => {
   window.location.href = './attendant-product-details.html';
 };
 
-
-const getOrderId = (event) => {
-  // alert(event.target.parentElement.getElementsByTagName('td')[0].innerHTML);
-  window.location.href = './order-details.html';
-};

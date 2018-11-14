@@ -49,7 +49,7 @@ salesRouter.get('/', ensureToken, (req, res) => {
     res.status(200).send({
       status: 200,
       message: 'successfully fetched orders',
-      ordersArray: result,
+      orders: result,
     });
   }).catch(() => {
     sendResponse(res, 500, null, 'Internal server error');
