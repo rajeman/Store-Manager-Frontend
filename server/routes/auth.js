@@ -79,7 +79,7 @@ authRouter.post('/login', (req, res) => {
         res.header('Authorization', `Bearer ${token}`);
         res.status(303).send({
           message: 'successfully logged in',
-          level:  result[0].user_level,
+          level: result[0].user_level,
           token,
         });
       } else {
