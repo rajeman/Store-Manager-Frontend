@@ -16,12 +16,7 @@ if (!token) {
   window.location.replace(loginPage);
 }
 const gotoProduct = (productId) => {
-  if(localStorage.getItem('Level') === 2){
   window.location.href = `./product-details.html?id=${productId}`;
-} else {
-  window.location.href = `./attendant-product-details.html?id=${productId}`;
-}
-
 };
 const authHeader = `Bearer ${token}`;
 const populateProfile = () => {
