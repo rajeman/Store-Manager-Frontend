@@ -154,6 +154,10 @@ hr{
  
 }
 
+.new-attendant{
+  margin-top: 30px;
+}
+
 .delete{
   background:red;
 }
@@ -538,6 +542,9 @@ footer{
 }
 .checkout{
   float: right;
+}
+.new-attendant{
+  float: none;
 }
 
 

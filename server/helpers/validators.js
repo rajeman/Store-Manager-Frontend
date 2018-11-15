@@ -1,11 +1,9 @@
 import validator from 'validator';
 import jwt from 'jsonwebtoken';
-import dotenv from 'dotenv';
 import sendResponse from './responses';
 import constants from './constants';
 import { getUser } from '../crud/db-query';
 
-dotenv.config();
 
 let secretKey = process.env.TOKEN_KEY;
 
