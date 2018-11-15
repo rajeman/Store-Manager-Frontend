@@ -1,7 +1,6 @@
 import expect from 'expect';
 import request from 'supertest';
 import app from '../app';
-import { clearTable } from '../crud/db-query';
 
 describe('GET /user', () => {
   it('should fetch the user with the token', () => request(app)

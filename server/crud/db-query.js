@@ -1,7 +1,5 @@
 import { Client } from 'pg';
-import dotenv from 'dotenv';
 
-dotenv.config();
 let connectionString = process.env.DATABASE_URL;
 
 if (process.env.current_env === 'test') {

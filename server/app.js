@@ -1,6 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import dotenv from 'dotenv';
+import {} from './helpers/config';
 import cors from 'cors';
 import swaggerUi from 'swagger-ui-express';
 import productsRouter from './routes/products';
@@ -9,12 +9,10 @@ import authRouter from './routes/auth';
 import cartRouter from './routes/cart';
 import userRouter from './routes/user';
 
-dotenv.config();
-
 
 const swaggerDocument = require('../swagger.json');
 
-const port = process.env.PORT || 5008;
+const port = process.env.PORT;
 
 const app = express();
 app.use(cors());
