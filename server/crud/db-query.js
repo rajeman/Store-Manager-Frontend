@@ -131,7 +131,13 @@ const deleteProducts = id => new Promise((resolve, reject) => {
       }
     }).catch(e => reject(e));
 });
-
+`WITH quantity_decrement AS
+               ( UPDATE ${productsTable} SET product_quantity = product_quantity - $1
+                 WHERE product_id = $2 
+                  RETURNING  product_name, product_price, product_id 
+               )
+INSERT INTO ${cartTable}() values(
+`
 const addToCart = item => new Promise((resolve, reject) => {
   const client = new Client(connectionString);
   client.connect()
@@ -164,20 +170,13 @@ const addToCart = item => new Promise((resolve, reject) => {
     });
 });
 
-const createOrder = item => new Promise((resolve, reject) => {
+const createOrder = items => new Promise((resolve, reject) => {
   const client = new Client(connectionString);
   client.connect()
     .then(() => {
-      const sql = `WITH checked_out_items AS
-                    ( UPDATE ${cartTable} SET time_checked_out = $1
-                        WHERE (user_id = $2 AND time_checked_out = 0)
-                      RETURNING  product_quantity, total_price
-                     )
-                   INSERT INTO ${ordersTable} (user_id, time_checked_out, order_price, order_quantity)
-                   VALUES($2, $1, (SELECT SUM(total_price) FROM checked_out_items), 
-                                   (SELECT SUM(product_quantity) FROM checked_out_items) )
-                  `;
 
+
+      const sql = ``;
 
       const params = [item.timeCheckedOut, item.userId];
       client.query(sql, params)
@@ -191,6 +190,33 @@ const createOrder = item => new Promise((resolve, reject) => {
       reject(e);
     });
 });
+
+/*const createOrder = item => new Promise((resolve, reject) => {
+  const client = new Client(connectionString);
+  client.connect()
+    .then(() => {
+      const sql = `WITH checked_out_items AS
+                    ( UPDATE ${cartTable} SET time_checked_out = $1
+                        WHERE (user_id = $2 AND time_checked_out = 0)
+                      RETURNING  product_quantity, total_price
+                     )
+                   INSERT INTO ${ordersTable} (user_id, time_checked_out, order_price, order_quantity)
+                   VALUES($2, $1, (SELECT SUM(total_price) FROM checked_out_items), 
+                                   (SELECT SUM(product_quantity) FROM checked_out_items) )
+                  `;
+
+      const params = [item.timeCheckedOut, item.userId];
+      client.query(sql, params)
+        .then((result) => {
+          resolve(result.rowCount);
+          client.end();
+        }).catch((e) => {
+          reject(e);
+        });
+    }).catch((e) => {
+      reject(e);
+    });
+});*/
 
 const getOrders = id => new Promise((resolve, reject) => {
   const client = new Client(connectionString);

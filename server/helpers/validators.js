@@ -2,7 +2,7 @@ import validator from 'validator';
 import jwt from 'jsonwebtoken';
 import sendResponse from './responses';
 import constants from './constants';
-import { getUser } from '../crud/db-query';
+import { getUser, getProducts } from '../crud/db-query';
 
 
 let secretKey = process.env.TOKEN_KEY;
@@ -34,6 +34,59 @@ const validateUser = (req, res, next) => {
   } else {
     sendResponse(res, 400, null, 'Invalid input. Make sure email is valid and name');
   }
+};
+
+const verifyOrderInput = (req, res, next) => {
+  const orderInput = req.body;
+  // const orderItem = { productsArray: [] };
+  /* if(!orderInput || orderInput.length===0){
+       sendResponse(res, 400, null, 'Invalid input! Products list missing or empty');
+   } */
+  let shouldExit = false;
+  const { products } = orderInput;
+  if (!(products instanceof Array && products.length > 0)) {
+    sendResponse(res, 400, null, 'Invalid input! Products list missing or empty');
+    return;
+  }
+  getProducts().then((result) => {
+    const databaseProducts = result;
+    const mapDatabaseProducts = new Map();
+    // add the database products to a map to enable easy lookup
+    databaseProducts.forEach((productItem) => {
+      mapDatabaseProducts.set(String(productItem.product_id), productItem);
+    });
+    const duplicateProductsId = new Map();
+    products.every((inputProduct) => {
+      if (duplicateProductsId.get(String(inputProduct.productId))) {
+        sendResponse(res, 400, null, `product with id ${inputProduct.productId} is ordered twice`);
+        shouldExit = true;
+        return false;
+      }
+      duplicateProductsId.set(String(inputProduct.productId), inputProduct.productQuantity);
+      const currentdbProduct = mapDatabaseProducts.get(String(inputProduct.productId));
+      if (!currentdbProduct) {
+        sendResponse(res, 404, null, `product with id ${inputProduct.productId} does not exist`);
+        shouldExit = true;
+        return false;
+      }
+
+      if (currentdbProduct.product_quantity < inputProduct.productQuantity) {
+        sendResponse(res, 400, null, `requested quantity of '${currentdbProduct.product_name}' (${inputProduct.productQuantity}) with id ${inputProduct.productId} is greater than available quantity (${currentdbProduct.product_quantity})`);
+        shouldExit = true;
+        return false;
+      }
+      return true;
+    });
+
+    if (shouldExit) {
+      return;
+    }
+
+    next();
+  }).catch(() => {
+    // console.log(e);
+    sendResponse(res, 500, null, 'Internal server error');
+  });
 };
 
 const ensureToken = (req, res, next) => {
@@ -83,5 +136,5 @@ const verifyProductInput = (req, res, next) => {
 };
 export {
   validateUser, ensureToken,
-  verifyProductInput, verifyCartItem, isAdmin, isAttendant,
+  verifyProductInput, verifyCartItem, isAdmin, isAttendant, verifyOrderInput,
 };

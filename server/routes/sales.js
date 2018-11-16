@@ -1,6 +1,6 @@
 import express from 'express';
 import {
-  ensureToken, isAttendant, isAdmin,
+  ensureToken, isAttendant, isAdmin, verifyOrderInput,
 } from '../helpers/validators';
 import sendResponse from '../helpers/responses';
 import {
@@ -10,8 +10,9 @@ import {
 const salesRouter = express.Router();
 
 
-salesRouter.post('/', ensureToken, (req, res) => {
-  if (!isAttendant(req.body.decoded.level)) {
+salesRouter.post('/', ensureToken, verifyOrderInput, (req, res) => {
+  sendResponse(res, 403, null, 'Input passed');
+  /* if (!isAttendant(req.body.decoded.level)) {
     sendResponse(res, 403, null, 'You are not authorized to create order');
     return;
   }
@@ -37,12 +38,16 @@ salesRouter.post('/', ensureToken, (req, res) => {
       return;
     }
     sendResponse(res, 500, null, 'Internal server error');
-  });
+  }); */
 });
 
 salesRouter.get('/', ensureToken, (req, res) => {
   if (!isAdmin(req.body.decoded.level)) {
-    sendResponse(res, 403, null, 'You are not authorized to view sales record');
+    res.status(200).send({
+      status: 200,
+      message: 'successfully passed',
+      orders: req.body.orderInput,
+    });
     return;
   }
   getOrders().then((result) => {
