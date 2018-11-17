@@ -52,7 +52,7 @@ INSERT INTO users
 VALUES
 (
     'Jefferson Piper', 'jpiper@admin.com', '$2b$07$XkCk5ZAJV.7lVTZWDNN/3eX/u/qANOHikMtI67bEoOb8V9QIBEt1i', 0, 2
-)
+);
 
 alter table cart drop column time_added;
 

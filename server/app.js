@@ -6,7 +6,6 @@ import swaggerUi from 'swagger-ui-express';
 import productsRouter from './routes/products';
 import salesRouter from './routes/sales';
 import authRouter from './routes/auth';
-import cartRouter from './routes/cart';
 import userRouter from './routes/user';
 
 

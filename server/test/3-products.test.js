@@ -28,6 +28,51 @@ describe('POST /products', () => {
       expect(response.body.message).toContain('Authentic 3D Projector');
     }));
 
+  it('should second add a new product for an admin', () => request(app)
+    .post('/api/v1/products')
+    .send({
+      productName: 'Bluetooth printer',
+      price: 90,
+      minimumInventory: 6,
+      productQuantity: 420,
+      token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdGF0dXMiOjMwMywidXNlcm5hbWUiOiJKZWZmZXJzb24gUGlwZXIiLCJlbWFpbCI6ImpwaXBlckBhZG1pbi5jb20iLCJ1c2VySWQiOjEsImxldmVsIjoyLCJpYXQiOjE1NDA0NTMyMDJ9.HplqH5tLSIr5_l69D2FuUs3mpyBqtZjFSEouLSuIFGw',
+    })
+    .set('Accept', 'application/json')
+    .expect(201)
+    .then((response) => {
+      expect(response.body.message).toContain('Bluetooth printer');
+    }));
+
+  it('should add a third product for an admin', () => request(app)
+    .post('/api/v1/products')
+    .send({
+      productName: 'Wireless Mouse',
+      price: 6,
+      minimumInventory: 100,
+      productQuantity: 300,
+      token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdGF0dXMiOjMwMywidXNlcm5hbWUiOiJKZWZmZXJzb24gUGlwZXIiLCJlbWFpbCI6ImpwaXBlckBhZG1pbi5jb20iLCJ1c2VySWQiOjEsImxldmVsIjoyLCJpYXQiOjE1NDA0NTMyMDJ9.HplqH5tLSIr5_l69D2FuUs3mpyBqtZjFSEouLSuIFGw',
+    })
+    .set('Accept', 'application/json')
+    .expect(201)
+    .then((response) => {
+      expect(response.body.message).toContain('Wireless Mouse');
+    }));
+
+  it('should add a fourth product for an admin', () => request(app)
+    .post('/api/v1/products')
+    .send({
+      productName: 'Executive Car Charger',
+      price: 8,
+      minimumInventory: 3,
+      productQuantity: 1020,
+      token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdGF0dXMiOjMwMywidXNlcm5hbWUiOiJKZWZmZXJzb24gUGlwZXIiLCJlbWFpbCI6ImpwaXBlckBhZG1pbi5jb20iLCJ1c2VySWQiOjEsImxldmVsIjoyLCJpYXQiOjE1NDA0NTMyMDJ9.HplqH5tLSIr5_l69D2FuUs3mpyBqtZjFSEouLSuIFGw',
+    })
+    .set('Accept', 'application/json')
+    .expect(201)
+    .then((response) => {
+      expect(response.body.message).toContain('Executive Car Charger');
+    }));
+
   it('should not add a new product with an invalid token', () => request(app)
     .post('/api/v1/products')
     .send({
@@ -83,7 +128,7 @@ describe('GET /products', () => {
     .then((response) => {
       expect(response.body.message).toContain('successfully fetched');
       expect(response.body.products[0].product_name).toContain('Authentic 3D Projector');
-      expect(response.body.products).toHaveLength(1);
+      expect(response.body.products).toHaveLength(4);
     }));
 
   it('should not fetch products for non-authenticated user', () => request(app)
@@ -118,7 +163,7 @@ describe('GET /products:id', () => {
     }));
 
   it('should not fetch invalid product', () => request(app)
-    .get('/api/v1/products/3')
+    .get('/api/v1/products/10')
     .set('Accept', 'application/json')
     .set('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdGF0dXMiOjMwMywidXNlcm5hbWUiOiJKZWZmZXJzb24gUGlwZXIiLCJlbWFpbCI6ImpwaXBlckBhZG1pbi5jb20iLCJ1c2VySWQiOjEsImxldmVsIjoyLCJpYXQiOjE1NDA0NTMyMDJ9.HplqH5tLSIr5_l69D2FuUs3mpyBqtZjFSEouLSuIFGw')
     .expect(404)
@@ -131,7 +176,7 @@ describe('PUT /products:id', () => {
   it('should modify the product for an authenticated admin', () => request(app)
     .put('/api/v1/products/1')
     .send({
-      productName: 'Wireless Mouse',
+      productName: 'Smart Torchlight',
       price: 300,
       minimumInventory: 14,
       productQuantity: 250,
@@ -174,7 +219,7 @@ describe('PUT /products:id', () => {
     }));
 
   it('should not modify invalid product', () => request(app)
-    .put('/api/v1/products/3')
+    .put('/api/v1/products/8')
     .send({
       productName: 'Mouse Pad',
       price: 101,
@@ -210,7 +255,7 @@ describe('DELETE /products:id', () => {
     }));
 
   it('should not delete invalid product', () => request(app)
-    .delete('/api/v1/products/3')
+    .delete('/api/v1/products/9')
     .set('Accept', 'application/json')
     .set('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdGF0dXMiOjMwMywidXNlcm5hbWUiOiJKZWZmZXJzb24gUGlwZXIiLCJlbWFpbCI6ImpwaXBlckBhZG1pbi5jb20iLCJ1c2VySWQiOjEsImxldmVsIjoyLCJpYXQiOjE1NDA0NTMyMDJ9.HplqH5tLSIr5_l69D2FuUs3mpyBqtZjFSEouLSuIFGw')
     .expect(404)
