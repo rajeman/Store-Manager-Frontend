@@ -253,7 +253,8 @@ const getOrders = id => new Promise((resolve, reject) => {
 
 export {
   createUser, getUser, createProduct, getProducts, deleteProducts, updateProducts,
-   createOrder, getOrders }
+  createOrder, getOrders,
+};
 
 
 // CREATE TABLE users(user_id serial PRIMARY KEY, user_name text NOT NULL,

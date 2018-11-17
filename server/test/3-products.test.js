@@ -2,10 +2,8 @@ import expect from 'expect';
 import request from 'supertest';
 import app from '../app';
 
-const productsTable = 'products';
 
 describe('POST /products', () => {
- 
   it('should add a new product for an admin', () => request(app)
     .post('/api/v1/products')
     .send({

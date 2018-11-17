@@ -1,9 +1,8 @@
 import expect from 'expect';
 import request from 'supertest';
 import app from '../app';
-import { getUser} from '../crud/db-query';
+import { getUser } from '../crud/db-query';
 
-const usersTable = 'users';
 
 describe('POST /signup', () => {
   it('should create a new attendant for an admin', () => request(app)

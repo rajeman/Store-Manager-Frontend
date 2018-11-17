@@ -98,7 +98,9 @@ describe('POST /sales', () => {
     .send({
       token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdGF0dXMiOjMwMywidXNlcm5hbWUiOiJNciBBdHRlbmRhbnQgQnJvd24iLCJlbWFpbCI6Im1yc21pdGhAZ21haWwuY29tIiwidXNlcklkIjoyLCJsZXZlbCI6MSwiaWF0IjoxNTQwNzMxMzk2fQ.x_IZlaOaBunwr9ablT_q4XxCCkxY-v963f5CIQ81DsI',
       products:
-          [{ productId: 3, productQuantity: 20 }, { productId: 2, productQuantity: 8 }, { productId: 3, productQuantity: 5 }],
+          [{ productId: 3, productQuantity: 20 },
+            { productId: 2, productQuantity: 8 },
+            { productId: 3, productQuantity: 5 }],
     })
     .set('Accept', 'application/json')
     .expect(400)
