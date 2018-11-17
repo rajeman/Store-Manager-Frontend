@@ -131,26 +131,27 @@ const deleteProducts = id => new Promise((resolve, reject) => {
       }
     }).catch(e => reject(e));
 });
-`WITH quantity_decrement AS
+/* `WITH quantity_decrement AS
                ( UPDATE ${productsTable} SET product_quantity = product_quantity - $1
-                 WHERE product_id = $2 
-                  RETURNING  product_name, product_price, product_id 
+                 WHERE product_id = $2
+                  RETURNING  product_name, product_price, product_id
                )
 INSERT INTO ${cartTable}() values(
-`
+`; */
 const addToCart = item => new Promise((resolve, reject) => {
   const client = new Client(connectionString);
   client.connect()
     .then(() => {
+      JSON.stringify(req.body.orderInput.products);
       const sql = `WITH quantity_decrement AS
                ( UPDATE ${productsTable} SET product_quantity = product_quantity - $1
-                 WHERE product_id = $2 
-                  RETURNING  product_name, product_price, product_id 
+                 WHERE product_id = $2
+                  RETURNING  product_name, product_price, product_id
                )
-                 INSERT INTO ${cartTable} (user_id, time_added, total_price,  product_quantity,  
-                 product_name, product_price, product_id ) 
+                 INSERT INTO ${cartTable} (user_id, time_added, total_price,  product_quantity,
+                 product_name, product_price, product_id )
 
-                VALUES( $3, $4, $5, $1,  (SELECT product_name FROM quantity_decrement), 
+                VALUES( $3, $4, $5, $1,  (SELECT product_name FROM quantity_decrement),
                    (SELECT product_price FROM quantity_decrement),
                    (SELECT product_id FROM quantity_decrement))`;
 
@@ -170,18 +171,82 @@ const addToCart = item => new Promise((resolve, reject) => {
     });
 });
 
-const createOrder = items => new Promise((resolve, reject) => {
+const createOrder = (userId, items) => new Promise((resolve, reject) => {
   const client = new Client(connectionString);
   client.connect()
     .then(() => {
+      const jsonItems = JSON.stringify(items);
+     const timeCheckedOut = (new Date()).getTime();
+      const sql = `
+           DROP TABLE IF EXISTS temp_table;
+           CREATE TEMPORARY TABLE temp_table 
+             ( 
+                          "productId"       INTEGER, 
+                          "productQuantity" INTEGER, 
+                          "productName" TEXT, 
+                          "productPrice" INTEGER, 
+                          "totalPrice" INTEGER 
+             );
 
+             WITH inserted_values AS 
+( 
+            insert INTO temp_table 
+                        ( 
+                                    "productId", 
+                                    "productQuantity", 
+                                    "productName", 
+                                    "productPrice",
+                                    "totalPrice" 
+                        ) 
+            SELECT    * 
+            FROM      json_to_recordset('${jsonItems}') AS x("productId" INTEGER, "productQuantity" INTEGER, "productName" text, "productPrice" INTEGER, "totalPrice" INTEGER)
+            returning * 
+) 
+, quantity_decrement AS 
+( 
+          UPDATE ${productsTable} 
+          SET       product_quantity = product_quantity - inserted_values."productQuantity" 
+          FROM      inserted_values 
+          WHERE     ${productsTable}.product_id = inserted_values."productId" 
+          returning * 
+) 
+, order_details_insert AS 
+( 
+            INSERT INTO ${cartTable} 
+                        (           product_name, 
+                                    product_price, 
+                                    product_quantity, 
+                                    product_id, 
+                                    total_price,
+                                    user_id, 
+                                    time_checked_out
+                        ) 
+            SELECT "productName", "productPrice", "productQuantity", "productId", "totalPrice", u_id, t_c_out
+            FROM  
+            inserted_values, (select ${userId} as u_id) as ud, (select ${timeCheckedOut} as t_c_out) as tc
+            returning *     
 
-      const sql = ``;
+)
+, order_summary_insert AS
+ (
+           INSERT INTO ${ordersTable}
+                        (   user_id,
+                            time_checked_out, 
+                            order_price, 
+                            order_quantity
+                        )
+             VALUES
+             (${userId},  ${timeCheckedOut}, (SELECT SUM(total_price) FROM order_details_insert), (SELECT SUM(product_quantity)
+                         FROM order_details_insert) )
+            RETURNING  user_id, time_checked_out, order_price, order_quantity     
+ ) 
 
-      const params = [item.timeCheckedOut, item.userId];
-      client.query(sql, params)
+SELECT * FROM   order_summary_insert;
+      `;          
+
+      client.query(sql)
         .then((result) => {
-          resolve(result.rowCount);
+          resolve(result);
           client.end();
         }).catch((e) => {
           reject(e);
@@ -191,7 +256,7 @@ const createOrder = items => new Promise((resolve, reject) => {
     });
 });
 
-/*const createOrder = item => new Promise((resolve, reject) => {
+/* const createOrder = item => new Promise((resolve, reject) => {
   const client = new Client(connectionString);
   client.connect()
     .then(() => {
@@ -201,7 +266,7 @@ const createOrder = items => new Promise((resolve, reject) => {
                       RETURNING  product_quantity, total_price
                      )
                    INSERT INTO ${ordersTable} (user_id, time_checked_out, order_price, order_quantity)
-                   VALUES($2, $1, (SELECT SUM(total_price) FROM checked_out_items), 
+                   VALUES($2, $1, (SELECT SUM(total_price) FROM checked_out_items),
                                    (SELECT SUM(product_quantity) FROM checked_out_items) )
                   `;
 
@@ -216,7 +281,7 @@ const createOrder = items => new Promise((resolve, reject) => {
     }).catch((e) => {
       reject(e);
     });
-});*/
+}); */
 
 const getOrders = id => new Promise((resolve, reject) => {
   const client = new Client(connectionString);
@@ -225,7 +290,7 @@ const getOrders = id => new Promise((resolve, reject) => {
       if (id) {
         const params = [id];
         const sql = `WITH order_summary AS
-                    ( SELECT orders.*, users.user_name FROM users LEFT JOIN orders ON orders.user_id = users.user_id WHERE order_id = $1
+                    ( SELECT orders.*, users.user_name FROM users LEFT JOIN orders ON orders.user_id = users.user_id WHERE time_checked_out = $1
                      )
                     SELECT * FROM (SELECT * FROM ${cartTable} WHERE time_checked_out = (SELECT time_checked_out FROM order_summary)) a, (SELECT * FROM order_summary) b
                   `;

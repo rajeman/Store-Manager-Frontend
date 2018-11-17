@@ -57,6 +57,13 @@ const verifyOrderInput = (req, res, next) => {
     });
     const duplicateProductsId = new Map();
     products.every((inputProduct) => {
+      if (!(isPositiveInteger(inputProduct.productId)
+        && isPositiveInteger(inputProduct.productQuantity))) {
+        sendResponse(res, 400, null, 'product id and quantity should be positive integers');
+        shouldExit = true;
+        return false;
+      }
+
       if (duplicateProductsId.get(String(inputProduct.productId))) {
         sendResponse(res, 400, null, `product with id ${inputProduct.productId} is ordered twice`);
         shouldExit = true;
@@ -75,6 +82,9 @@ const verifyOrderInput = (req, res, next) => {
         shouldExit = true;
         return false;
       }
+      inputProduct.productName = currentdbProduct.product_name;
+      inputProduct.productPrice = currentdbProduct.product_price;
+      inputProduct.totalPrice = currentdbProduct.product_price * inputProduct.productQuantity;
       return true;
     });
 

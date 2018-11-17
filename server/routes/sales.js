@@ -11,34 +11,27 @@ const salesRouter = express.Router();
 
 
 salesRouter.post('/', ensureToken, verifyOrderInput, (req, res) => {
-  sendResponse(res, 403, null, 'Input passed');
-  /* if (!isAttendant(req.body.decoded.level)) {
+  // sendResponse(res, 403, null, 'Input passed');
+  if (!isAttendant(req.body.decoded.level)) {
     sendResponse(res, 403, null, 'You are not authorized to create order');
     return;
   }
-  const timeCheckedOut = (new Date()).getTime();
-  const orderDetails = {
-    userId: req.body.decoded.userId,
-    timeCheckedOut,
-  };
-  createOrder(orderDetails).then((result) => {
-    if (result < 0) {
-      sendResponse(res, 400, null, 'your cart is empty');
-      return;
+  // const timeCheckedOut = (new Date()).getTime();
+  createOrder(req.body.decoded.userId,
+    req.body.products).then((result) => {
+      let orderDetails = '';
+    if(result[2] != null){
+      orderDetails = result[2].rows;
     }
     res.send({
       message: 'Successfully created order',
       status: 200,
-      orderTime: timeCheckedOut,
+      orderDetails,
     });
   }).catch((e) => {
-    // console.log(e);
-    if (e.code === '23502') { // error code for non null constraint
-      sendResponse(res, 400, null, 'your cart is empty');
-      return;
-    }
+    console.log(e);
     sendResponse(res, 500, null, 'Internal server error');
-  }); */
+  });
 });
 
 salesRouter.get('/', ensureToken, (req, res) => {
