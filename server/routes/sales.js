@@ -14,9 +14,12 @@ salesRouter.post('/', ensureToken, verifyOrderInput, (req, res) => {
   createOrder(req.body.decoded.userId,
     req.body.products).then((result) => {
     let orderDetails = '';
-    if (result[2] != null) {
-      orderDetails = result[2].rows[0];
+    for (let i = 0; i < result.length; i = i+1) {
+      if (result[i].command.toUpperCase() === 'SELECT') {
+        orderDetails = result[i].rows[0];
+      }
     }
+   // console.log(result);
     res.send({
       message: 'Successfully created order',
       status: 200,
