@@ -1,6 +1,6 @@
 import express from 'express';
 import {
-  ensureToken, isAttendant, isAdmin,
+  ensureToken, isAttendant, isAdmin, verifyOrderInput,
 } from '../helpers/validators';
 import sendResponse from '../helpers/responses';
 import {
@@ -10,39 +10,30 @@ import {
 const salesRouter = express.Router();
 
 
-salesRouter.post('/', ensureToken, (req, res) => {
-  if (!isAttendant(req.body.decoded.level)) {
-    sendResponse(res, 403, null, 'You are not authorized to create order');
-    return;
-  }
-  const timeCheckedOut = (new Date()).getTime();
-  const orderDetails = {
-    userId: req.body.decoded.userId,
-    timeCheckedOut,
-  };
-  createOrder(orderDetails).then((result) => {
-    if (result < 0) {
-      sendResponse(res, 400, null, 'your cart is empty');
-      return;
+salesRouter.post('/', ensureToken, verifyOrderInput, (req, res) => {
+  createOrder(req.body.decoded.userId,
+    req.body.products).then((result) => {
+    let orderDetails = '';
+    for (let i = 0; i < result.length; i = i+1) {
+      if (result[i].command.toUpperCase() === 'SELECT') {
+        orderDetails = result[i].rows[0];
+      }
     }
+   // console.log(result);
     res.send({
       message: 'Successfully created order',
       status: 200,
-      orderTime: timeCheckedOut,
+      orderDetails,
     });
   }).catch((e) => {
-    // console.log(e);
-    if (e.code === '23502') { // error code for non null constraint
-      sendResponse(res, 400, null, 'your cart is empty');
-      return;
-    }
+    console.log(e);
     sendResponse(res, 500, null, 'Internal server error');
   });
 });
 
 salesRouter.get('/', ensureToken, (req, res) => {
   if (!isAdmin(req.body.decoded.level)) {
-    sendResponse(res, 403, null, 'You are not authorized to view sales record');
+    sendResponse(res, 403, null, 'You are not authorized to view this content');
     return;
   }
   getOrders().then((result) => {

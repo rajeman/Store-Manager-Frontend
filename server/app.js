@@ -6,7 +6,6 @@ import swaggerUi from 'swagger-ui-express';
 import productsRouter from './routes/products';
 import salesRouter from './routes/sales';
 import authRouter from './routes/auth';
-import cartRouter from './routes/cart';
 import userRouter from './routes/user';
 
 
@@ -22,7 +21,6 @@ app.use('/api/v1/products', productsRouter);
 app.use('/api/v1/sales', salesRouter);
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/user', userRouter);
-app.use('/api/v1/cart', cartRouter);
 app.get('/', (req, res) => {
   res.send({ message: 'Welcome to Store Manager' });
 });
