@@ -12,6 +12,7 @@ if (process.env.current_env === 'test') {
 }
 
 const isPositiveInteger = s => /^\+?[1-9][\d]*$/.test(s);
+const isAttendant = level => level === constants.attendantLevel;
 
 const verifyCartItem = (req, res, next) => {
   const { productId, productQuantity } = req.body;
@@ -37,6 +38,10 @@ const validateUser = (req, res, next) => {
 };
 
 const verifyOrderInput = (req, res, next) => {
+  if (!isAttendant(req.body.decoded.level)) {
+    sendResponse(res, 403, null, 'You are not authorized to create order');
+    return;
+  }
   const orderInput = req.body;
   // const orderItem = { productsArray: [] };
   /* if(!orderInput || orderInput.length===0){
@@ -130,7 +135,7 @@ const ensureToken = (req, res, next) => {
 };
 
 const isAdmin = level => level === constants.adminLevel;
-const isAttendant = level => level === constants.attendantLevel;
+
 
 const verifyProductInput = (req, res, next) => {
   const product = req.body;

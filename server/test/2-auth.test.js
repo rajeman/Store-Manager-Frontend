@@ -1,18 +1,11 @@
 import expect from 'expect';
 import request from 'supertest';
 import app from '../app';
-import { getUser, clearTable } from '../crud/db-query';
+import { getUser} from '../crud/db-query';
 
 const usersTable = 'users';
 
 describe('POST /signup', () => {
-  before((done) => {
-    clearTable(usersTable)
-      .then(() => {
-        done();
-      })
-      .catch(e => done(e));
-  });
   it('should create a new attendant for an admin', () => request(app)
     .post('/api/v1/auth/signup')
     .send({

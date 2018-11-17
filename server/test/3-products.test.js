@@ -1,18 +1,11 @@
 import expect from 'expect';
 import request from 'supertest';
 import app from '../app';
-import { clearTable } from '../crud/db-query';
 
 const productsTable = 'products';
 
 describe('POST /products', () => {
-  before((done) => {
-    clearTable(productsTable)
-      .then(() => {
-        done();
-      })
-      .catch(e => done(e));
-  });
+ 
   it('should add a new product for an admin', () => request(app)
     .post('/api/v1/products')
     .send({

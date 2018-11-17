@@ -11,17 +11,11 @@ const salesRouter = express.Router();
 
 
 salesRouter.post('/', ensureToken, verifyOrderInput, (req, res) => {
-  // sendResponse(res, 403, null, 'Input passed');
-  if (!isAttendant(req.body.decoded.level)) {
-    sendResponse(res, 403, null, 'You are not authorized to create order');
-    return;
-  }
-  // const timeCheckedOut = (new Date()).getTime();
   createOrder(req.body.decoded.userId,
     req.body.products).then((result) => {
-      let orderDetails = '';
-    if(result[2] != null){
-      orderDetails = result[2].rows;
+    let orderDetails = '';
+    if (result[2] != null) {
+      orderDetails = result[2].rows[0];
     }
     res.send({
       message: 'Successfully created order',
@@ -36,11 +30,7 @@ salesRouter.post('/', ensureToken, verifyOrderInput, (req, res) => {
 
 salesRouter.get('/', ensureToken, (req, res) => {
   if (!isAdmin(req.body.decoded.level)) {
-    res.status(200).send({
-      status: 200,
-      message: 'successfully passed',
-      orders: req.body.orderInput,
-    });
+    sendResponse(res, 403, null, 'You are not authorized to view this content');
     return;
   }
   getOrders().then((result) => {
