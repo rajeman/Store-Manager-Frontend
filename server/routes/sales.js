@@ -14,15 +14,14 @@ salesRouter.post('/', ensureToken, verifyOrderInput, (req, res) => {
   createOrder(req.body.decoded.userId,
     req.body.products).then((result) => {
     let orderDetails = '';
-    for (let i = 0; i < result.length; i = i+1) {
+    for (let i = 0; i < result.length; i += 1) {
       if (result[i].command.toUpperCase() === 'SELECT') {
         orderDetails = result[i].rows[0];
       }
     }
-   // console.log(result);
+    // console.log(result);
     res.send({
       message: 'Successfully created order',
-      status: 200,
       orderDetails,
     });
   }).catch((e) => {
@@ -32,13 +31,12 @@ salesRouter.post('/', ensureToken, verifyOrderInput, (req, res) => {
 });
 
 salesRouter.get('/', ensureToken, (req, res) => {
-  if (!isAdmin(req.body.decoded.level)) {
-    sendResponse(res, 403, null, 'You are not authorized to view this content');
-    return;
+  let userId = null;
+  if (isAttendant(req.body.decoded.level)) {
+    userId = req.body.decoded.userId;
   }
-  getOrders().then((result) => {
+  getOrders(null, userId).then((result) => {
     res.status(200).send({
-      status: 200,
       message: 'successfully fetched orders',
       orders: result,
     });
@@ -49,7 +47,7 @@ salesRouter.get('/', ensureToken, (req, res) => {
 
 salesRouter.get('/:id', ensureToken, (req, res) => {
   // query database
-  getOrders(req.params.id).then((result) => {
+  getOrders(req.params.id, null).then((result) => {
     if (result.length <= 0) {
       sendResponse(res, 404, null, 'order not found');
       return;
@@ -58,7 +56,6 @@ salesRouter.get('/:id', ensureToken, (req, res) => {
         || (isAttendant(req.body.decoded.level)
           && result[0].user_id === req.body.decoded.userId)) {
       res.status(200).send({
-        status: 200,
         message: 'successfully fetched order',
         orderDetails: result,
       });

@@ -31,7 +31,6 @@ productsRouter.get('/', ensureToken, (req, res) => {
   // query database
   getProducts().then((result) => {
     res.status(200).send({
-      status: 200,
       message: 'successfully fetched products',
       products: result,
     });
@@ -46,7 +45,6 @@ productsRouter.get('/:id', ensureToken, (req, res) => {
   getProducts(req.params.id).then((result) => {
     if (result.length) {
       res.status(200).send({
-        status: 200,
         message: 'successfully fetched product',
         product: result,
       });
