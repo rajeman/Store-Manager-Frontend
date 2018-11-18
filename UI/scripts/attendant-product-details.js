@@ -8,8 +8,9 @@ const attendantPage = `${host}/attendant-dashboard.html`;
 const loginPage = `${host}/login.html`;
 const profileUrl = `${host}/api/v1/user`;
 const token = localStorage.getItem('Authorization');
-const cartButton = document.getElementById('cart-button');
-const dialogBackgroundWindow = document.getElementById('dialog-background-window');
+const isPositiveInteger = s => /^\+?[1-9][\d]*$/.test(s);
+
+
 
 const signout = () => {
   localStorage.removeItem('Authorization');
@@ -17,6 +18,7 @@ const signout = () => {
 };
 
 const displayDialog = () => {
+  const dialogBackgroundWindow = document.getElementById('dialog-background-window');
   dialogBackgroundWindow.style.display = 'block';
 };
 if (!token) {
@@ -56,6 +58,47 @@ if (!productId) {
   window.location.replace(attendantPage);
 }
 
+let storeQuantity = -1;
+let productName = '';
+let productPrice = '';
+const configureButtons = () => {
+const dialogBackgroundWindow = document.getElementById('dialog-background-window');
+const cancelButton = document.getElementById('cancel-button');
+
+cancelButton.onclick = () => {
+    dialogBackgroundWindow.style.display = 'none';
+  };
+const cartButton = document.getElementById('cart-button');
+cartButton.onclick = () => {
+    dialogBackgroundWindow.style.display = 'none';
+    const productQuantity = document.getElementById('product-quantity').value;
+    if(!(productQuantity && isPositiveInteger(productQuantity))){
+      console.log('Quantity must be a whole number between 0 and 1000');
+      return;
+    }
+
+    if(productQuantity > storeQuantity){
+      console.log('Quantity too large');
+      return;
+    }
+    let storedProductsJson = localStorage.getItem('stored-products');
+    if(!storedProductsJson){
+      storedProductsJson = '{}';
+    }
+    let isReplaced = false;
+    const storedProducts = JSON.parse(storedProductsJson);
+    /*if(storedProducts.[String(productId)){
+      isReplaced = true;
+    }*/
+    const storedItem = {productId, productName, productPrice, productQuantity};
+    const productIdString = String(productId);
+    storedProducts[productIdString] = storedItem;
+    localStorage.setItem('stored-products', JSON.stringify(storedProducts));
+    //console.log(isReplaced);
+    
+
+  };
+}
 fetch(productUrl, {
   method: 'Get',
   headers: {
@@ -71,6 +114,10 @@ fetch(productUrl, {
       productItem.getElementsByClassName('detailed-description')[0].innerHTML = data.product[0].product_name;
       productItem.getElementsByClassName('actual-price')[0].innerHTML = data.product[0].product_price;
       productItem.getElementsByClassName('min-invent')[0].innerHTML = `Minimum Inventory: ${data.product[0].minimum_inventory}`;
+      storeQuantity = data.product[0].product_quantity;
+      productName = data.product[0].product_name;
+      productPrice = data.product[0].product_price;
+      configureButtons();
       // document.getElementsByClassName('items-box')[0].appendChild(productItem);
     } else {
       // signout();

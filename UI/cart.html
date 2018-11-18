@@ -5,6 +5,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<link href="./styles/main.css" rel="stylesheet">
 	<link href="./styles/extras.css" rel="stylesheet">
+	<script type="text/javascript" src="./scripts/cart.js"></script>
 	<title>Store-Manager | Attendant Dashboard</title>
 </head>
 
@@ -47,16 +48,15 @@
 					<div class="profile-info">
 						<div class="profile-photo-container"></div>
 						<div class="label">Name:</div>
-						<div class="details">Mayor Steve</div>
+						<div class="details" id="username">Mayor Steve</div>
 						<div class="label">Email:</div>
-						<div class="details">stevemayor@gmail.com</div>
+						<div class="details" id="email">stevemayor@gmail.com</div>
 						<div class="label">Job Title:</div>
-						<div class="details">Attendant</div>
+						<div class="details" id="level">Attendant</div>
 						<div class="label">Total Sales:</div>
 						<div class="details">81</div>
 						<div class="label">Last logged in:</div>
 						<div class="details">09-Oct-18 4:07pm</div>
-
 					</div>
 					<div class="attendant-content">
 						<div class = "container">			
@@ -74,78 +74,17 @@
 								 <span class="tip">Click on item to remove</span>
 								<input type="button" class="confirm checkout" value="checkout"></input>	
 								<div class="items-box">
-									<div class="item" onclick="displayDialog();">
+									<div class="item" onclick="gotoProductAttendant()">
 										<img src="./images/item1.jpg">
 										<div class="quant-avail">
-										 Quantity: 500
 										</div>
 										<div class="name-description">
-										Original VR Headset for Gamers and Fun Lovers Original VR Headset for Gamers and Fun Lovers Original VR Headset for Gamers and Fun Lovers
 										</div>
 										<div class="price">
-										  $<span class="actual-price">8</span> per item
+										  $<span class="actual-price"></span> per item
 										</div>
 									</div>
-									<div class="item" onclick="displayDialog();">
-										<img src="./images/item1.jpg">
-										<div class="quant-avail">
-										 Quantity: 500
-										</div>
-										<div class="name-description">
-										Original VR Headset for Gamers and Fun Lovers Original VR Headset for Gamers and Fun Lovers Original VR Headset for Gamers and Fun Lovers
-										</div>
-										<div class="price">
-										  $<span class="actual-price">8</span> per item
-										</div>
-									</div>
-									<div class="item" onclick="displayDialog();">
-										<img src="./images/item1.jpg">
-										<div class="quant-avail">
-										 Quantity: 500
-										</div>
-										<div class="name-description">
-										Original VR Headset for Gamers and Fun Lovers Original VR Headset for Gamers and Fun Lovers Original VR Headset for Gamers and Fun Lovers
-										</div>
-										<div class="price">
-										  $<span class="actual-price">8</span> per item
-										</div>
-									</div>
-									<div class="item" onclick="displayDialog();">
-										<img src="./images/item1.jpg">
-										<div class="quant-avail">
-										 Quantity: 500
-										</div>
-										<div class="name-description">
-										Original VR Headset for Gamers and Fun Lovers Original VR Headset for Gamers and Fun Lovers Original VR Headset for Gamers and Fun Lovers
-										</div>
-										<div class="price">
-										  $<span class="actual-price">8</span> per item
-										</div>
-									</div>
-									<div class="item" onclick="displayDialog();">
-										<img src="./images/item1.jpg">
-										<div class="quant-avail">
-										 Quantity: 500
-										</div>
-										<div class="name-description">
-										Original VR Headset for Gamers and Fun Lovers Original VR Headset for Gamers and Fun Lovers Original VR Headset for Gamers and Fun Lovers
-										</div>
-										<div class="price">
-										  $<span class="actual-price">8</span> per item
-										</div>
-									</div>
-									<div class="item" onclick="displayDialog();">
-										<img src="./images/item1.jpg">
-										<div class="quant-avail">
-										 Quantity: 500
-										</div>
-										<div class="name-description">
-										Original VR Headset for Gamers and Fun Lovers Original VR Headset for Gamers and Fun Lovers Original VR Headset for Gamers and Fun Lovers
-										</div>
-										<div class="price">
-										  $<span class="actual-price">8</span> per item
-										</div>
-									</div>
+				
 								</div>
 							</div>
 						</div>

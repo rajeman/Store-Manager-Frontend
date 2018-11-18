@@ -67,7 +67,7 @@
 							<div class="price detailed-price">
 								$<span class="actual-price"></span> per item
 							</div>
-							<input type="button" class="confirm modify" id="cart-button" value="Add to Cart" onclick="displayDialog();"></input>
+							<input type="button" class="confirm modify"  value="Add to Cart" onclick="displayDialog();"></input>
 						</div>
 					</div>
 				</div>
@@ -77,19 +77,22 @@
 			<p> Store Manager Copyright &copy; 2018</p>
 		</footer>
 		<div id="dialog-background-window">
+			
 			<div id="dialog-box">
 				<div id="content-header">Add Item to cart?</div>
-				<div id="cart-item-quantity">
-					<label>Quantity:</label>
-					<input type="number" min="1" max="5"></input>
-				</div>
-				<div class="options-button">
-					<input id="cancel-button" class="cancel" type="button" value="Cancel"></input>
-					<input id="confirm-button" class="confirm" type="button" value="Confirm"></input>
-				</div>
+					<div id="cart-item-quantity">
+						<label>Quantity:</label>
+						<input type="number" id = "product-quantity" pattern="^\+?[1-9][\d]*$" required title="Quantity must be a positive integer"></input>
+					</div>
+					<div class="options-button">
+						<input id="cancel-button" class="cancel" type="button" value="Cancel"></input>
+						<input id="cart-button" class="confirm" type="button" value="Confirm"></input>
+					</div>
 			</div>
+			
 		</div>
 	</div>
 	<script type="text/javascript" src="./scripts/main.js"></script>
+
 </body>
 </html>

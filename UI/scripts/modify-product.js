@@ -17,8 +17,8 @@ if (!token) {
   window.location.replace(loginPage);
 }
 const level = localStorage.getItem('Level');
-if (level != 2) {
-  window.location.replace(attendantPage);
+if (level != '2') {
+  window.location.replace(loginPage);
 }
 const authHeader = `Bearer ${token}`;
 const params = (new URL(document.location)).searchParams;
