@@ -218,7 +218,7 @@ SELECT * FROM   order_summary_insert;
     });
 });
 
-const getOrders = id => new Promise((resolve, reject) => {
+const getOrders = (id, userId) => new Promise((resolve, reject) => {
   const client = new Client(connectionString);
   client.connect()
     .then(() => {
@@ -239,7 +239,10 @@ const getOrders = id => new Promise((resolve, reject) => {
       } else {
         // const sql = `SELECT * FROM ${ordersTable},
         // users.user_name WHERE orders.user_id = users.user_id`;
-        const sql = 'SELECT orders.*, users.user_name FROM users LEFT JOIN orders ON orders.user_id = users.user_id WHERE orders.user_id = users.user_id';
+        let sql = 'SELECT orders.*, users.user_name FROM users LEFT JOIN orders ON orders.user_id = users.user_id WHERE orders.user_id = users.user_id';
+        if (userId) {
+          sql = `SELECT orders.*, users.user_name FROM users LEFT JOIN orders ON orders.user_id = users.user_id WHERE orders.user_id = users.user_id AND orders.user_id = ${userId}`;
+        }
         client.query(sql)
           .then((result) => {
             resolve(result.rows);
