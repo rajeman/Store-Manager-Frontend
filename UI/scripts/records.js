@@ -73,16 +73,16 @@ const populateSales = () => {
         const columnCells = ['user_id', 'user_name', 'order_id', 'time_checked_out', 'order_quantity', 'order_price'];
         data.orders.forEach((item) => {
           const tr = document.createElement('TR');
-          for (let i = 0; i < totalColumns; i=i+1) {
+          for (let i = 0; i < totalColumns; i += 1) {
             const td = document.createElement('TD');
-            if(i === 3){
+            if (i === 3) {
               td.innerHTML = getFormattedTime(item[columnCells[i]]);
-            } else{
-            td.innerHTML = item[columnCells[i]];
-          }
+            } else {
+              td.innerHTML = item[columnCells[i]];
+            }
             tr.appendChild(td);
           }
-          tr.addEventListener('click', () => { gotoSale(item.order_id); });
+          tr.addEventListener('click', () => { gotoSale(item.time_checked_out); });
           ordersTable.appendChild(tr);
         });
       } else {

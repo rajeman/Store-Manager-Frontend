@@ -78,6 +78,5 @@ fetch(productUrl, {
       window.location.replace(attendantPage);
     }
   }).catch(e => console.log(e));
-  
-populateProfile();
 
+populateProfile();

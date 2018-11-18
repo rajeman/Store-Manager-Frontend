@@ -26,4 +26,3 @@ const gotoProduct = () => {
 const gotoProductAttendant = () => {
   window.location.href = './attendant-product-details.html';
 };
-
