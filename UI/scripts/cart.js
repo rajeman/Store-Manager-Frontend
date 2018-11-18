@@ -7,6 +7,7 @@ if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
 const loginPage = `${host}/login.html`;
 const profileUrl = `${host}/api/v1/user`;
 const productsUrl = `${host}/api/v1/products`;
+const orderUrl = `${host}/api/v1/sales`;
 const token = localStorage.getItem('Authorization');
 const signout = () => {
   localStorage.removeItem('Authorization');
@@ -89,6 +90,44 @@ const populateCartItems = () => {
       } else {
         signout();
       }*/
+};
+const doCheckout = () => {
+  let storedProductsJson = localStorage.getItem('stored-products');
+    if(!storedProductsJson){
+      return;
+    }
+
+  const storedProducts = JSON.parse(storedProductsJson);
+  const products = [];
+   for(let i in storedProducts){
+         products.push(storedProducts[i]);
+    }
+  console.log(JSON.stringify({products}));
+  
+  fetch(orderUrl, {
+    method: 'Post',
+    headers: {
+      'Content-type': 'application/json',
+      Authorization: authHeader,
+    },
+    body: JSON.stringify({products}),
+  }).then(response => response.json())
+    .then((data) => {
+      // console.log(data);
+      if (data.message) {
+        setTimeout(() => {
+          // reply with modify success
+           localStorage.removeItem('stored-products');
+          window.location.href = `./order-details.html?id=${data.orderDetails.time_checked_out}`;
+        }, 300);
+      } else {
+        console.log(data.error);
+      }
+    }).catch((e) => {
+      console.log(e);
+    });
+
+  return false;
 };
 
 
