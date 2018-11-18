@@ -1,6 +1,7 @@
 import expect from 'expect';
 import request from 'supertest';
 import app from '../app';
+import { getProducts } from '../crud/db-query';
 
 let timeCheckedOut = 1;
 
@@ -32,6 +33,11 @@ describe('POST /sales', () => {
       expect(response.body.orderDetails.order_price).toBe(990);
       expect(response.body.orderDetails.order_quantity).toBe(23);
       timeCheckedOut = response.body.orderDetails.time_checked_out;
+
+      // verify the product with id (3) has reduced by the ordered amount
+      return getProducts(3).then((result) => {
+        expect(result[0].product_quantity).toBe(293);
+      });
     }));
 
   it('should not create sale order with empty body request', () => request(app)
@@ -136,7 +142,7 @@ describe('POST /sales', () => {
 });
 
 describe('GET /sales', () => {
-  it('should fetch sales record for an admin', () => request(app)
+  it('should fetch all sales record for an admin', () => request(app)
     .get('/api/v1/sales/')
     .set('Accept', 'application/json')
     .set('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdGF0dXMiOjMwMywidXNlcm5hbWUiOiJKZWZmZXJzb24gUGlwZXIiLCJlbWFpbCI6ImpwaXBlckBhZG1pbi5jb20iLCJ1c2VySWQiOjEsImxldmVsIjoyLCJpYXQiOjE1NDA0NTMyMDJ9.HplqH5tLSIr5_l69D2FuUs3mpyBqtZjFSEouLSuIFGw')
@@ -147,14 +153,16 @@ describe('GET /sales', () => {
       expect(response.body.orders).toHaveLength(1);
     }));
 
-  it('should not fetch all sale records for  an attendant', () => request(app)
+  it('should fetch only records by the attendant', () => request(app)
     .get('/api/v1/sales/')
     .set('Accept', 'application/json')
     .set('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdGF0dXMiOjMwMywidXNlcm5hbWUiOiJNciBBdHRlbmRhbnQgQnJvd24iLCJlbWFpbCI6Im1yc21pdGhAZ21haWwuY29tIiwidXNlcklkIjoyLCJsZXZlbCI6MSwiaWF0IjoxNTQwNzMxMzk2fQ.x_IZlaOaBunwr9ablT_q4XxCCkxY-v963f5CIQ81DsI')
-    .expect(403)
+    .expect(200)
     .then((response) => {
-      expect(response.body.error).toContain('not authorized');
-      expect(response.body.orders).toBeFalsy();
+      expect(response.body.message).toContain('successfully fetched');
+      expect(response.body.orders).toHaveLength(1);
+      expect(response.body.orders[0].order_id).toBe(1);
+      expect(response.body.orders[0].time_checked_out).toBe(timeCheckedOut);
     }));
 
   it('should not fetch any sale record for  non authenticated user', () => request(app)
