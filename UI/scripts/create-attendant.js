@@ -29,7 +29,7 @@ const createAttendant = () => {
   const userInput = { email, name };
   document.getElementsByClassName('lds-hourglass')[0].style.display = 'inline';
   document.getElementsByClassName('pop-up')[0].style.display = 'none';
-   fetch(signupUrl, {
+  fetch(signupUrl, {
     method: 'Post',
     headers: {
       'Content-type': 'application/json',
@@ -38,10 +38,10 @@ const createAttendant = () => {
     body: JSON.stringify(userInput),
   }).then(response => response.json())
     .then((data) => {
-        console.log(data);
+      console.log(data);
       if (data.message) {
         setTimeout(() => {
-            window.location.href = adminPage;
+          window.location.href = adminPage;
         }, 300);
       } else {
         console.log(data.error);
@@ -50,12 +50,12 @@ const createAttendant = () => {
         document.getElementsByClassName('pop-up')[0].innerHTML = data.error;
       }
     }).catch((e) => {
-      //console.log(e);
+      // console.log(e);
       document.getElementsByClassName('lds-hourglass')[0].style.display = 'none';
       document.getElementsByClassName('pop-up')[0].style.display = 'block';
       document.getElementsByClassName('pop-up')[0].innerHTML = 'Network Error';
 
-      //console.log(e);
+      // console.log(e);
     });
-    return false;
+  return false;
 };

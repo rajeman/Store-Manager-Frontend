@@ -70,37 +70,37 @@ fetch(orderUrl, {
   .then((data) => {
     if (data.message) {
       const summaryTable = document.getElementById('orders-table');
-        const summaryColumns = summaryTable.rows[0].cells.length;
-        const summaryCells = ['user_id', 'user_name', 'order_id', 'time_checked_out', 'order_quantity', 'order_price'];
-         const orderSummary = data.orderDetails[0];
-         const tr = document.createElement('TR');
-        
-        for (let i = 0; i < summaryColumns; i=i+1) {
-            const td = document.createElement('TD');
-            if(i === 3){
-              td.innerHTML = getFormattedTime(orderSummary[summaryCells[i]]);
-            } else{
-            td.innerHTML = orderSummary[summaryCells[i]];
-          }
-            tr.appendChild(td);
-          }
-        summaryTable.appendChild(tr);
+      const summaryColumns = summaryTable.rows[0].cells.length;
+      const summaryCells = ['user_id', 'user_name', 'order_id', 'time_checked_out', 'order_quantity', 'order_price'];
+      const orderSummary = data.orderDetails[0];
+      const tr = document.createElement('TR');
 
-        const detailsTable = document.getElementById('details-table');
-        const detailsColumns = detailsTable.rows[0].cells.length;
-        const detailsCells = ['product_id', 'product_name', 'product_quantity', 'product_price', 'total_price'];
-        data.orderDetails.forEach((item) => {
-          const tr = document.createElement('TR');
-          for (let i = 0; i < detailsColumns; i=i+1) {
-            const td = document.createElement('TD');
-            td.innerHTML = item[detailsCells[i]];
-            tr.appendChild(td);
-          }
-          detailsTable.appendChild(tr);
-        });
+      for (let i = 0; i < summaryColumns; i += 1) {
+        const td = document.createElement('TD');
+        if (i === 3) {
+          td.innerHTML = getFormattedTime(orderSummary[summaryCells[i]]);
+        } else {
+          td.innerHTML = orderSummary[summaryCells[i]];
+        }
+        tr.appendChild(td);
+      }
+      summaryTable.appendChild(tr);
+
+      const detailsTable = document.getElementById('details-table');
+      const detailsColumns = detailsTable.rows[0].cells.length;
+      const detailsCells = ['product_id', 'product_name', 'product_quantity', 'product_price', 'total_price'];
+      data.orderDetails.forEach((item) => {
+        const tr = document.createElement('TR');
+        for (let i = 0; i < detailsColumns; i += 1) {
+          const td = document.createElement('TD');
+          td.innerHTML = item[detailsCells[i]];
+          tr.appendChild(td);
+        }
+        detailsTable.appendChild(tr);
+      });
 
 
-        /*data.orders.forEach((item) => {
+      /* data.orders.forEach((item) => {
           if(item.order)
           const tr = document.createElement('TR');
           for (let i = 0; i < totalColumns; i=i+1) {
@@ -114,11 +114,11 @@ fetch(orderUrl, {
           }
           tr.addEventListener('click', () => { gotoSale(item.order_id); });
           ordersTable.appendChild(tr);
-        }*/
+        } */
     } else {
       // signout();
       // alert cannot find product
-      //window.location.replace(adminPage);
+      // window.location.replace(adminPage);
       console.log(data.error);
     }
   }).catch(e => console.log(e));

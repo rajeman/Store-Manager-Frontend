@@ -25,10 +25,13 @@ const login = () => {
         localStorage.setItem('Authorization', data.token);
         localStorage.setItem('Level', data.level);
         setTimeout(() => {
+          console.log(data.level);
           if (data.level === 2) {
             window.location.href = adminPage;
-          } else {
+          } else if (data.level === 1) {
             window.location.replace(attendantPage);
+          } else {
+            window.location.replace(loginPage);
           }
         }, 300);
       } else {
