@@ -22,7 +22,7 @@ app.use('/api/v1/sales', salesRouter);
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/user', userRouter);
 app.get('/', (req, res) => {
-  res.send({ message: 'Welcome to Store Manager' });
+  res.redirect('./login.html');
 });
 app.use('/', express.static('UI'));
 app.use('*', (req, res) => {
