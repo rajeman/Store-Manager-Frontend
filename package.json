@@ -11,10 +11,13 @@
     "lint-scripts": "./node_modules/.bin/eslint UI --fix",
     "clean": "rm -rf dist",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
-    "build": "npm run clean && mkdir dist && babel server -s -d dist",
+    "build": "babel src/app.js --out-file=public/scripts/app.js --presets=env,react --watch",
     "tables-setup": "psql -U postgres -f server/models/tables-setup.sql",
     "test-tables-setup": "psql -U postgres -f server/models/test-tables-setup.sql",
-    "heroku-db-tables-setup": "heroku pg:psql -f server/models/heroku-db-setup.sql"
+    "heroku-db-tables-setup": "heroku pg:psql -f server/models/heroku-db-setup.sql",
+    "serve": "live-server public/",
+    "build-pack": "webpack --watch",
+    "dev-server": "webpack-dev-server"
   },
   "repository": {
     "type": "git",
@@ -28,7 +31,7 @@
   "homepage": "https://github.com/rajeman/Store-Manager#readme",
   "dependencies": {
     "babel-cli": "^6.26.0",
-    "babel-core": "^6.26.3",
+    "babel-core": "6.25.0",
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "babel-register": "^6.26.0",
@@ -40,7 +43,27 @@
     "jsonwebtoken": "^8.3.0",
     "pg": "^7.5.0",
     "swagger-ui-express": "^4.0.1",
-    "validator": "^10.8.0"
+    "validator": "^10.8.0",
+    "@babel/core": "^7.2.2",
+    "babel-loader": "7.1.1",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-react": "^6.24.1",
+    "css-loader": "^2.0.1",
+    "live-server": "^1.2.1",
+    "node-sass": "^4.11.0",
+    "normalize.css": "7.0.0",
+    "react": "^16.6.3",
+    "react-dom": "^16.6.3",
+    "react-modal": "^3.7.1",
+    "react-redux": "^6.0.0",
+    "react-router-dom": "4.2.2",
+    "redux": "^4.0.1",
+    "sass-loader": "^7.1.0",
+    "style-loader": "^0.23.1",
+    "uuid": "^3.3.2",
+    "webpack": "^4.27.1",
+    "webpack-dev-server": "^3.1.10"
   },
   "devDependencies": {
     "coveralls": "^3.0.2",
@@ -53,7 +76,8 @@
     "expect": "^23.6.0",
     "mocha": "^5.2.0",
     "nyc": "^13.0.1",
-    "supertest": "^3.3.0"
+    "supertest": "^3.3.0",
+    "webpack-cli": "^3.1.2"
   },
   "engines": {
     "node": "10.6.0"
