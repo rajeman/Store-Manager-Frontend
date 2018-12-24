@@ -1,19 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Login from './components/Login'
+import SignUp from './components/SignUp';
 import 'normalize.css/normalize.css';
 import './styles/styles.scss';
 
 
-
-//console.log(testtingg)
-const Layout = () => {
-    return (
-        <div>
-        <Login />
-        </div>
-    );
-};
 
 const template = (
     <div>
@@ -21,6 +12,6 @@ const template = (
     <p>This is my page</p>
     </div>
 );
-ReactDOM.render(<Layout />, document.getElementById('app'));
+ReactDOM.render(<SignUp />, document.getElementById('app'));
 
  
