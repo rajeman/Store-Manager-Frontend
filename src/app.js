@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import SignUp from './components/SignUp';
+import Dashboard from './components/Dashboard'
 import 'normalize.css/normalize.css';
 import './styles/styles.scss';
 
@@ -12,6 +12,6 @@ const template = (
     <p>This is my page</p>
     </div>
 );
-ReactDOM.render(<SignUp />, document.getElementById('app'));
+ReactDOM.render(<Dashboard />, document.getElementById('app'));
 
  

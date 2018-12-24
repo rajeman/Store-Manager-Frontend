@@ -350,7 +350,7 @@ header li{
 }
 
 .item{
-  display: none;
+  display: none; 
   margin: 10px;
   cursor: pointer;
 }
