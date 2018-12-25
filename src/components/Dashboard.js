@@ -8,12 +8,12 @@ export default class Dashboard extends React.Component {
 
     render() {
         return (
-            <div >
+            <div id = "cover">
                 <Header>
                     <Dropdown />
                 </Header>
                 <DashboardContent />
-                <Footer />
+                <Footer />   
             </div>
         );
     }

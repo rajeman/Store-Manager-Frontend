@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { NavLink } from 'react-router-dom';
 export default class DashboardData extends React.Component {
 
     render() {
@@ -7,12 +7,13 @@ export default class DashboardData extends React.Component {
             <div className="container">
                 <nav>
                     <ul>
-                        <li><a href="#"><span className="selected">Products</span></a></li>
-                        <li><a href="./admin-records.html">Records</a></li>
-                        <li><a href="#">Categories</a></li>
+                        
+                        <li><NavLink to="/dashboard" activeClassName = "selected">Products</NavLink></li>
+                        <li><NavLink to="/dashboard" activeClassName = "selected">Records</NavLink></li>
+                        <li><NavLink to="#">Categories</NavLink></li>
                     </ul>
                 </nav>
-                {<input type="button" className="confirm checkout" value="New" onclick="window.location.href='./create-product.html';"></input>}
+                {<NavLink to="/create-product"><input type="button" className="confirm checkout" value="New"></input> </NavLink>}
             </div>
         );
     }

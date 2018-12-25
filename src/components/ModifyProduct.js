@@ -8,7 +8,7 @@ export default class CreateProduct extends React.Component {
     render() {
 
         return (
-            <div>
+            <div id="cover">
                 <Header />
                 <ProductModifyForm />
                 <Footer />
