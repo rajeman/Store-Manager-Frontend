@@ -1,16 +1,15 @@
 import React from 'react';
 import Header from './Header';
 import Footer from './Footer';
-import ProductModifyForm from './ProductModifyForm';
 
-export default class CreateProduct extends React.Component {
+export default class NotFoundPage extends React.Component {
 
     render() {
 
         return (
-            <div id="cover">
+            <div>
                 <Header />
-                <ProductModifyForm />
+                <p>404 The resource you requested is not on this server</p>
                 <Footer />
             </div>
         );
