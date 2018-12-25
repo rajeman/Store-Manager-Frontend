@@ -7,7 +7,7 @@ export default class Dropdown extends React.Component {
 
         return (
             <div className="dropdown">
-                    <img src="../images/icon-menu.png" />
+                    <img src={require('../images/icon-menu.png') }/>
                     <ProfileInfo />              
 			</div>
         );
