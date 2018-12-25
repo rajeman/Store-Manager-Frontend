@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default class Footer extends React.Component {
+export default class LoginForm extends React.Component {
 
     render() {
 
