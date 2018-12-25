@@ -1,16 +1,16 @@
 import React from 'react';
 import Header from './Header';
 import Footer from './Footer';
-import SignupForm from './SignupForm';
+import ProductModifyForm from './ProductModifyForm';
 
-export default class Login extends React.Component {
+export default class CreateProduct extends React.Component {
 
     render() {
 
         return (
-            <div id="cover" >
+            <div>
                 <Header />
-                <SignupForm />
+                <ProductModifyForm />
                 <Footer />
             </div>
         );

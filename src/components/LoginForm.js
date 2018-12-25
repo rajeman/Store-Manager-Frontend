@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default class Footer extends React.Component {
+export default class LoginForm extends React.Component {
 
     render() {
 
@@ -26,7 +26,6 @@ export default class Footer extends React.Component {
                                 <div className="not-registered">
                                     <span className="pop-up"></span>
                                     <span className="lds-hourglass"></span>
-                                    <span> Not registered? <a href="./signup.html">Sign Up</a></span>
                                 </div>
                             </form>
                         </div>

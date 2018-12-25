@@ -282,7 +282,7 @@ header {
   align-items: center;
   -moz-border-radius: 50%;
   -webkit-border-radius: 50%;
-  // background-image: url(.../images/mr-bean-dummy.jpg);
+  background-image: url('../images/mr-bean-dummy.jpg');
   background-position: 50% 50%;
   background-repeat: no-repeat;
 }
@@ -340,7 +340,7 @@ header {
 }
 
 .item {
-  display: none;
+  /* display: none; */
   margin: 10px;
   cursor: pointer;
 }
