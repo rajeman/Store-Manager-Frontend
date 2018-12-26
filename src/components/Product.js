@@ -1,22 +1,21 @@
 import React from 'react';
 
-export default class Product extends React.Component {
 
-    render() {
-        return (
+
+
+export default ({product}) =>  (
             <div className="item">
                 <img src={require('../images/item1.jpg')} />
                 <div className="quant-avail">
-                    500 available
+                    {product && product.product_quantity}
                             </div>
                 <div className="name-description">
-                    Original VR Headset for Gamers and Fun Lovers Original VR Headset for Gamers and Fun Lovers Original VR Headset for Gamers and Fun Lovers
+                {product && product.product_name}
                             </div>
                 <div className="price">
-                    $<span className="actual-price">8</span> per item
+                    $<span className="actual-price">{product && product.product_price}</span> per item
                             </div>
             </div>
-        );
-    }
-}
+    
+);
 

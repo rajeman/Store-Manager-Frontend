@@ -1,17 +1,35 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import Product from './Product'
+import { fetchProducts } from '../actions/products';
 
-export default class ProductItems extends React.Component {
-
+class ProductItems extends React.Component {
+    componentDidMount() {
+        this.props.dispatch(fetchProducts())
+    }
     render() {
+        const { products } = this.props;
         return (
             <div className="container">
                 <div className="wrapper">
                     <div className="items-box">
-                        <Product />
+                        {products.map((product) => {
+                            return (
+                                <Product key={product.product_id} product = {product}/>
+                            );
+                        })}
                     </div>
                 </div>
             </div>
         );
     }
 }
+
+const mapStateToProps = (state) => (
+    {
+        ...state
+    }
+);
+
+
+export default connect(mapStateToProps)(ProductItems); 
