@@ -1,12 +1,16 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import Header from './Header';
 import Footer from './Footer';
 import Dropdown from './Dropdown';
-import DashboardContent from './DashboardContent'
+import DashboardContent from './DashboardContent';
+import { setNavigation } from '../actions/navigation';
 
-export default class Dashboard extends React.Component {
-
-    render() {
+class Dashboard extends React.Component {
+    componentDidMount() {
+        this.props.dispatch(setNavigation(this.props.location))
+    }
+    render() {        
         return (
             <div id = "cover">
                 <Header>
@@ -18,3 +22,8 @@ export default class Dashboard extends React.Component {
         );
     }
 }
+
+const mapStateToProps = (state) => state;
+
+
+export default connect(mapStateToProps)(Dashboard); 

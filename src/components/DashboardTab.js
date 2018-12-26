@@ -1,8 +1,11 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-export default class DashboardData extends React.Component {
+
+class DashboardData extends React.Component {
 
     render() {
+        const {auth} = this.props;
         return (
             <div className="container">
                 <nav>
@@ -10,14 +13,19 @@ export default class DashboardData extends React.Component {
                         
                         <li><NavLink to="/dashboard" activeClassName = "selected">Products</NavLink></li>
                         <li><NavLink to="/dashboard" activeClassName = "selected">Records</NavLink></li>
-                        <li><NavLink to="#">Categories</NavLink></li>
+                        {auth.level === 2 ? <li><NavLink to="#">Categories</NavLink></li> : <li><NavLink to="/dashboard" activeClassName = "selected">Cart</NavLink></li> }
                     </ul>
                 </nav>
-                {<NavLink to="/create-product"><input type="button" className="confirm checkout" value="New"></input> </NavLink>}
+                {auth.level === 2 && <NavLink to="/create-product"><input type="button" className="confirm checkout" value="New"></input> </NavLink>}
             </div>
         );
     }
 }
+
+const mapStateToProps = (state) => state;
+
+export default connect(mapStateToProps)(DashboardData); 
+
 
 
 

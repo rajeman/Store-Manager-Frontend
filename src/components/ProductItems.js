@@ -8,6 +8,7 @@ class ProductItems extends React.Component {
         this.props.dispatch(fetchProducts())
     }
     render() {
+        //console.log(this.props);
         const { products } = this.props;
         return (
             <div className="container">
@@ -25,11 +26,7 @@ class ProductItems extends React.Component {
     }
 }
 
-const mapStateToProps = (state) => (
-    {
-        ...state
-    }
-);
+const mapStateToProps = (state) => state;
 
 
 export default connect(mapStateToProps)(ProductItems); 

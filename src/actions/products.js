@@ -65,17 +65,3 @@ export const createProduct = (payload = {}) => (
     }
 )
 
-export default () => {
-    axios.get(url, {
-        headers: {
-            "Authorization": `Bearer ${token}`
-        }
-    })
-        .then(function (response) {
-            //console.log(response.data.products);
-        })
-        .catch(function (error) {
-            // console.log(error);
-        });
-
-};
