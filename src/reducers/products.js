@@ -1,17 +1,13 @@
 
-const defaultState = {
-    products: []
-}
+const defaultState = [];
+
 
    
 
  export default (state = defaultState, action) => {
     switch (action.type) {
         case 'SET_PRODUCTS':
-           const products = action.products;
-            return {
-                ...state, products
-            }
+            return action.products;
         case 'SET_PRODUCT':
             return defaultState
         case 'DELETE_PRODUCT':
@@ -21,7 +17,7 @@ const defaultState = {
         case 'CREATE_PRODUCT':
             return defaultState
         default : 
-            return defaultState
+            return state
     }
 };
 

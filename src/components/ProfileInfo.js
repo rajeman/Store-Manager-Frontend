@@ -1,19 +1,23 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { fetchUser } from '../actions/auth';
 
 
-export default class ProfileInfo extends React.Component {
-
+class ProfileInfo extends React.Component {
+    componentDidMount() {
+       this.props.dispatch(fetchUser());
+    }
     render() {
-
-        return (
+            const {auth} = this.props;
+        return auth != undefined && (
             <div className="profile-info">
                 <div className="profile-photo-container"></div>
                 <div className="label">Name:</div>
-                <div className="details">Jax Bishop</div>
+                <div className="details">{auth.username}</div>
                 <div className="label">Email:</div>
-                <div className="details">bishopjack@gmail.com</div>
+                <div className="details">{auth.email}</div>
                 <div className="label">Job Title:</div>
-                <div className="details">Admin</div>
+                <div className="details">{auth.level === 2 ? 'Admin' : 'Attendant'}</div>
                 <div className="label">Last logged in:</div>
                 <div className="details">09-Oct-18 4:07pm</div>
             </div>
@@ -21,3 +25,7 @@ export default class ProfileInfo extends React.Component {
 
     }
 }
+
+const mapStateToProps = (state) => state;
+
+export default connect(mapStateToProps)(ProfileInfo); 
