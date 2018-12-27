@@ -1,15 +1,23 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { login } from '../actions/auth';
 
-export default class LoginForm extends React.Component {
+class LoginForm extends React.Component {
 
     render() {
-
+       const onFormSubmit = (e) => {
+            e.preventDefault();
+            const email = e.target.elements.uname.value.trim();
+            const password = e.target.elements.psw.value.trim();
+            this.props.dispatch(login(email, password));
+            
+        };
         return (
             <div className="cont">
                 <section>
                     <div id="user-form">
                         <div className="container">
-                            <form method="post" action="javascript:login()">
+                            <form onSubmit={onFormSubmit} >
                                 <h3>User Login</h3>
                                 <div>
                                     <label>Email:</label>
@@ -36,5 +44,9 @@ export default class LoginForm extends React.Component {
 
     }
 }
+
+const mapStateToProps = (state) => state;
+
+export default connect(mapStateToProps)(LoginForm); 
 
 

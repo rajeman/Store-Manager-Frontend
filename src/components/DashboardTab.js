@@ -11,9 +11,9 @@ class DashboardData extends React.Component {
                 <nav>
                     <ul>
                         
-                        <li><NavLink to="/dashboard" activeClassName = "selected">Products</NavLink></li>
-                        <li><NavLink to="/dashboard" activeClassName = "selected">Records</NavLink></li>
-                        {auth.level === 2 ? <li><NavLink to="#">Categories</NavLink></li> : <li><NavLink to="/dashboard" activeClassName = "selected">Cart</NavLink></li> }
+                        <li><NavLink to="/dashboard#products" activeClassName = "selected">Products</NavLink></li>
+                        <li><NavLink to="/dashboard#records" activeClassName = "selected">Records</NavLink></li>
+                        {auth.level === 2 ? <li><NavLink to="#">Categories</NavLink></li> : <li><NavLink to="/dashboard#cart" activeClassName = "selected">Cart</NavLink></li> }
                     </ul>
                 </nav>
                 {auth.level === 2 && <NavLink to="/create-product"><input type="button" className="confirm checkout" value="New"></input> </NavLink>}

@@ -14,7 +14,7 @@ class DashboardData extends React.Component {
         return (
             <div className="attendant-content">
                 <DashboardTab />
-                {this.props.navigation.hash === "#products" && <ProductItems /> }
+                {(this.props.navigation.hash === "#products" || this.props.navigation.hash === undefined)  && <ProductItems /> }
                 {this.props.navigation.hash === "#records" &&  <Records /> }
                 {this.props.navigation.hash === "#cart" &&  <Cart /> }
             </div>
