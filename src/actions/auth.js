@@ -1,3 +1,4 @@
+import { history } from '../routers/AppRouter';
 import axios from 'axios';
 
 const userUrl = 'https://onlinestoremanager.herokuapp.com/api/v1/user';
@@ -66,10 +67,10 @@ export const login = (email, password) => dispatch => {
    password
 })
     .then(({data}) => {
-        //console.log(data);
         if(data.message){
             dispatch(setLoginError());   
             dispatch(setLoginState('STATE_LOGGED_IN'));
+            history.push('/dashboard');
             
         } else{
             dispatch(setLoginState('STATE_LOGIN_FAILED'));
@@ -77,8 +78,7 @@ export const login = (email, password) => dispatch => {
         }   
     })
     .catch(error => {
-        console.log(error);
-        dispatch(setLoginError(error));   
+        dispatch(setLoginError(error.response.data.error));   
         dispatch(setLoginState('STATE_LOGIN_FAILED'));
     });
 

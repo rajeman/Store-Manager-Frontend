@@ -5,7 +5,9 @@ import { login } from '../actions/auth';
 class LoginForm extends React.Component {
 
     render() {
-       const onFormSubmit = (e) => {
+        const { loginState, loginError} = this.props.auth;
+        const onFormSubmit = (e) => {
+           //console.log(this.props);
             e.preventDefault();
             const email = e.target.elements.uname.value.trim();
             const password = e.target.elements.psw.value.trim();
@@ -13,6 +15,7 @@ class LoginForm extends React.Component {
             
         };
         return (
+            
             <div className="cont">
                 <section>
                     <div id="user-form">
@@ -32,8 +35,8 @@ class LoginForm extends React.Component {
                                 <button type="submit">Login</button>
                                 <br />
                                 <div className="not-registered">
-                                    <span className="pop-up"></span>
-                                    <span className="lds-hourglass"></span>
+                                    {loginState === 'STATE_LOGIN_FAILED' && <span className="pop-up">{loginError}</span>}
+                                    {loginState === 'STATE_LOGGING_IN' && <span className="lds-hourglass"></span>}
                                 </div>
                             </form>
                         </div>

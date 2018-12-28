@@ -1,5 +1,6 @@
 import React from 'react';
-import { BrowserRouter, Route, Switch, Link, NavLink } from 'react-router-dom';
+import { Route, Switch, Router, NavLink } from 'react-router-dom';
+import createHistory from 'history/createBrowserHistory';
 import Login from '../components/Login';
 import Dashboard from '../components/Dashboard';
 import NotFoundPage from '../components/NotFoundPage';
@@ -8,9 +9,9 @@ import ModifyProduct from '../components/ModifyProduct';
 import CreateAttendant from '../components/CreateAttendant';
 
 //switch ensures only the first match is rendered
-
+export const history = createHistory();
 const AppRouter = () => (
-    <BrowserRouter>
+    <Router history={history}>
             <Switch>
                 <Route path="/" component={Login} exact={true} />
                 <Route path="/dashboard" component={Dashboard} exact={true} />
@@ -19,7 +20,7 @@ const AppRouter = () => (
                 <Route path="/modify-product" component={ModifyProduct} exact={true} />
                 <Route component={NotFoundPage} />
             </Switch>
-    </BrowserRouter>
+    </Router>
 );
 
 
