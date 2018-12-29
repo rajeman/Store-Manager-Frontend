@@ -1,21 +1,41 @@
+import { history } from '../routers/AppRouter';
 import axios from 'axios';
+import { setToken, getToken, deleteToken } from '../helpers/auth';
 
-const url = 'https://onlinestoremanager.herokuapp.com/api/v1/user';
-const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkplZmZlcnNvbiBQaXBlciIsImVtYWlsIjoianBpcGVyQGFkbWluLmNvbSIsInVzZXJJZCI6MSwibGV2ZWwiOjIsImlhdCI6MTU0NTc1OTQ5Mn0.yWdrR2DzWBCAgSEe9f8xSCAZY6RbxqssZADMSA9v33A';
-const attendantToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ik1yIEF0dGVuZGFudCBHb2xkIiwiZW1haWwiOiJhdHRlbmRhbnRnb2xkQGdtYWlsLmNvbSIsInVzZXJJZCI6MywibGV2ZWwiOjEsImlhdCI6MTU0NTgzNDY1NH0.X6cAJauzTCD2VpD5ZUGFlVik1OaOGifrcAastwkXrb0'
+const userUrl = 'https://onlinestoremanager.herokuapp.com/api/v1/user';
+const loginUrl ='https://onlinestoremanager.herokuapp.com/api/v1/auth/login';
 
 /* export const fetchProducts = () => dispatch =>
     setTimeout(() => dispatch(setProducts(['speaker', 'amplifier', 'transmitter'])), 5000)
  */
-export const fetchUser = () => dispatch =>
-    axios.get(url, {
+export const fetchUser = () => dispatch =>{
+    axios.get(userUrl, {
         headers: {
-            "Authorization": `Bearer ${attendantToken}`
+            "Authorization": `Bearer ${getToken()}`
         }
     })
-        .then(({data}) => data.message != undefined ? dispatch(setUser(data.userDetails)) : dispatch(setUserError(data.error)))
+       /*  .then(({ data }) => data.message != undefined ? dispatch(setUser(data.userDetails)) : dispatch(setUserError(data.error)))
         .catch(error => dispatch(setUserError(error)));
-
+ */
+        .then(({data}) => {
+            if(data.message){
+                dispatch(setUser(data.userDetails))
+                dispatch(setLoginState('STATE_LOGGED_IN'));
+                
+            } else{
+                //console.log('else', data.error);
+            }   
+        })
+        .catch(error => {
+            const  { response }  = error;
+            if( response && response.status === 403 || response.status === 401){
+                dispatch(setLoginState('STATE_LOGGED_OUT'));
+                deleteToken();
+                history.push('/')
+            }
+        });
+    
+    }
 
 export const setUser = (userDetails) => (
     
@@ -32,3 +52,62 @@ export const setUserError = (error) => (
         error
     }
 )
+
+export const setLoginState = (loginState) => (
+    
+    {
+        type: 'SET_LOGIN_STATE',
+        loginState
+    }
+)
+
+export const setLoginError = (loginError) => (
+    
+    {
+        type: 'SET_LOGIN_ERROR',
+        loginError
+    }
+)
+
+/* export const login = (email, password) => dispatch =>
+    axios.post(loginUrl, {
+       email,
+       password
+    })
+        .then(({data}) => data.message != undefined ? dispatch(setLoginState('STATE_LOGGED_IN')) : dispatch(setUserError(data.error)))
+        .catch(error => dispatch(setUserError(error)));
+ */
+
+export const login = (email, password) => dispatch => {
+  dispatch(setLoginState('STATE_LOGGING_IN'));
+  return axios.post(loginUrl, {
+   email,
+   password
+})
+    .then(({data}) => {
+        if(data.message){
+            setToken(data.token);
+            dispatch(setLoginError());   
+            dispatch(setLoginState('STATE_LOGGED_IN'));
+            history.push('/dashboard/products');
+            
+        } else{
+            dispatch(setLoginState('STATE_LOGIN_FAILED'));
+            dispatch(setLoginError('Network error'));   
+        }   
+    })
+    .catch(error => {
+        console.log(error);
+        dispatch(setLoginError(error.response.data.error));   
+        dispatch(setLoginState('STATE_LOGIN_FAILED'));
+    });
+
+}
+ 
+export const logout = () => dispatch => {
+    console.log('dispatched');
+    deleteToken();
+    console.log('dispatched');
+    history.push('/');     
+    dispatch(setLoginState('STATE_LOGGED_OUT'));
+}

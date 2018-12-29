@@ -93,6 +93,9 @@ hr {
   border: 2px solid #BDBDBD;
 }
 
+.clickable {
+  cursor: pointer;
+}
 #dialog-background-window {
   display: none;
   z-index: 1;

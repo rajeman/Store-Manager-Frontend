@@ -1,7 +1,7 @@
 import axios from 'axios';
+import { getToken } from '../helpers/auth';
 
 const url = 'https://onlinestoremanager.herokuapp.com/api/v1/products';
-const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkplZmZlcnNvbiBQaXBlciIsImVtYWlsIjoianBpcGVyQGFkbWluLmNvbSIsInVzZXJJZCI6MSwibGV2ZWwiOjIsImlhdCI6MTU0NTc1OTQ5Mn0.yWdrR2DzWBCAgSEe9f8xSCAZY6RbxqssZADMSA9v33A';
 
 export const setProductLoading = () => (
     {
@@ -22,7 +22,7 @@ export const setProductError = (error) => (
 export const fetchProducts = () => dispatch =>
     axios.get(url, {
         headers: {
-            "Authorization": `Bearer ${token}`
+            "Authorization": `Bearer ${getToken()}`
         }
     })
         .then(({data}) => data.message != undefined ? dispatch(setProducts(data.products)) : dispatch(setProductError(data.error)))

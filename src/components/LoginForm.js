@@ -1,15 +1,26 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { login } from '../actions/auth';
 
-export default class LoginForm extends React.Component {
+class LoginForm extends React.Component {
 
     render() {
-
+        const { loginState, loginError} = this.props.auth;
+        const onFormSubmit = (e) => {
+           //console.log(this.props);
+            e.preventDefault();
+            const email = e.target.elements.uname.value.trim();
+            const password = e.target.elements.psw.value.trim();
+            this.props.dispatch(login(email, password));
+            
+        };
         return (
+            
             <div className="cont">
                 <section>
                     <div id="user-form">
                         <div className="container">
-                            <form method="post" action="javascript:login()">
+                            <form onSubmit={onFormSubmit} >
                                 <h3>User Login</h3>
                                 <div>
                                     <label>Email:</label>
@@ -24,8 +35,8 @@ export default class LoginForm extends React.Component {
                                 <button type="submit">Login</button>
                                 <br />
                                 <div className="not-registered">
-                                    <span className="pop-up"></span>
-                                    <span className="lds-hourglass"></span>
+                                    {loginState === 'STATE_LOGIN_FAILED' && <span className="pop-up">{loginError}</span>}
+                                    {loginState === 'STATE_LOGGING_IN' && <span className="lds-hourglass"></span>}
                                 </div>
                             </form>
                         </div>
@@ -36,5 +47,9 @@ export default class LoginForm extends React.Component {
 
     }
 }
+
+const mapStateToProps = (state) => state;
+
+export default connect(mapStateToProps)(LoginForm); 
 
 
