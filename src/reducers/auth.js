@@ -1,6 +1,6 @@
 
 const defaultState = {
-    loginState: 'STATE_NOT_LOGGED',
+    loginState: 'STATE_LOGGED_OUT',
     loginError: undefined,
     userDetails: {}
 };

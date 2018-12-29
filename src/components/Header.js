@@ -1,8 +1,12 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
+import { history } from '../routers/AppRouter';
+import Signout from './Signout';
 
 export default class Header extends React.Component {
 
     render() {
+		
         return (
             <header>
 			<div className = "container">
@@ -11,9 +15,10 @@ export default class Header extends React.Component {
 				</div>			
 				<nav>
 					<ul>
-						<li><a href="./admin.html">Home</a></li>
+						<li> <NavLink to = "/dashboard/products"></NavLink>Home</li>
 						<li><a href="#">About</a></li>
-						<li><a href="#">Services</a></li>
+						<li><a href="#">Services</a></li> 
+						{ history.location.pathname && history.location.pathname.includes('/dashboard/') && <Signout /> }
 					</ul>
 				</nav>
 			</div>
@@ -22,3 +27,4 @@ export default class Header extends React.Component {
 
     }
 }
+

@@ -27,6 +27,4 @@ class ProductItems extends React.Component {
 }
 
 const mapStateToProps = (state) => state;
-
-
 export default connect(mapStateToProps)(ProductItems); 
