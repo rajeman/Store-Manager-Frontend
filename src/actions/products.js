@@ -25,9 +25,17 @@ export const fetchProducts = () => dispatch =>
             "Authorization": `Bearer ${getToken()}`
         }
     })
-        .then(({data}) => data.message != undefined ? dispatch(setProducts(data.products)) : dispatch(setProductError(data.error)))
+        .then(({ data }) => data.message != undefined ? dispatch(setProducts(data.products)) : dispatch(setProductError(data.error)))
         .catch(error => dispatch(setProductError(error)));
 
+export const fetchProduct = (id) => dispatch =>
+    axios.get(url + `/${id}`, {
+        headers: {
+            "Authorization": `Bearer ${getToken()}`
+        }
+    })
+        .then(({ data }) => data.message != undefined ? dispatch(setProduct(data.product)) : dispatch(setProductError(data.error)))
+        .catch(error => dispatch(setProductError(error)));
 
 export const setProducts = (products) => (
     {
@@ -37,17 +45,24 @@ export const setProducts = (products) => (
 )
 
 
-export const setProduct = (id) => (
+export const setProduct = (product) => (
     {
         type: 'SET_PRODUCT',
-        productId: id
+        product
     }
 )
 
-export const deleteProduct = (id) => (
+export const setDeleteModal = (state) => (
     {
-        type: 'DELETE_PRODUCT',
-        productId: id
+        type: 'SET_DELETE_MODAL',
+        deleteModal: state
+    }
+)
+
+export const setCreateProduct = (state) => (
+    {
+        type: 'PRODUCT_CREATE',
+        productCreate: state
     }
 )
 

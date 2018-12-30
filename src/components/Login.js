@@ -8,7 +8,7 @@ export default class Login extends React.Component {
     render() {
 
         return (
-            <div id = "cover">
+            <div id="cover">
                 <Header />
                 <LoginForm />
                 <Footer />

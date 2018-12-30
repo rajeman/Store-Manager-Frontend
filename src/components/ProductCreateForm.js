@@ -26,6 +26,11 @@ export default class ProductCreateForm extends React.Component {
 								<br/>
 								<input type="text"  placeholder="Enter Product Price" name="pprice" required></input>
 							</div>
+							<div>
+								<label>Minimum Inventory:</label>
+								<br/>
+								<input type="text"  placeholder="Enter Minimum Inventory" name="pinventory" required></input>
+							</div>
 							<button type="submit">Create</button>
 							<br/>				
 						</form>

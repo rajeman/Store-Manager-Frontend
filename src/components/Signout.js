@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { logout } from '../actions/auth';
-import { NavLink } from 'react-router-dom';
 
 class Signout extends React.Component {
     
@@ -10,7 +9,6 @@ class Signout extends React.Component {
         return (
             <li ><a href = "" onClick={(e) => {
                 e.preventDefault();
-                console.log(this.props);
                 this.props.dispatch(logout());
             }}>Signout</a></li> 
         );

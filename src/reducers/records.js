@@ -1,5 +1,8 @@
 
-const defaultState = [];
+const defaultState = {
+    sale: [],
+    sales: []
+};
 
 
    
@@ -7,7 +10,15 @@ const defaultState = [];
 export default (state = defaultState, action) => {
    switch (action.type) {
        case 'SET_SALES':
-           return action.sales;
+           return {
+            ...state, 
+            sales: action.sales
+           };
+        case 'SET_SALE':
+           return {
+            ...state, 
+            sale: action.sale
+           };
        default : 
            return state
    }

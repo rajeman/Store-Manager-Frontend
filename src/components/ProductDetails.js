@@ -1,26 +1,57 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { fetchProduct } from '../actions/products';
+import { history } from '../routers/AppRouter';
+import paths from '../helpers/paths';
+import DeleteModal from '../components/DeleteModal';
+import { setDeleteModal } from '../actions/products';
 
-export default class ProductDetails extends React.Component {
-
+class ProductDetails extends React.Component {
+    componentDidMount () {
+        this.props.dispatch(fetchProduct(this.props.id));
+    }
+    handleCancel = () =>{
+        this.props.dispatch(setDeleteModal('STATE_INVISIBLE'));
+    }
     render() {
+        const { product } = this.props.products;
+        const { level } = this.props.auth.userDetails;
+        const { deleteModal } = this.props.products;
+        if(product[0]){
         return (
-
-            <div className="items-box">
-                <div class="product-details" id="product">
+                <div className="product-details" id="product">
                     <img src={require("../images/item1.jpg")} />
-                    <div class="quant-avail"></div>
-                    <div class="min-invent"></div>
-                    <div class="name-description detailed-description"></div>
-                    <div class="price detailed-price">
-                        $<span class="actual-price"></span> per item
+                    <div className="quant-avail">{product[0].product_quantity} available</div>
+                    <div className="min-invent">Minimum Inventory: {product[0].minimum_inventory}</div>
+                    <div className="name-description detailed-description">{product[0].product_name}</div>
+                    
+                    <div className="price detailed-price">
+                        $<span className="actual-price">{ product[0].product_price }</span> per item
                                 </div>
-                    <input type="button" class="confirm modify" id="modify" value="Modify"></input>
-                    <input type="button" class="delete" value="Delete" onclick="displayDialog();"></input>
+                    
+                                { level === 2 && <input type="button" className="confirm modify" id="modify" value="Modify" onClick = {()=>{
+                            history.push(paths.modifyProduct);
+                    }}></input>}
+                    
+                    { level === 2 && <input type="button" className="delete" value="Delete" onClick = { ()=>{
+                        this.props.dispatch(setDeleteModal('STATE_VISIBLE'));
+                    }}></input>}
+                    
+                    { level === 1 && <input type="button" className="confirm modify"  value="Add to Cart"></input>}
+                    
+                    {deleteModal === 'STATE_VISIBLE' &&  <DeleteModal handleCancel = {this.handleCancel}/>}
                 </div>
-
-            </div>
+                
+            
+            
 
         );
+        } else {
+            return <div></div>
+        }
     }
 }
 
+const mapStateToProps = (state) => state;
+
+export default connect( mapStateToProps)(ProductDetails); 

@@ -14,9 +14,11 @@ export const history = createHistory();
 const AppRouter = () => (
     <Router history={history}>
             <Switch>
-                <Route path="/" component={Login} exact={true} />
+                <Route path="/login" component={Login} exact={true} />
                 <Route path={paths.products} component={Dashboard} exact={true} key="products"/>
                 <Route path={paths.records} component={Dashboard} exact={true} key="records"/>
+                <Route path={paths.recordDetails} component={Dashboard} exact={true} key="recordDetails"/>
+                <Route path={paths.productDetails} component={Dashboard} exact={true} key="recordDetails"/>
                 <Route path={paths.cart} component={Dashboard} exact={true} key="cart"/>
                 <Route path="/create-product" component={CreateProduct} exact={true} />
                 <Route path="/create-attendant" component={CreateAttendant} exact={true} />

@@ -1,6 +1,7 @@
 import { history } from '../routers/AppRouter';
 import axios from 'axios';
 import { setToken, getToken, deleteToken } from '../helpers/auth';
+import paths from '../helpers/paths';
 
 const userUrl = 'https://onlinestoremanager.herokuapp.com/api/v1/user';
 const loginUrl ='https://onlinestoremanager.herokuapp.com/api/v1/auth/login';
@@ -28,10 +29,10 @@ export const fetchUser = () => dispatch =>{
         })
         .catch(error => {
             const  { response }  = error;
-            if( response && response.status === 403 || response.status === 401){
+            if( response != undefined && response.status === 403 || response.status === 401){
                 dispatch(setLoginState('STATE_LOGGED_OUT'));
                 deleteToken();
-                history.push('/')
+                history.push(paths.login)
             }
         });
     
@@ -89,7 +90,7 @@ export const login = (email, password) => dispatch => {
             setToken(data.token);
             dispatch(setLoginError());   
             dispatch(setLoginState('STATE_LOGGED_IN'));
-            history.push('/dashboard/products');
+            history.push(paths.products);
             
         } else{
             dispatch(setLoginState('STATE_LOGIN_FAILED'));
@@ -97,7 +98,7 @@ export const login = (email, password) => dispatch => {
         }   
     })
     .catch(error => {
-        console.log(error);
+        
         dispatch(setLoginError(error.response.data.error));   
         dispatch(setLoginState('STATE_LOGIN_FAILED'));
     });
@@ -105,9 +106,8 @@ export const login = (email, password) => dispatch => {
 }
  
 export const logout = () => dispatch => {
-    console.log('dispatched');
+   
     deleteToken();
-    console.log('dispatched');
-    history.push('/');     
+    history.push(paths.login);     
     dispatch(setLoginState('STATE_LOGGED_OUT'));
 }
