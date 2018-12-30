@@ -1,6 +1,7 @@
 import axios from 'axios';
+import { history } from '../routers/AppRouter';
 import { getToken } from '../helpers/auth';
-
+import paths from '../helpers/paths';
 const url = 'https://onlinestoremanager.herokuapp.com/api/v1/products';
 
 export const setProductLoading = () => (
@@ -44,6 +45,39 @@ export const setProducts = (products) => (
     }
 )
 
+export const createProduct = (productName, productQuantity, price, minimumInventory) => dispatch => {
+    dispatch(setCreateProduct('STATE_CREATING'));
+    dispatch(setCreateError(''));
+    const headers = { 
+        headers: {"Authorization": `Bearer ${getToken()}`}
+    }
+    const reqBody = {
+        productName,
+        productQuantity,
+        price,
+        minimumInventory
+    }
+
+    return axios.post(url, reqBody,
+       headers
+    )
+        .then(() => {
+            dispatch(setCreateProduct('STATE_CREATE_SUCCESS'));
+            
+            history.push(paths.products);
+        })
+        .catch(error => {
+            //console.log(error);
+            dispatch(setCreateProduct('STATE_CREATE_FAILED'));
+            if (!error.response) {
+                dispatch(setCreateError('Network Error'));
+            } else {
+                dispatch(setCreateError(error.response.data.error));
+            }
+        });
+
+}
+
 
 export const setProduct = (product) => (
     {
@@ -66,6 +100,13 @@ export const setCreateProduct = (state) => (
     }
 )
 
+export const setCreateError = (error) => (
+    {
+        type: 'PRODUCT_CREATE_ERROR',
+        productCreateError: error
+    }
+)
+
 export const updateProduct = (payload = {}) => (
     {
         type: 'UPDATE_PRODUCT',
@@ -73,10 +114,4 @@ export const updateProduct = (payload = {}) => (
     }
 )
 
-export const createProduct = (payload = {}) => (
-    {
-        type: 'CREATE_PRODUCT',
-        payload
-    }
-)
 
