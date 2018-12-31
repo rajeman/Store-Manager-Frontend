@@ -1,15 +1,24 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { createAttendant } from '../actions/attendants'
 
-export default class AttendantCreateForm extends React.Component {
-
+class AttendantCreateForm extends React.Component {
+    
     render() {
-        const attendantCreateState = '';
+        const onFormSubmit = (e) => {
+            //console.log(this.props);
+             e.preventDefault();
+             const name = e.target.elements.aname.value.trim();
+             const email = e.target.elements.aemail.value.trim();
+             this.props.dispatch(createAttendant(name, email));
+         } 
+        const { attendantCreateState, attendantCreateError} = this.props.attendants;
         return (
             <div className="cont">
                 <section>
                     <div id="user-form">
                         <div className="container">
-                            <form method="post" onsubmit=" return createAttendant();">
+                            <form onSubmit = {onFormSubmit}>
                                 <h3>New Attendant</h3>
                                 <div>
                                     <label>Name:</label>
@@ -36,5 +45,9 @@ export default class AttendantCreateForm extends React.Component {
 
     }
 }
+
+const mapStateToProps = (state) => state;
+
+export default connect(mapStateToProps)(AttendantCreateForm); 
 
 
