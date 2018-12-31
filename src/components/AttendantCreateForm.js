@@ -3,7 +3,7 @@ import React from 'react';
 export default class AttendantCreateForm extends React.Component {
 
     render() {
-
+        const attendantCreateState = '';
         return (
             <div className="cont">
                 <section>
@@ -22,8 +22,8 @@ export default class AttendantCreateForm extends React.Component {
                                     <input type="email" id="email" placeholder="Enter Attendant's Email" name="aemail" required></input>
                                 </div>
                                 <div className="not-registered">
-                                    <span class="pop-up"></span>
-                                    <span class="lds-hourglass"></span>
+                                    {attendantCreateState === 'STATE_CREATE_FAILED' && <span className="pop-up">{attendantCreateError}</span>}
+                                    {attendantCreateState === 'STATE_CREATING' && <span className="lds-hourglass"></span>}
                                 </div>
                                 <button type="submit">Create</button>
                                 <br />

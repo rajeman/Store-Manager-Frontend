@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { fetchUser } from '../actions/auth';
+import ButtonNewAttendant from './ButtonNewAttendant';
 
 
 class ProfileInfo extends React.Component {
@@ -20,6 +21,7 @@ class ProfileInfo extends React.Component {
                 <div className="details">{userDetails.level === 2 ? 'Admin' : 'Attendant'}</div>
                 <div className="label">Last logged in:</div>
                 <div className="details">09-Oct-18 4:07pm</div>
+                {userDetails.level === 2 && <ButtonNewAttendant />}
             </div>
         );
 

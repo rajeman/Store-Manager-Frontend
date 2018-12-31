@@ -10,10 +10,14 @@ import { getToken } from '../helpers/auth';
 
 class Dashboard extends React.Component {
     componentDidMount() {
-        this.props.dispatch(setNavigation(this.props.location)); //not needed again
-        //console.log(this.props.auth.loginState)
+        this.props.dispatch(setNavigation({
+           id: this.props.match.params.id,
+           urlPath: this.props.match.path
+       }));  //not needed again
+       //console.log(this.props);
     }
     render() {
+       // console.log(this.props);
          // console.log(getToken('Authorization'));
         if(getToken('Authorization') === 'undefined'){
            // console.log(getToken('Authorization'),'auth');
@@ -26,7 +30,7 @@ class Dashboard extends React.Component {
                     <Dropdown />
                 </Header>
                 <DashboardContent />
-                <Footer />   
+                <Footer /> 
             </div>
         );
     }

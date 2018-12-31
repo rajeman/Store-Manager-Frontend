@@ -9,7 +9,7 @@ class ProductItems extends React.Component {
     }
     render() {
         //console.log(this.props);
-        const { products } = this.props;
+        const { products } = this.props.products;
         return (
             <div className="container">
                 <div className="wrapper">

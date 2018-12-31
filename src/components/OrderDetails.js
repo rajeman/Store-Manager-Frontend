@@ -1,9 +1,17 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { fetchSale } from '../actions/records';
+import Record from './Record';
+import OrderDetail from './OrderDetail';
 
-export default class OrderDetails extends React.Component {
-
+ class OrderDetails extends React.Component {
+    componentDidMount(){
+        this.props.dispatch(fetchSale(this.props.id));
+    }
     render() {
-        return (
+        //console.log(this.props.sales.sale);
+        const { sale } = this.props.sales;
+        return (  
             <div class="container">						
             <div class="wrapper">
                 <h2>Order Summary</h2>
@@ -16,6 +24,7 @@ export default class OrderDetails extends React.Component {
                         <th>Total Item</th>
                         <th>Order Price</th>
                     </tr>
+                {sale[0] && <Record sale={sale[0]} key = {sale.order_id}/>}
                 </table>
                 <h2>Details</h2>
                 <table id= "details-table" >
@@ -26,6 +35,11 @@ export default class OrderDetails extends React.Component {
                         <th>Price per Product</th>
                         <th>Total Price</th>
                     </tr>
+                    {sale.map((detail) =>
+                        (
+                            <OrderDetail detail = {detail}/>
+                        )
+                    )}
                 </table>
             </div>
         </div>
@@ -33,6 +47,10 @@ export default class OrderDetails extends React.Component {
         );
     }
 }
+
+const mapStateToProps = (state) => state;
+
+export default connect( mapStateToProps)(OrderDetails); 
 
 
 

@@ -1,11 +1,17 @@
 
-const defaultState = {};
+const defaultState = {
+    urlPath: '',
+    id: ''
+};
 
 
 export default (state = defaultState, action) => {
    switch (action.type) {
        case 'SET_NAVIGATION':
-           return action.navigation !== undefined ? action.navigation : state;      
+           return {
+               ...state,
+               ...action.navigation
+           }     
        default : 
            return state
    }

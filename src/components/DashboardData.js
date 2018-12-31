@@ -14,12 +14,17 @@ class DashboardData extends React.Component {
        
     render() {
             const { pathname } = history.location;
+            const { urlPath, id } = this.props.navigation;
+            //console.log(urlPath);
+           // console.log(this.props);
         return (
             <div className="attendant-content">
                 <DashboardTab pathname={pathname}/>
                 { pathname === paths.products  && <ProductItems /> }
                 { pathname === paths.records &&  <Records /> }
                 { pathname === paths.cart &&  <Cart /> }
+                { urlPath != undefined && urlPath.includes('/records/') && id  && <OrderDetails id = {id}/>}
+                { urlPath != undefined && urlPath.includes('/products/') && id  && <ProductDetails id = {id}/>}
             </div>
         );
     }

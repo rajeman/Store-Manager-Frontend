@@ -1,4 +1,5 @@
 import React from 'react';
+import { history } from '../routers/AppRouter';
 import { getFormattedTime } from '../helpers/time';
 export default class Record extends React.Component {
 
@@ -7,7 +8,10 @@ export default class Record extends React.Component {
         const { sale } = this.props
         //console.log(sale);
         return (
-                        <tr>
+                        <tr onClick = {() => {
+                          history.push(`/dashboard/records/${sale.time_checked_out}`)  
+                }
+            }>
                             <td>{sale.user_id}</td>
                             <td>{sale.user_name}</td>
                             <td>{sale.order_id}</td>

@@ -16,6 +16,13 @@ export const setSaleError = (error) => (
     }
 );
 
+export const setSalesError = (error) => (
+    {
+        type: 'SET_SALES_ERROR',
+        error
+    }
+);
+
 /* export const fetchProducts = () => dispatch =>
     setTimeout(() => dispatch(setProducts(['speaker', 'amplifier', 'transmitter'])), 5000)
  */
@@ -25,8 +32,8 @@ export const fetchSales = () => dispatch =>
             "Authorization": `Bearer ${getToken()}`
         }
     })
-        .then(({data}) => data.message != undefined ? dispatch(setSales(data.orders)) : dispatch(setSaleError(data.error)))
-        .catch(error => dispatch(setSaleError(error)));
+        .then(({data}) => data.message != undefined ? dispatch(setSales(data.orders)) : dispatch(setSalesError(data.error)))
+        .catch(error => dispatch(setSalesError(error)));
 
 
 export const setSales = (sales) => (
@@ -37,11 +44,22 @@ export const setSales = (sales) => (
 )
 
 
-export const setSale = (id) => (
+export const setSale = (sale) => (
     {
         type: 'SET_SALE',
-        saleId: id
+        sale
     }
 )
 
 
+export const fetchSale = (id) => dispatch =>
+    axios.get(url + `/${id}`, {
+        headers: {
+            "Authorization": `Bearer ${getToken()}`
+        }
+    })
+        .then(({data}) => data.message != undefined ? dispatch(setSale(data.orderDetails)) : dispatch(setSaleError(data.error)))
+        .catch(error => {
+            dispatch(setSale([]));
+            dispatch(setSaleError(error))
+        });
