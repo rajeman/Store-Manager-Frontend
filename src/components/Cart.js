@@ -1,7 +1,10 @@
 import React from 'react';
+import { toast } from 'react-toastify';
 
 export default class Cart extends React.Component {
-
+   handleCheckout = ()=>{
+       toast('What a Toast!!');
+    }
     render() {
         return (
             <div className="container">
@@ -9,7 +12,7 @@ export default class Cart extends React.Component {
                     <div class="container">
                         <div class="wrapper">
                             <span class="tip">Click on item to remove</span>
-                            <input type="button" class="confirm checkout" value="checkout" onclick="doCheckout();"></input>
+                            <input type="button" class="confirm checkout" value="checkout" onClick={this.handleCheckout}></input>
                             <div class="items-box">
                                 <div class="item" onclick="gotoProductAttendant()">
                                     <img src={require('../images/item1.jpg')} />
