@@ -13,7 +13,7 @@ const store = configureStore();
 const App = (
     <Provider store = {store}>
       <AppRouter />
-      <ToastContainer />
+      <ToastContainer autoClose = {4000} pauseOnFocusLoss={false} />
     </Provider>
 );
 

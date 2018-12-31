@@ -3,7 +3,10 @@ import { toast } from 'react-toastify';
 
 export default class Cart extends React.Component {
    handleCheckout = ()=>{
-       toast('What a Toast!!');
+       toast('What a Toast!!', {
+           hideProgressBar: true
+       });
+       
     }
     render() {
         return (
