@@ -6,11 +6,11 @@ import ProductModifyForm from './ProductModifyForm';
 export default class ModifyProduct extends React.Component {
 
     render() {
-
+        const { id } = this.props.match.params
         return (
             <div id="cover">
                 <Header />
-                <ProductModifyForm />
+                <ProductModifyForm id={id}/>
                 <Footer />
             </div>
         );

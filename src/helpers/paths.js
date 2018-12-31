@@ -7,5 +7,5 @@ export default {
     login: '/login',
     createProduct: '/create-product',
     createAttendant: '/create-attendant',
-    modifyProduct: '/modify-product'
+    modifyProduct: '/modify-product/:id'
 }

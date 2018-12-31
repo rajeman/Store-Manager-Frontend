@@ -4,7 +4,9 @@ const defaultState = {
     product: [], 
     deleteModal: '', 
     productCreate: '',
-    productCreateError: ''
+    productCreateError: '',
+    productModify: '',
+    productModifyError: ''
 };
 
 
@@ -32,10 +34,20 @@ const defaultState = {
                 ...state,
                 productCreate: action.productCreate
             }
+        case 'PRODUCT_MODIFY':
+            return {
+                ...state,
+                productModify: action.productModify
+            }
         case 'PRODUCT_CREATE_ERROR':
             return {
                 ...state,
                 productCreateError: action.productCreateError
+            }
+        case 'PRODUCT_MODIFY_ERROR':
+            return {
+                ...state,
+                productModifyError: action.productModifyError
             }
         case 'DELETE_PRODUCT':
             return defaultState

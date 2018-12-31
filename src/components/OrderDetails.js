@@ -11,7 +11,6 @@ import OrderDetail from './OrderDetail';
     render() {
         //console.log(this.props.sales.sale);
         const { sale } = this.props.sales;
-        console.log(sale);
         return (  
             <div class="container">						
             <div class="wrapper">

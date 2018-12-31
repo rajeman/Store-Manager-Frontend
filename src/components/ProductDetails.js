@@ -1,8 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { fetchProduct } from '../actions/products';
+import { fetchProduct, deleteProduct } from '../actions/products';
 import { history } from '../routers/AppRouter';
-import paths from '../helpers/paths';
 import DeleteModal from '../components/DeleteModal';
 import { setDeleteModal } from '../actions/products';
 
@@ -12,6 +11,9 @@ class ProductDetails extends React.Component {
     }
     handleCancel = () =>{
         this.props.dispatch(setDeleteModal('STATE_INVISIBLE'));
+    }
+    handleDelete = () =>{
+        this.props.dispatch(deleteProduct(this.props.id));
     }
     render() {
         const { product } = this.props.products;
@@ -30,7 +32,7 @@ class ProductDetails extends React.Component {
                                 </div>
                     
                                 { level === 2 && <input type="button" className="confirm modify" id="modify" value="Modify" onClick = {()=>{
-                            history.push(paths.modifyProduct);
+                            history.push(`/modify-product/${this.props.id}`);
                     }}></input>}
                     
                     { level === 2 && <input type="button" className="delete" value="Delete" onClick = { ()=>{
@@ -39,7 +41,7 @@ class ProductDetails extends React.Component {
                     
                     { level === 1 && <input type="button" className="confirm modify"  value="Add to Cart"></input>}
                     
-                    {deleteModal === 'STATE_VISIBLE' &&  <DeleteModal handleCancel = {this.handleCancel}/>}
+                    {deleteModal === 'STATE_VISIBLE' &&  <DeleteModal handleCancel = {this.handleCancel} handleDelete = {this.handleDelete}/>}
                 </div>
                 
             

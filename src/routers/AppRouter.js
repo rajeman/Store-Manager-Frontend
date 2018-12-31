@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch, Router, NavLink } from 'react-router-dom';
+import { Route, Switch, Router} from 'react-router-dom';
 import createHistory from 'history/createBrowserHistory';
 import paths from '../helpers/paths';
 import Login from '../components/Login';
@@ -20,9 +20,9 @@ const AppRouter = () => (
                 <Route path={paths.recordDetails} component={Dashboard} exact={true} key="recordDetails"/>
                 <Route path={paths.productDetails} component={Dashboard} exact={true} key="recordDetails"/>
                 <Route path={paths.cart} component={Dashboard} exact={true} key="cart"/>
-                <Route path="/create-product" component={CreateProduct} exact={true} />
-                <Route path="/create-attendant" component={CreateAttendant} exact={true} />
-                <Route path="/modify-product" component={ModifyProduct} exact={true} />
+                <Route path={paths.createProduct} component={CreateProduct} exact={true} />
+                <Route path={paths.createAttendant} component={CreateAttendant} exact={true} />
+                <Route path={paths.modifyProduct} component={ModifyProduct} exact={true} />
                 <Route component={NotFoundPage} />
             </Switch>
     </Router>

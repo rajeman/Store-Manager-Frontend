@@ -48,8 +48,8 @@ export const setProducts = (products) => (
 export const createProduct = (productName, productQuantity, price, minimumInventory) => dispatch => {
     dispatch(setCreateProduct('STATE_CREATING'));
     dispatch(setCreateError(''));
-    const headers = { 
-        headers: {"Authorization": `Bearer ${getToken()}`}
+    const headers = {
+        headers: { "Authorization": `Bearer ${getToken()}` }
     }
     const reqBody = {
         productName,
@@ -59,11 +59,11 @@ export const createProduct = (productName, productQuantity, price, minimumInvent
     }
 
     return axios.post(url, reqBody,
-       headers
+        headers
     )
         .then(() => {
             dispatch(setCreateProduct('STATE_CREATE_SUCCESS'));
-            
+
             history.push(paths.products);
         })
         .catch(error => {
@@ -78,6 +78,65 @@ export const createProduct = (productName, productQuantity, price, minimumInvent
 
 }
 
+export const modifyProduct = (productName, productQuantity, price, minimumInventory, id) => dispatch => {
+    dispatch(setModifyProduct('STATE_MODIFYING'));
+    dispatch(setModifyError(''));
+    const headers = {
+        headers: { "Authorization": `Bearer ${getToken()}` }
+    }
+    const reqBody = {
+        productName,
+        productQuantity,
+        price,
+        minimumInventory
+    }
+
+    return axios.put(`${url}/${id}`, reqBody,
+        headers
+    )
+        .then(() => {
+            dispatch(setModifyProduct('STATE_MODIFY_SUCCESS'));
+
+            history.push(`${paths.products}/${id}`);
+        })
+        .catch(error => {
+            //console.log(error);
+            dispatch(setModifyProduct('STATE_MODIFY_FAILED'));
+            if (!error.response) {
+                dispatch(setCreateError('Network Error'));
+            } else {
+                dispatch(setCreateError(error.response.data.error));
+            }
+        });
+
+}
+
+
+export const deleteProduct = (id) => dispatch => {
+    // dispatch(setModifyProduct('STATE_MODIFYING'));
+    // dispatch(setModifyError(''));
+    const headers = {
+        headers: { "Authorization": `Bearer ${getToken()}` }
+    }
+
+    return axios.delete(`${url}/${id}`, headers
+    )
+        .then(() => {
+
+            history.push(paths.products);
+        })
+        .catch(error => {
+            console.log(error);
+            //  dispatch(setModifyProduct('STATE_MODIFY_FAILED'));
+            if (!error.response) {
+                //dispatch(setCreateError('Network Error'));
+            } else {
+                // dispatch(setCreateError(error.response.data.error));
+                console.log(error.response.data.error);
+            }
+        });
+
+}
 
 export const setProduct = (product) => (
     {
@@ -107,11 +166,17 @@ export const setCreateError = (error) => (
     }
 )
 
-export const updateProduct = (payload = {}) => (
+export const setModifyProduct = (state) => (
     {
-        type: 'UPDATE_PRODUCT',
-        payload
+        type: 'PRODUCT_MODIFY',
+        productModify: state
     }
 )
 
+export const setModifyError = (error) => (
+    {
+        type: 'PRODUCT_MODIFY_ERROR',
+        productModifyError: error
+    }
+)
 
