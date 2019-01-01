@@ -37,6 +37,16 @@ export const removeCartProduct = (email, id) => {
 
     return 'REMOVE_SUCCESS';
 }
-//localStorage.setItem(JSON.stringify(removeProduct(JSON.parse(localStorage.getItem(email)).products, id)
+
+export const removeAllProducts = (email) => {
+    const userItems = getUserItems(email);
+    saveToStorage(email, {
+        ...userItems,
+        products: []
+    });
+
+    return 'REMOVE_SUCCESS';
+}
+
 export const fetchCartProducts = (email) => 
   localStorage.getItem(email) !== null ? JSON.parse(localStorage.getItem(email)).products : [];
