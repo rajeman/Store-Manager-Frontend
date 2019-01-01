@@ -6,7 +6,7 @@ export default (props) => (
     <div className="item" onclick="gotoProductAttendant()">
         <img src={require('../images/item1.jpg')} />
         <div className="quant-avail">
-        {props.item.product_quantity}
+        {props.item.product_quantity} in cart
         </div>
         <div className="name-description">
         {props.item.product_name}
