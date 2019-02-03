@@ -14,12 +14,24 @@ test('should set the details of a user', () => {
     expect(state.userDetails).toEqual({});
 });
 
-/* test('should change the login state', () => {
-    const currentState = {
-        loginState: 'STATE_LOGGED_IN',
-        loginError: undefined,
-        userDetails: {}
+test('should set the login state', () => {
+    const loginState = 'STATE_LOGGED_OUT';
+    const action = {
+        type: 'SET_LOGIN_STATE',
+        loginState
     };
-    const state = authReducer(currentState, { type: 'SET_LOGIN_STATE'});
+    const state = authReducer(undefined, action);
+    expect(state.loginState).toEqual(loginState);
 
-}); */
+});
+
+test('should set the login error message', () => {
+    const loginError = 'Invalid username or password';
+    const action = {
+        type: 'SET_LOGIN_ERROR',
+        loginError
+    };
+    const state = authReducer(undefined, action);
+    expect(state.loginError).toEqual(loginError);
+
+});
