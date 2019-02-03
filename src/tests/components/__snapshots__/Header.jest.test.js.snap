@@ -1,0 +1,46 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render Header correctly 1`] = `
+<header>
+  <div
+    className="container"
+  >
+    <div
+      id="website-logo"
+    >
+      <h1>
+        Store Manager
+      </h1>
+    </div>
+    <nav>
+      <ul>
+        <li>
+           
+          <NavLink
+            activeClassName="active"
+            ariaCurrent="true"
+            to="/dashboard/products"
+          >
+            Home
+          </NavLink>
+        </li>
+        <li>
+          <a
+            href="#"
+          >
+            About
+          </a>
+        </li>
+        <li>
+          <a
+            href="#"
+          >
+            Services
+          </a>
+        </li>
+        <Connect(Signout) />
+      </ul>
+    </nav>
+  </div>
+</header>
+`;
