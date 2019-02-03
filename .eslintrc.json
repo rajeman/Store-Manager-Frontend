@@ -1,5 +1,8 @@
 {
-    "extends": "airbnb",
+    "extends": [
+      "eslint:recommended",
+      "plugin:react"
+    ],
      "root": true,
      "rules": {
        "no-console":"off",
@@ -7,6 +10,8 @@
     },
     "env": {
     "node": true,
-    "mocha": true
-  }
+    "mocha": true,
+    "jest": true
+  },
+  "parser": "babel-eslint"
 }
