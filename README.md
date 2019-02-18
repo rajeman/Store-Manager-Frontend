@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/rajeman/Store-Manager-Frontend.svg?branch=chore-separate-react)](https://travis-ci.com/rajeman/Store-Manager-Frontend)
+
 # Store-Manager
 Store Manager is a web application that allows store owners to manage product sales, inventory and
 records
