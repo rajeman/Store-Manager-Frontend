@@ -65,4 +65,4 @@ dist/
 use.js
 # package-lock
 package-lock.json
-
+.DS_Store
