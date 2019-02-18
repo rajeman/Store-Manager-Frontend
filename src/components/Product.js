@@ -8,7 +8,7 @@ export default ({ product }) => (
 className="item"
 onClick = {() =>
                 {
-                  history.push(paths.products + `/${product.product_id}`) 
+                  history.push(paths.products + `/${product.product_id}`)
                 }}
             >
               <img src={require('../images/item1.jpg')} />

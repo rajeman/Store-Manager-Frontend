@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { createAttendant } from '../actions/attendants'
 
 class AttendantCreateForm extends React.Component {
-    
+
     render() {
         const onFormSubmit = (e) => {
             //console.log(this.props);
@@ -11,7 +11,7 @@ class AttendantCreateForm extends React.Component {
              const name = e.target.elements.aname.value.trim();
              const email = e.target.elements.aemail.value.trim();
              this.props.dispatch(createAttendant(name, email));
-         } 
+         }
         const { attendantCreateState, attendantCreateError} = this.props.attendants;
         return (
             <div className="cont">
@@ -48,6 +48,6 @@ class AttendantCreateForm extends React.Component {
 
 const mapStateToProps = (state) => state;
 
-export default connect(mapStateToProps)(AttendantCreateForm); 
+export default connect(mapStateToProps)(AttendantCreateForm);
 
 
