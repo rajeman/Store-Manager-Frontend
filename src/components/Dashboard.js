@@ -9,34 +9,28 @@ import { setNavigation } from '../actions/navigation';
 import { getToken } from '../helpers/auth';
 
 class Dashboard extends React.Component {
-    componentDidMount() {
-        this.props.dispatch(setNavigation({
-           id: this.props.match.params.id,
-           urlPath: this.props.match.path
-       }));  //not needed again
-       //console.log(this.props);
+  componentDidMount() {
+    this.props.dispatch(setNavigation({
+      id: this.props.match.params.id,
+      urlPath: this.props.match.path
+    }));
+  }
+  render() {
+    if (getToken('Authorization') === 'undefined') {
+      history.push('/');
     }
-    render() {
-       // console.log(this.props);
-         // console.log(getToken('Authorization'));
-        if(getToken('Authorization') === 'undefined'){
-           // console.log(getToken('Authorization'),'auth');
-            history.push('/');
-            //console.log(this)
-        }     
-        return (
-            <div id = "cover">
-                <Header>
-                    <Dropdown />
-                </Header>
-                <DashboardContent />
-                <Footer /> 
-            </div>
-        );
-    }
+    return (
+      <div id="cover">
+        <Header>
+          <Dropdown />
+        </Header>
+        <DashboardContent />
+        <Footer />
+      </div>
+    );
+  }
 }
 
 const mapStateToProps = (state) => state;
 
-
-export default connect(mapStateToProps)(Dashboard); 
+export default connect(mapStateToProps)(Dashboard);

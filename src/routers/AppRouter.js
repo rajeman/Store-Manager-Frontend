@@ -9,12 +9,12 @@ import CreateProduct from '../components/CreateProduct';
 import ModifyProduct from '../components/ModifyProduct';
 import CreateAttendant from '../components/CreateAttendant';
 
-//switch ensures only the first match is rendered
 export const history = createHistory();
+
 const AppRouter = () => (
     <Router history={history}>
             <Switch>
-                <Route path="/login" component={Login} exact={true} />
+                <Route path={paths.login} component={Login} exact={true} />
                 <Route path={paths.products} component={Dashboard} exact={true} key="products"/>
                 <Route path={paths.records} component={Dashboard} exact={true} key="records"/>
                 <Route path={paths.recordDetails} component={Dashboard} exact={true} key="recordDetails"/>
@@ -27,6 +27,5 @@ const AppRouter = () => (
             </Switch>
     </Router>
 );
-
 
 export default AppRouter;

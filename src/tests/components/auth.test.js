@@ -21,7 +21,7 @@ describe('AUTHENTICATION TEST SUITE', () => {
           userDetails: {}
         },
       };
-    const mockStore = configureStore([thunk]);
+      const mockStore = configureStore([thunk]);
       const store = mockStore(initialState);
       const component = mount(
         <Provider store={store}>
@@ -37,7 +37,7 @@ describe('AUTHENTICATION TEST SUITE', () => {
     });
 
     it('should call the login handler when the login form is submitted', () => {
-      const response = { data: { message:  'successfully slogged in' } };
+      const response = { data: { message: 'successfully slogged in' } };
       axios.post.mockResolvedValue(response);
       const preventDefault = jest.fn();
       const initialState = {
@@ -47,7 +47,7 @@ describe('AUTHENTICATION TEST SUITE', () => {
           userDetails: {}
         },
       };
-    const mockStore = configureStore([thunk]);
+      const mockStore = configureStore([thunk]);
       const store = mockStore(initialState);
       const component = mount(
         <Provider store={store}>
@@ -71,7 +71,7 @@ describe('AUTHENTICATION TEST SUITE', () => {
     });
 
     it('should display pop-up error message if login fails', () => {
-      const response = { response: { data: { error: 'invalid username or password' } } } ;
+      const response = { response: { data: { error: 'invalid username or password' } } };
       axios.post.mockImplementation(() => Promise.reject(response));
       const preventDefault = jest.fn();
       const initialState = {
@@ -81,7 +81,7 @@ describe('AUTHENTICATION TEST SUITE', () => {
           userDetails: {}
         },
       };
-    const mockStore = configureStore([thunk]);
+      const mockStore = configureStore([thunk]);
       const store = mockStore(initialState);
       const component = mount(
         <Provider store={store}>
@@ -105,7 +105,7 @@ describe('AUTHENTICATION TEST SUITE', () => {
   });
 
   describe('Signout', () => {
-    it('should change the auth state to STATE_LOGGED_OUT when user logs out' , () => {
+    it('should change the auth state to STATE_LOGGED_OUT when user logs out', () => {
       const initialState = {
         auth: {
           loginState: 'STATE_LOGIN_FAILED',
@@ -113,7 +113,7 @@ describe('AUTHENTICATION TEST SUITE', () => {
           userDetails: {}
         },
       };
-    const mockStore = configureStore([thunk]);
+      const mockStore = configureStore([thunk]);
       const store = mockStore(initialState);
       const component = mount(
         <Provider store={store}>

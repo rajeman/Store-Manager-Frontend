@@ -9,7 +9,6 @@ import 'normalize.css/normalize.css';
 import './styles/styles.scss';
 
 const store = configureStore();
-// provider makes the store available everywhere in the application
 const App = (
   <Provider store={store}>
     <AppRouter />
@@ -19,4 +18,3 @@ const App = (
 
 ReactDOM.render(App, document.getElementById('app'));
 
-// products();
