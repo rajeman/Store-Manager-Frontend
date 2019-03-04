@@ -1,0 +1,139 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PRODUCT FORMS TEST SUITE PRODUCT CREATE FORM TEST SUITE should render the ProductCreate Form 1`] = `
+<Provider
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <Connect(ProductCreateForm)>
+    <ProductCreateForm
+      dispatch={[Function]}
+      products={
+        Object {
+          "productCreate": "STATE_CREATE_FAILED",
+          "productCreateError": "",
+        }
+      }
+    >
+      <div
+        className="cont"
+      >
+        <section>
+          <div
+            id="user-form"
+          >
+            <div
+              className="container"
+            >
+              <form
+                onSubmit={[Function]}
+              >
+                <h3>
+                  New Product
+                </h3>
+                <div>
+                  <label>
+                    Name:
+                  </label>
+                  <br />
+                  <input
+                    name="pname"
+                    placeholder="Enter Product Name"
+                    required={true}
+                    type="text"
+                  />
+                </div>
+                <div>
+                  <label>
+                    Quantity:
+                  </label>
+                  <br />
+                  <input
+                    name="pquantity"
+                    placeholder="Enter Product Quantity"
+                    required={true}
+                    type="number"
+                  />
+                </div>
+                <div>
+                  <label>
+                    Price:
+                  </label>
+                  <br />
+                  <input
+                    name="pprice"
+                    placeholder="Enter Product Price"
+                    required={true}
+                    type="text"
+                  />
+                </div>
+                <div>
+                  <label>
+                    Minimum Inventory:
+                  </label>
+                  <br />
+                  <input
+                    name="pinventory"
+                    placeholder="Enter Minimum Inventory"
+                    required={true}
+                    type="text"
+                  />
+                </div>
+                <button
+                  type="submit"
+                >
+                  Create
+                </button>
+                <br />
+                <div
+                  className="not-registered"
+                >
+                  <span
+                    className="pop-up"
+                  />
+                </div>
+              </form>
+            </div>
+          </div>
+        </section>
+      </div>
+    </ProductCreateForm>
+  </Connect(ProductCreateForm)>
+</Provider>
+`;
+
+exports[`PRODUCT FORMS TEST SUITE PRODUCT MODIFY FORM TEST SUITE should render the ProductModify form 1`] = `
+<Provider
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <Connect(ProductModifyForm)>
+    <ProductModifyForm
+      dispatch={[Function]}
+      products={
+        Object {
+          "product": Array [],
+        }
+      }
+    >
+      <div />
+    </ProductModifyForm>
+  </Connect(ProductModifyForm)>
+</Provider>
+`;
