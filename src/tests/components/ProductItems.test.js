@@ -1,14 +1,61 @@
 import React from 'react';
-import { shallow } from 'enzyme';
-import "../setupTests"
+import { shallow, mount } from 'enzyme';
+import { Provider } from 'react-redux';
+import thunk from 'redux-thunk';
+import configureStore from 'redux-mock-store';
+import axios from 'axios';
 import ProductItems from '../../components/ProductItems';
 
-test('should render ProductItems correctly', () => {
-    const wrapper = shallow(<ProductItems />);
-    expect(wrapper).toMatchSnapshot();
-});
+jest.mock('axios');
 
-test('should render ProductItems with product data', () => {
-    const wrapper = shallow(<ProductItems product = {[{id:1}, {id: 2}]}/>);
-    expect(wrapper).toMatchSnapshot();
-})
+describe('PRODUCT TEST SUITE', () => {
+  it('should render the product items when component mounts', () => {
+    const response = {
+      data:
+      {
+        message: 'successfully fetched user info',
+      }
+    };
+    axios.get.mockResolvedValue(response);
+    const initialState = {
+      products: {
+        products: [{
+          product_id: 7
+        }]
+      }
+    };
+    const mockStore = configureStore([thunk]);
+    const store = mockStore(initialState);
+    const component = mount(
+      <Provider store={store}>
+        <ProductItems />
+      </Provider>
+    );
+    expect(component).toMatchSnapshot();
+  });
+
+  it('should navigate to the single product page when a product is selected', () => {
+    const response = {
+      data:
+      {
+        message: 'successfully fetched user info',
+      }
+    };
+    axios.get.mockResolvedValue(response);
+    const initialState = {
+      products: {
+        products: [{
+          product_id: 7
+        }]
+      }
+    };
+    const mockStore = configureStore([thunk]);
+    const store = mockStore(initialState);
+    const component = mount(
+      <Provider store={store}>
+        <ProductItems />
+      </Provider>
+    );
+    component.find('div[className="item"]').simulate('click');
+  });
+});
