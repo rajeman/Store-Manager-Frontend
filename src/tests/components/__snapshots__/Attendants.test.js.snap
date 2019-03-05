@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`PRODUCT FORMS TEST SUITE PRODUCT CREATE TEST SUITE should render the ProductCreate Form 1`] = `
+exports[`ATTENDANT CREATE TEST SUITE should render the form for creating attendant 1`] = `
 <Provider
   store={
     Object {
@@ -24,7 +24,7 @@ exports[`PRODUCT FORMS TEST SUITE PRODUCT CREATE TEST SUITE should render the Pr
           "entries": Array [
             Object {
               "hash": "",
-              "key": "jnfbf5",
+              "key": "m29cvr",
               "pathname": "/",
               "search": "",
               "state": undefined,
@@ -38,7 +38,7 @@ exports[`PRODUCT FORMS TEST SUITE PRODUCT CREATE TEST SUITE should render the Pr
           "listen": [Function],
           "location": Object {
             "hash": "",
-            "key": "jnfbf5",
+            "key": "m29cvr",
             "pathname": "/",
             "search": "",
             "state": undefined,
@@ -48,8 +48,13 @@ exports[`PRODUCT FORMS TEST SUITE PRODUCT CREATE TEST SUITE should render the Pr
         }
       }
     >
-      <Connect(CreateProduct)>
-        <CreateProduct
+      <Connect(CreateAttendant)>
+        <CreateAttendant
+          attendants={
+            Object {
+              "attendantCreateState": "STATE_CREATING",
+            }
+          }
           auth={
             Object {
               "userDetails": Object {
@@ -124,6 +129,11 @@ exports[`PRODUCT FORMS TEST SUITE PRODUCT CREATE TEST SUITE should render the Pr
                       </li>
                       <Connect(Signout)>
                         <Signout
+                          attendants={
+                            Object {
+                              "attendantCreateState": "STATE_CREATING",
+                            }
+                          }
                           auth={
                             Object {
                               "userDetails": Object {
@@ -154,8 +164,13 @@ exports[`PRODUCT FORMS TEST SUITE PRODUCT CREATE TEST SUITE should render the Pr
                 </div>
               </header>
             </Header>
-            <Connect(ProductCreateForm)>
-              <ProductCreateForm
+            <Connect(AttendantCreateForm)>
+              <AttendantCreateForm
+                attendants={
+                  Object {
+                    "attendantCreateState": "STATE_CREATING",
+                  }
+                }
                 auth={
                   Object {
                     "userDetails": Object {
@@ -185,7 +200,7 @@ exports[`PRODUCT FORMS TEST SUITE PRODUCT CREATE TEST SUITE should render the Pr
                           onSubmit={[Function]}
                         >
                           <h3>
-                            New Product
+                            New Attendant
                           </h3>
                           <div>
                             <label>
@@ -193,46 +208,33 @@ exports[`PRODUCT FORMS TEST SUITE PRODUCT CREATE TEST SUITE should render the Pr
                             </label>
                             <br />
                             <input
-                              name="pname"
-                              placeholder="Enter Product Name"
+                              id="name"
+                              name="aname"
+                              pattern=".{3,}"
+                              placeholder="Enter Attendant's Name"
                               required={true}
+                              title="Name must be at least 3 characters"
                               type="text"
                             />
                           </div>
                           <div>
                             <label>
-                              Quantity:
+                              Email:
                             </label>
                             <br />
                             <input
-                              name="pquantity"
-                              placeholder="Enter Product Quantity"
+                              id="email"
+                              name="aemail"
+                              placeholder="Enter Attendant's Email"
                               required={true}
-                              type="number"
+                              type="email"
                             />
                           </div>
-                          <div>
-                            <label>
-                              Price:
-                            </label>
-                            <br />
-                            <input
-                              name="pprice"
-                              placeholder="Enter Product Price"
-                              required={true}
-                              type="text"
-                            />
-                          </div>
-                          <div>
-                            <label>
-                              Minimum Inventory:
-                            </label>
-                            <br />
-                            <input
-                              name="pinventory"
-                              placeholder="Enter Minimum Inventory"
-                              required={true}
-                              type="text"
+                          <div
+                            className="not-registered"
+                          >
+                            <span
+                              className="lds-hourglass"
                             />
                           </div>
                           <button
@@ -241,20 +243,13 @@ exports[`PRODUCT FORMS TEST SUITE PRODUCT CREATE TEST SUITE should render the Pr
                             Create
                           </button>
                           <br />
-                          <div
-                            className="not-registered"
-                          >
-                            <span
-                              className="pop-up"
-                            />
-                          </div>
                         </form>
                       </div>
                     </div>
                   </section>
                 </div>
-              </ProductCreateForm>
-            </Connect(ProductCreateForm)>
+              </AttendantCreateForm>
+            </Connect(AttendantCreateForm)>
             <Footer>
               <footer>
                 <p>
@@ -263,37 +258,9 @@ exports[`PRODUCT FORMS TEST SUITE PRODUCT CREATE TEST SUITE should render the Pr
               </footer>
             </Footer>
           </div>
-        </CreateProduct>
-      </Connect(CreateProduct)>
+        </CreateAttendant>
+      </Connect(CreateAttendant)>
     </Router>
   </MemoryRouter>
-</Provider>
-`;
-
-exports[`PRODUCT FORMS TEST SUITE PRODUCT MODIFY FORM TEST SUITE should render the ProductModify form 1`] = `
-<Provider
-  store={
-    Object {
-      "clearActions": [Function],
-      "dispatch": [Function],
-      "getActions": [Function],
-      "getState": [Function],
-      "replaceReducer": [Function],
-      "subscribe": [Function],
-    }
-  }
->
-  <Connect(ProductModifyForm)>
-    <ProductModifyForm
-      dispatch={[Function]}
-      products={
-        Object {
-          "product": Array [],
-        }
-      }
-    >
-      <div />
-    </ProductModifyForm>
-  </Connect(ProductModifyForm)>
 </Provider>
 `;

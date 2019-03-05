@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CART TEST SUITE CART COMPONENT TEST SUITE should render cart component 1`] = `
+<Provider
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <Connect(Cart)>
+    <Cart
+      auth={
+        Object {
+          "userDetails": Object {
+            "email": "attendant@attendant.com",
+          },
+        }
+      }
+      dispatch={[Function]}
+    >
+      <div
+        className="container"
+      >
+        <div
+          className="wrapper"
+        >
+          <div
+            className="container"
+          >
+            <div
+              className="wrapper"
+            >
+              <div
+                className="items-box"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </Cart>
+  </Connect(Cart)>
+</Provider>
+`;

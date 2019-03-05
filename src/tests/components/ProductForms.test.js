@@ -1,11 +1,12 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
+import { MemoryRouter } from 'react-router-dom';
 import thunk from 'redux-thunk';
 import configureStore from 'redux-mock-store';
 import axios from 'axios';
 import ProductModifyForm from '../../components/ProductModifyForm';
-import ProductCreateForm from '../../components/ProductCreateForm';
+import CreateProduct from '../../components/CreateProduct';
 
 jest.mock('axios');
 
@@ -63,19 +64,26 @@ describe('PRODUCT FORMS TEST SUITE', () => {
     });
   });
 
-  describe('PRODUCT CREATE FORM TEST SUITE', () => {
+  describe('PRODUCT CREATE TEST SUITE', () => {
     it('should render the ProductCreate Form', () => {
       const initialState = {
         products: {
           productCreate: 'STATE_CREATE_FAILED',
           productCreateError: ''
+        },
+        auth: {
+          userDetails: {
+            level: 2
+          }
         }
       };
       const mockStore = configureStore([thunk]);
       const store = mockStore(initialState);
       const component = mount(
         <Provider store={store}>
-          <ProductCreateForm />
+          <MemoryRouter>
+            <CreateProduct />
+          </MemoryRouter>
         </Provider>
       );
       expect(component).toMatchSnapshot();
@@ -93,13 +101,20 @@ describe('PRODUCT FORMS TEST SUITE', () => {
         products: {
           productCreate: 'STATE_CREATING',
           productCreateError: ''
+        },
+        auth: {
+          userDetails: {
+            level: 2
+          }
         }
       };
       const mockStore = configureStore([thunk]);
       const store = mockStore(initialState);
       const component = mount(
         <Provider store={store}>
-          <ProductCreateForm />
+          <MemoryRouter>
+            <CreateProduct />
+          </MemoryRouter>
         </Provider>
       );
       component.find('form').simulate('submit', {});
