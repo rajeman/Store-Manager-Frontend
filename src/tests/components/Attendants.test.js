@@ -45,7 +45,43 @@ describe('ATTENDANT CREATE TEST SUITE', () => {
     expect(component.exists()).toBe(true);
   });
 
-  it('should render attendant create form component', () => {
+  it('should dispatch the create attendant action when attendant account is being created', () => {
+    const initialState = {
+      products: {
+        productCreate: '',
+        productCreateError: ''
+      },
+      auth: {
+        userDetails: {
+          level: 2
+        }
+      },
+      attendants: {
+        attendantCreateState: 'STATE_CREATING'
+      }
+    };
+    const response = {
+      data:
+      {
+        message: 'successfully created attendant'
+      }
+    };
+    axios.post.mockImplementation(() => Promise.resolve(response));
+    const mockStore = configureStore([thunk]);
+    const store = mockStore(initialState);
+    const component = mount(
+      <Provider store={store}>
+        <MemoryRouter>
+          <CreateAttendant />
+        </MemoryRouter>
+      </Provider>
+    );
+    component.find('form').simulate('submit', {});
+    const dispatchedActions = store.getActions();
+    expect(dispatchedActions[0].state).toEqual('STATE_CREATING');
+  });
+
+  it('should dispatch the \'create attendant error\' if create fails', () => {
     const initialState = {
       products: {
         productCreate: 'STATE_CREATE_FAILED',
@@ -66,7 +102,7 @@ describe('ATTENDANT CREATE TEST SUITE', () => {
         message: 'successfully created attendant'
       }
     };
-    axios.post.mockImplementation(() => Promise.resolve(response));
+    axios.post.mockImplementation(() => Promise.reject(response));
     const mockStore = configureStore([thunk]);
     const store = mockStore(initialState);
     const component = mount(

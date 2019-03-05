@@ -11,7 +11,6 @@ import OrderDetails from './OrderDetails';
 
 class DashboardData extends React.Component {
   render() {
-    console.log(this.props);
     const { pathname } = history.location;
     const { urlPath, id } = this.props.navigation;
     return (
