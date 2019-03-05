@@ -5,7 +5,6 @@ import Footer from './Footer';
 export default class NotFoundPage extends React.Component {
 
     render() {
-
         return (
             <div>
                 <Header />

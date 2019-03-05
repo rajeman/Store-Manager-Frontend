@@ -289,6 +289,10 @@ header {
   background-repeat: no-repeat;
 }
 
+.profile-info .confirm {
+  width: 120px !important ;
+}
+
 .attendant-content {
   background: #f4f4f4;
   grid-column-start: 1;
@@ -299,6 +303,7 @@ header {
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
+    margin-left: -30px;
   }
   li {
     margin: 8px;
@@ -315,10 +320,6 @@ header {
     color: #795548;
     font-family: sans-serif;
     font: bold 18px Arial;
-    border-top: 1px solid #CCCCCC;
-    border-right: 1px solid #333333;
-    border-bottom: 1px solid #333333;
-    border-left: 1px solid #CCCCCC;
   }
 }
 

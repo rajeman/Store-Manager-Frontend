@@ -15,7 +15,6 @@ class DashboardData extends React.Component {
           <ul>
             <li><a><NavLink to={paths.products}><span className={pathname.includes(paths.products) ? 'selected' : 'clickable'}>Products</span></NavLink></a></li>
             <li><a><NavLink to={paths.records}><span className={pathname.includes(paths.records) ? 'selected' : 'clickable'}>Records</span></NavLink></a></li>
-            {auth.userDetails.level === 2 && <li><NavLink to="#">Categories</NavLink></li>}
             {auth.userDetails.level === 1 && <li ><a><NavLink to={paths.cart}><span className={pathname.includes(paths.cart) ? 'selected' : 'clickable'}>Cart</span></NavLink></a></li>}
           </ul>
         </nav>

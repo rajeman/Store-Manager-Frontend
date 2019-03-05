@@ -20,7 +20,6 @@ class ProfileInfo extends React.Component {
         {userDetails.level === 2 && <ButtonNewAttendant />}
       </div>
     );
-
   }
 }
 
