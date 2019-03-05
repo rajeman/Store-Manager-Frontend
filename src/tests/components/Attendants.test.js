@@ -42,7 +42,7 @@ describe('ATTENDANT CREATE TEST SUITE', () => {
         </MemoryRouter>
       </Provider>
     );
-    expect(component).toMatchSnapshot();
+    expect(component.exists()).toBe(true);
   });
 
   it('should render attendant create form component', () => {

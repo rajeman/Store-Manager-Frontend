@@ -86,7 +86,7 @@ describe('PRODUCT FORMS TEST SUITE', () => {
           </MemoryRouter>
         </Provider>
       );
-      expect(component).toMatchSnapshot();
+      expect(component.exists()).toBe(true);
     });
 
     it('should make request to create product when form is submitted', () => {
