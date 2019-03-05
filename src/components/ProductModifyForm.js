@@ -11,7 +11,6 @@ class ProductModifyForm extends React.Component {
   render() {
     const { product, productModify, productModifyError } = this.props.products;
     const onFormSubmit = (e) => {
-      //console.log(this.props);
       e.preventDefault();
       const name = e.target.elements.pname.value.trim();
       const quantity = e.target.elements.pquantity.value;

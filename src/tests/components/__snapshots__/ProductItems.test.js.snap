@@ -1,0 +1,80 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PRODUCT TEST SUITE should render the product items when component mounts 1`] = `
+<Provider
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <Connect(ProductItems)>
+    <ProductItems
+      dispatch={[Function]}
+      products={
+        Object {
+          "products": Array [
+            Object {
+              "product_id": 7,
+            },
+          ],
+        }
+      }
+    >
+      <div
+        className="container"
+      >
+        <div
+          className="wrapper"
+        >
+          <div
+            className="items-box"
+          >
+            <Component
+              key="7"
+              product={
+                Object {
+                  "product_id": 7,
+                }
+              }
+            >
+              <div
+                className="item"
+                onClick={[Function]}
+              >
+                <img
+                  src={Object {}}
+                />
+                <div
+                  className="quant-avail"
+                >
+                   
+                  available
+                </div>
+                <div
+                  className="name-description"
+                />
+                <div
+                  className="price"
+                >
+                  $
+                  <span
+                    className="actual-price"
+                  />
+                   
+                  per item
+                </div>
+              </div>
+            </Component>
+          </div>
+        </div>
+      </div>
+    </ProductItems>
+  </Connect(ProductItems)>
+</Provider>
+`;

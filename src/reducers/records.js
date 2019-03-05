@@ -1,27 +1,24 @@
 
 const defaultState = {
-    sale: [],
-    sales: []
+  sale: [],
+  sales: []
 };
 
-
-   
-
 export default (state = defaultState, action) => {
-   switch (action.type) {
-       case 'SET_SALES':
-           return {
-            ...state, 
-            sales: action.sales
-           };
-        case 'SET_SALE':
-           return {
-            ...state, 
-            sale: action.sale
-           };
-       default : 
-           return state
-   }
+  switch (action.type) {
+    case 'SET_SALES':
+      return {
+        ...state,
+        sales: action.sales
+      };
+    case 'SET_SALE':
+      return {
+        ...state,
+        sale: action.sale
+      };
+    default:
+      return state
+  }
 };
 
 

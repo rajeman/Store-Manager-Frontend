@@ -5,11 +5,11 @@ import paths from '../helpers/paths';
 
 const url = 'https://onlinestoremanager.herokuapp.com/api/v1/products';
 
-export const setProductLoading = () => (
-  {
-    type: 'SET_PRODUCT_LOADING',
-  }
-);
+// export const setProductLoading = () => (
+//   {
+//     type: 'SET_PRODUCT_LOADING',
+//   }
+// );
 
 export const setProductError = error => (
   {
@@ -109,7 +109,6 @@ export const createProduct = (productName, productQuantity, price,
       history.push(paths.products);
     })
     .catch((error) => {
-      // console.log(error);
       dispatch(setCreateProduct('STATE_CREATE_FAILED'));
       if (!error.response) {
         dispatch(setCreateError('Network Error'));
@@ -141,7 +140,6 @@ export const modifyProduct = (productName, productQuantity, price,
       history.push(`${paths.products}/${id}`);
     })
     .catch((error) => {
-      // console.log(error);
       dispatch(setModifyProduct('STATE_MODIFY_FAILED'));
       if (!error.response) {
         dispatch(setCreateError('Network Error'));
@@ -153,8 +151,6 @@ export const modifyProduct = (productName, productQuantity, price,
 
 
 export const deleteProduct = id => () => {
-  // dispatch(setModifyProduct('STATE_MODIFYING'));
-  // dispatch(setModifyError(''));
   const headers = {
     headers: { Authorization: `Bearer ${getToken()}` },
   };
@@ -164,13 +160,8 @@ export const deleteProduct = id => () => {
       history.push(paths.products);
     })
     .catch((error) => {
-      console.log(error);
-      //  dispatch(setModifyProduct('STATE_MODIFY_FAILED'));
       if (!error.response) {
-        // dispatch(setCreateError('Network Error'));
       } else {
-        // dispatch(setCreateError(error.response.data.error));
-        // console.log(error.response.data.error);
       }
     });
 };

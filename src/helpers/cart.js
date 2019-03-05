@@ -23,9 +23,7 @@ export const addProductToCart = (email, product) => {
         products: userProducts
     });
     return 'ADD_SUCCESS';
-
 }
-
 
 export const removeCartProduct = (email, id) => {
     const userItems = getUserItems(email);
@@ -48,5 +46,5 @@ export const removeAllProducts = (email) => {
     return 'REMOVE_SUCCESS';
 }
 
-export const fetchCartProducts = (email) => 
+export const fetchCartProducts = (email) =>
   localStorage.getItem(email) !== null ? JSON.parse(localStorage.getItem(email)).products : [];

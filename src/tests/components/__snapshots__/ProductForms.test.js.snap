@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PRODUCT FORMS TEST SUITE PRODUCT MODIFY FORM TEST SUITE should render the ProductModify form 1`] = `
+<Provider
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <Connect(ProductModifyForm)>
+    <ProductModifyForm
+      dispatch={[Function]}
+      products={
+        Object {
+          "product": Array [],
+        }
+      }
+    >
+      <div />
+    </ProductModifyForm>
+  </Connect(ProductModifyForm)>
+</Provider>
+`;
