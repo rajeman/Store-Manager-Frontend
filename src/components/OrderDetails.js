@@ -11,8 +11,8 @@ class OrderDetails extends React.Component {
   render() {
     const { sale } = this.props.sales;
     return (
-      <div class="container">
-        <div class="wrapper">
+      <div className="container">
+        <div className="wrapper">
           <h2>Order Summary</h2>
           <table id="orders-table">
             <tr>

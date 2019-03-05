@@ -27,10 +27,10 @@ exports[`ORDER DETAILS TEST SUITE should render the OrderDetails component 1`] =
       }
     >
       <div
-        class="container"
+        className="container"
       >
         <div
-          class="wrapper"
+          className="wrapper"
         >
           <h2>
             Order Summary

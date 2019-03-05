@@ -24,20 +24,6 @@ exports[`should render Header correctly 1`] = `
             Home
           </NavLink>
         </li>
-        <li>
-          <a
-            href="#"
-          >
-            About
-          </a>
-        </li>
-        <li>
-          <a
-            href="#"
-          >
-            Services
-          </a>
-        </li>
         <Connect(Signout) />
       </ul>
     </nav>

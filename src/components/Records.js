@@ -11,8 +11,8 @@ class Records extends React.Component {
   render() {
     const { sales } = this.props.sales;
     return (
-      <div class="container">
-        <div class="wrapper">
+      <div className="container">
+        <div className="wrapper">
           <table id="orders-table">
             <tr>
               <th>Attendant ID</th>
