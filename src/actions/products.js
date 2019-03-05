@@ -5,11 +5,11 @@ import paths from '../helpers/paths';
 
 const url = 'https://onlinestoremanager.herokuapp.com/api/v1/products';
 
-export const setProductLoading = () => (
-  {
-    type: 'SET_PRODUCT_LOADING',
-  }
-);
+// export const setProductLoading = () => (
+//   {
+//     type: 'SET_PRODUCT_LOADING',
+//   }
+// );
 
 export const setProductError = error => (
   {
