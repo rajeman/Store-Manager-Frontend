@@ -1,4 +1,3 @@
-
 const defaultState = {
   cartAddModalState: '',
   checkoutState: '',

@@ -1,0 +1,87 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RECORDS TEST SUITE should render the record component 1`] = `
+<Provider
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <Connect(Records)>
+    <Records
+      dispatch={[Function]}
+      sales={
+        Object {
+          "sales": Array [
+            Object {
+              "order_id": 25,
+            },
+          ],
+        }
+      }
+    >
+      <div
+        class="container"
+      >
+        <div
+          class="wrapper"
+        >
+          <table
+            id="orders-table"
+          >
+            <tr>
+              <th>
+                Attendant ID
+              </th>
+              <th>
+                Attendant Name
+              </th>
+              <th>
+                Order Id
+              </th>
+              <th>
+                Time Created
+              </th>
+              <th>
+                Total Item
+              </th>
+              <th>
+                Order Price
+              </th>
+            </tr>
+            <Record
+              key="25"
+              sale={
+                Object {
+                  "order_id": 25,
+                }
+              }
+            >
+              <tr
+                onClick={[Function]}
+              >
+                <td />
+                <td />
+                <td>
+                  25
+                </td>
+                <td>
+                  undefined-NaN-NaN NaN:aN
+                </td>
+                <td />
+                <td />
+              </tr>
+            </Record>
+          </table>
+        </div>
+      </div>
+    </Records>
+  </Connect(Records)>
+</Provider>
+`;

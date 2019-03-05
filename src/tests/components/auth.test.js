@@ -112,6 +112,7 @@ describe('AUTHENTICATION TEST SUITE', () => {
           loginError: undefined,
           userDetails: {}
         },
+
       };
       const mockStore = configureStore([thunk]);
       const store = mockStore(initialState);

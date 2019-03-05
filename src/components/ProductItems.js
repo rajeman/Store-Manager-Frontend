@@ -4,25 +4,25 @@ import Product from './Product'
 import { fetchProducts } from '../actions/products';
 
 class ProductItems extends React.Component {
-    componentDidMount() {
-        this.props.dispatch(fetchProducts())
-    }
-    render() {
-        const { products } = this.props.products;
-        return (
-            <div className="container">
-                <div className="wrapper">
-                    <div className="items-box">
-                        {products.map((product) => {
-                            return (
-                                <Product key={product.product_id} product = {product}/>
-                            );
-                        })}
-                    </div>
-                </div>
-            </div>
-        );
-    }
+  componentDidMount() {
+    this.props.dispatch(fetchProducts())
+  }
+  render() {
+    const { products } = this.props.products;
+    return (
+      <div className="container">
+        <div className="wrapper">
+          <div className="items-box">
+            {products.map((product) => {
+              return (
+                <Product key={product.product_id} product={product} />
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    );
+  }
 }
 
 const mapStateToProps = (state) => state;
