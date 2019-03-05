@@ -6,7 +6,6 @@ import saleReducer from '../reducers/records';
 import navigationReducer from '../reducers/navigation';
 import attendantReducer from '../reducers/attendants';
 import cartReducer from '../reducers/cart';
-// import cartReducer from '../reducers/filters';
 
 export default () => createStore(
   combineReducers({
@@ -18,7 +17,3 @@ export default () => createStore(
     cart: cartReducer,
   }), applyMiddleware(thunk),
 );
-
-
-// redux steps
-// 1. create a configStore file and call createStore with the default state

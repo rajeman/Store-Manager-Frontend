@@ -1,0 +1,128 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ORDER DETAILS TEST SUITE should render the OrderDetails component 1`] = `
+<Provider
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <Connect(OrderDetails)>
+    <OrderDetails
+      dispatch={[Function]}
+      sales={
+        Object {
+          "sale": Array [
+            Object {
+              "order_id": 25,
+            },
+          ],
+        }
+      }
+    >
+      <div
+        class="container"
+      >
+        <div
+          class="wrapper"
+        >
+          <h2>
+            Order Summary
+          </h2>
+          <table
+            id="orders-table"
+          >
+            <tr>
+              <th>
+                Attendant ID
+              </th>
+              <th>
+                Attendant Name
+              </th>
+              <th>
+                Order Id
+              </th>
+              <th>
+                Time Created
+              </th>
+              <th>
+                Total Item
+              </th>
+              <th>
+                Order Price
+              </th>
+            </tr>
+            <Record
+              sale={
+                Object {
+                  "order_id": 25,
+                }
+              }
+            >
+              <tr
+                onClick={[Function]}
+              >
+                <td />
+                <td />
+                <td>
+                  25
+                </td>
+                <td>
+                  undefined-NaN-NaN NaN:aN
+                </td>
+                <td />
+                <td />
+              </tr>
+            </Record>
+          </table>
+          <h2>
+            Details
+          </h2>
+          <table
+            id="details-table"
+          >
+            <tr>
+              <th>
+                Product ID
+              </th>
+              <th>
+                Product Name
+              </th>
+              <th>
+                Quantity
+              </th>
+              <th>
+                Price per Product
+              </th>
+              <th>
+                Total Price
+              </th>
+            </tr>
+            <OrderDetail
+              detail={
+                Object {
+                  "order_id": 25,
+                }
+              }
+            >
+              <tr>
+                <td />
+                <td />
+                <td />
+                <td />
+                <td />
+              </tr>
+            </OrderDetail>
+          </table>
+        </div>
+      </div>
+    </OrderDetails>
+  </Connect(OrderDetails)>
+</Provider>
+`;

@@ -6,7 +6,6 @@ import { fetchCartProducts, removeCartProduct } from '../helpers/cart';
 import { checkoutProducts } from '../actions/cart';
 
 class Cart extends React.Component {
-
   state = {
     cartRemoveModal: 'STATE_INVISIBLE',
     selectedProductId: undefined

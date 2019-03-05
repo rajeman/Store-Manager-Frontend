@@ -1,12 +1,10 @@
 
 export const setNavigation = navigation => (
-
   {
     type: 'SET_NAVIGATION',
     navigation,
   }
 );
-
 
 export const fetchUser = () => dispatch => axios.get(url, {
   headers: {

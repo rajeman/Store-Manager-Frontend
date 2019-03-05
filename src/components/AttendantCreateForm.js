@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { createAttendant } from '../actions/attendants'
 
 class AttendantCreateForm extends React.Component {
-
   render() {
     const onFormSubmit = (e) => {
       e.preventDefault();

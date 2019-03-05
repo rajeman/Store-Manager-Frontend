@@ -3,19 +3,6 @@ import { getToken } from '../helpers/auth';
 
 const url = 'https://onlinestoremanager.herokuapp.com/api/v1/sales';
 
-// export const setSaleLoading = () => (
-//   {
-//     type: 'SET_SALE_LOADING'
-//   }
-// );
-
-// export const setSaleError = (error) => (
-//   {
-//     type: 'SET_SALE_ERROR',
-//     error
-//   }
-// );
-
 export const setSalesError = (error) => (
   {
     type: 'SET_SALES_ERROR',

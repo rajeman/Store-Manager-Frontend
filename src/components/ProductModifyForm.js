@@ -41,7 +41,6 @@ class ProductModifyForm extends React.Component {
                     <br />
                     <input type="text" placeholder="Enter Product Price" name="pprice" pattern="^\+?[1-9][\d]*$" required title="Price must be a positive integer" defaultValue={product[0].product_price}></input>
                   </div>
-
                   <div>
                     <label>Minimum Inventory:</label>
                     <br />

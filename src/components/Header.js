@@ -16,8 +16,6 @@ export default class Header extends React.Component {
           <nav>
             <ul>
               <li> <NavLink to="/dashboard/products">Home</NavLink></li>
-              <li><a href="#">About</a></li>
-              <li><a href="#">Services</a></li>
               {history.location.pathname && !history.location.pathname.includes(paths.login) && <Signout />}
             </ul>
           </nav>

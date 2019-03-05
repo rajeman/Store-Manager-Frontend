@@ -30,7 +30,6 @@ export default class CartAddModal extends React.Component {
             }}></input>
           </div>
         </div>
-
       </div>
     )
   }
