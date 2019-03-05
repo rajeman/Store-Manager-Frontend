@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.com/rajeman/Store-Manager-Frontend.svg?branch=chore-separate-react)](https://travis-ci.com/rajeman/Store-Manager-Frontend)
-[![Coverage Status](https://coveralls.io/repos/github/rajeman/Store-Manager-Frontend/badge.svg?branch=chore%2F162901464%2Fsetup-coveralls)](https://coveralls.io/github/rajeman/Store-Manager-Frontend?branch=chore%2F162901464%2Fsetup-coveralls)
+[![Coverage Status](https://coveralls.io/repos/github/rajeman/Store-Manager-Frontend/badge.svg?branch=develop)](https://coveralls.io/github/rajeman/Store-Manager-Frontend?branch=develop)
 
 # Store-Manager
 Store Manager is a web application that allows store owners to manage product sales, inventory and
