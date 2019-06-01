@@ -3,7 +3,7 @@ import { history } from '../routers/AppRouter';
 import { getToken } from '../helpers/auth';
 import paths from '../helpers/paths';
 
-const url = 'https://onlinestoremanager.herokuapp.com/api/v1/products';
+const url = `${process.env.API_URL}/api/v1/products`;
 
 export const setProductError = error => (
   {
