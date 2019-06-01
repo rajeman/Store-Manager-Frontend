@@ -9,7 +9,10 @@
     "build-pack": "webpack --watch",
     "dev-server": "webpack-dev-server",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
-    "test:dev": "jest --coverage"
+    "test:dev": "jest --coverage",
+    "build:prod": "webpack -p --env=production",
+    "start": "node server/server.js",
+    "heroku-postbuild": "npm run build:prod"
   },
   "repository": {
     "type": "git",

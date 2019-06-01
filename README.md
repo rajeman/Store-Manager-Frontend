@@ -13,7 +13,7 @@ records
 * Store owner can add, modify and delete products.
 
 # Heroku App
-* http://onlinestoremanager.herokuapp.com/
+* https://onlinestoremanager.herokuapp.com/
 
 # API Docs
 * https://onlinestoremanager.herokuapp.com/api-docs
