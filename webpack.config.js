@@ -1,5 +1,8 @@
 const path = require('path')
-console.log(path.join(__dirname), 'public')
+const webpack = require('webpack');
+const dotenv = require('dotenv');
+
+dotenv.config();
 
 module.exports = {
   entry: './src/app.js',
@@ -27,10 +30,11 @@ module.exports = {
         ]
       }
     ]
-  }, 
+  },
   devtool:'cheap-module-eval-source-map',
   devServer: {
       contentBase: path.join(__dirname, 'public'),
       historyApiFallback: true
-  }
+  },
+  plugins: [new webpack.EnvironmentPlugin(['API_URL'])]
 };

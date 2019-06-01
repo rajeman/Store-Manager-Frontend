@@ -3,7 +3,7 @@ import axios from 'axios';
 import { getToken } from '../helpers/auth';
 import paths from '../helpers/paths';
 
-const url = 'https://onlinestoremanager.herokuapp.com/api/v1/auth/signup';
+const url = `${process.env.API_URL}/api/v1/auth/signup`;
 
 export const setAttendantError = (error) => (
   {

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { getToken } from '../helpers/auth';
 
-const url = 'https://onlinestoremanager.herokuapp.com/api/v1/sales';
+const url = `${process.env.API_URL}/api/v1/sales`;
 
 export const setSalesError = (error) => (
   {

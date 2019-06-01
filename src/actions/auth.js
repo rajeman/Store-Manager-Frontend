@@ -3,8 +3,8 @@ import axios from 'axios';
 import { setToken, getToken, deleteToken } from '../helpers/auth';
 import paths from '../helpers/paths';
 
-const userUrl = 'https://onlinestoremanager.herokuapp.com/api/v1/user';
-const loginUrl = 'https://onlinestoremanager.herokuapp.com/api/v1/auth/login';
+const userUrl = `${process.env.API_URL}/api/v1/user`;
+const loginUrl = `${process.env.API_URL}/api/v1/auth/login`;
 
 export const fetchUser = () => dispatch => {
   axios.get(userUrl, {

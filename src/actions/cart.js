@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import { removeAllProducts } from '../helpers/cart';
 import paths from '../helpers/paths';
 
-const url = 'https://onlinestoremanager.herokuapp.com/api/v1/sales';
+const url = `${process.env.API_URL}/api/v1/sales`;
 
 export const setAddCartModal = (state) => (
   {
