@@ -40,7 +40,7 @@ class ProductDetails extends React.Component {
     }
     const cartProduct = {
       ...product[0],
-      product_quantity: quantity
+      product_quantity: parseInt(quantity, 10)
     }
     const result = addProductToCart(this.props.auth.userDetails.email, cartProduct);
     if (result === 'ADD_SUCCESS') {
