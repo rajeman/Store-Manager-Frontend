@@ -3,3 +3,14 @@ node_js:
   - "11"
 after_success:
   - npm run coverage
+
+before_deploy:
+ - echo -e "Host $DROPLET_HOST\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
+ - echo -e $DROPLET_DEPLOY_SSH_KEY > ~/.ssh/id_rsa
+ - chmod 600 ~/.ssh/id_rsa
+
+deploy:
+  provider: script
+  script: bash scripts/deploy.sh
+  on:
+    branch: develop
